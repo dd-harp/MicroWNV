@@ -13,7 +13,7 @@ setup_humans_SIR <- function(model, theta, wf = NULL, H, SIR, b = 0.55, c = 0.15
   stopifnot(inherits(theta, "matrix"))
 
   stopifnot(nrow(theta) >= ncol(theta))
-  stopifnot(rowSums(theta) <= 1)
+  stopifnot(approx_equal(rowSums(theta), 1))
 
   n <- nrow(theta)
   p <- ncol(theta)

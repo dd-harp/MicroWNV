@@ -23,11 +23,11 @@ setup_birds_SIRS <- function(model, stochastic, fledge_disperse, theta, SIR, mu,
 
   stopifnot(nrow(theta) == ncol(theta))
   stopifnot(nrow(theta) == p)
-  stopifnot(all.equal(rowSums(theta), rep(1, p)))
+  stopifnot(approx_equal(rowSums(theta), 1))
 
   stopifnot(nrow(fledge_disperse) == ncol(fledge_disperse))
   stopifnot(nrow(fledge_disperse) == p)
-  stopifnot(all.equal(rowSums(fledge_disperse), rep(1, p)))
+  stopifnot(approx_equal(rowSums(fledge_disperse), 1))
 
   if (inherits(mu, "matrix")) {
     stopifnot(nrow(mu) == model$global$p)
