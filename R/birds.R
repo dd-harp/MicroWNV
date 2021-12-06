@@ -1,14 +1,16 @@
 #' @title Setup birds with SIRS infection model
 #' @description This requires the humans to be set up prior to being called.
 #' @param model an object from [MicroWNV::make_microWNV]
+#' @param stochastic should the model update deterministically or stochastically?
 #' @param fledge_disperse a dispersal matrix for fledglings
 #' @param theta a matrix giving time spent in each bird's home range
 #' @param wf biting weights
 #' @export
-setup_birds.SIRS <- function(model, fledge_disperse, theta, SIR, wf = NULL, b = 0.55, c = 0.15, gamma = 1/5, r = 1/120) {
+setup_birds_SIRS <- function(model, stochastic, fledge_disperse, theta, SIR, wf = NULL, b = 0.55, c = 0.15, gamma = 1/5, r = 1/120) {
   stopifnot(inherits(model, "microWNV"))
   stopifnot(inherits(fledge_disperse, "matrix"))
   stopifnot(inherits(theta, "matrix"))
+  stopifnot(is.logical(stochastic))
 
   p <- model$global$p
 
@@ -32,7 +34,14 @@ setup_birds.SIRS <- function(model, fledge_disperse, theta, SIR, wf = NULL, b = 
     wf <- rep(1, n)
   }
 
-  model$bird <- structure(list(), class = "SIRS")
+  bird_class <- c("SIRS")
+  if (stochastic) {
+    bird_class <- c(bird_class, "SIRS_stochastic")
+  } else {
+    bird_class <- c(bird_class, "SIRS_deterministic")
+  }
+
+  model$bird <- structure(list(), class = bird_class)
   model$bird$fledge_disperse <- fledge_disperse
   model$bird$theta <- theta
   model$bird$wf <- wf
@@ -44,42 +53,20 @@ setup_birds.SIRS <- function(model, fledge_disperse, theta, SIR, wf = NULL, b = 
 }
 
 
-step_birds.deterministic <- function(model) {
+step_birds.SIRS <- function(model) {
+  NextMethod()
+}
+
+step_birds.SIRS_deterministic <- function(model) {
+  # get new fledglings and their dispersion
+  fledglings <- compute_fledge(model)
+  fledglings <- fledglings %*% model$bird$fledge_disperse
+}
+
+step_birds.SIRS_stochastic <- function(model) {
   # get new fledglings and their dispersion
   fledglings <- compute_fledge(model)
   fledglings <- fledglings %*% model$bird$fledge_disperse
 }
 
 
-
-
-
-#' @title Compute available humans
-#' @param model
-#' @return a vector of length `p`
-#' @export
-compute_W <- function(model) {
-  UseMethod("compute_W", model$human)
-}
-
-#' @inheritParams compute_W
-#' @export
-compute_W.SIR <- function(model) {
-  Psi <- model$human$theta
-  W <- t(Psi) %*% (model$human$wf * model$human$H)
-  return(W)
-}
-
-#' @title Compute net infectiousness of humans
-#' @param model
-#' @return a vector of length `n`
-compute_x <- function(model) {
-  UseMethod("compute_x", model$human)
-}
-
-#' @inheritParams compute_x
-#' @export
-compute_x.SIR <- function(model) {
-  X <- model$human$SIR[, "I"] / model$human$H
-  return(X * model$human$c)
-}
