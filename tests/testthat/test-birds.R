@@ -136,7 +136,7 @@ test_that("test stochastic SIRS birds", {
 
 
 test_that("test SIRS birds die out with no fledglings", {
-  tmax <- 100
+  tmax <- 200
   p <- 5
 
   fledge_disperse <- diag(p)
