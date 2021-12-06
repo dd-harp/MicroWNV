@@ -17,3 +17,8 @@ sample_stochastic_matrix <- function(x, prob) {
   rowSums(samp)
 }
 
+
+#' @noRd
+approx_equal <- function(a, b, tol = sqrt(.Machine$double.eps)) {
+  abs(a - b) <= tol
+}
