@@ -2,7 +2,11 @@
 
 S3method(compute_W,SIR)
 S3method(compute_x,SIR)
+S3method(step_birds,SIRS)
+S3method(step_birds,SIRS_deterministic)
+S3method(step_birds,SIRS_stochastic)
 export(compute_W)
 export(make_microWNV)
 export(setup_birds_SIRS)
 export(setup_humans.SIR)
+export(step_birds)

@@ -6,6 +6,9 @@
 \usage{
 compute_W(model)
 }
+\arguments{
+\item{model}{an object from \link{make_microWNV}}
+}
 \value{
 a vector of length \code{p}
 }

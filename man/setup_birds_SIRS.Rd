@@ -26,7 +26,17 @@ setup_birds_SIRS(
 
 \item{theta}{a matrix giving time spent in each bird's home range}
 
+\item{SIR}{matrix of initial states for each patch}
+
 \item{wf}{biting weights}
+
+\item{b}{transmission efficiency (mosquitoes to birds)}
+
+\item{c}{transmission efficiency (birds to mosquitoes)}
+
+\item{gamma}{inverse of infectious duration}
+
+\item{r}{recovery rate}
 }
 \description{
 This requires the humans to be set up prior to being called.

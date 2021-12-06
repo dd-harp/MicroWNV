@@ -55,7 +55,7 @@ setup_humans.SIR <- function(model, theta, wf = NULL, H, SIR, b = 0.55, c = 0.15
 }
 
 #' @title Compute available humans
-#' @param model
+#' @param model an object from [MicroWNV::make_microWNV]
 #' @return a vector of length `p`
 #' @export
 compute_W <- function(model) {
@@ -71,7 +71,7 @@ compute_W.SIR <- function(model) {
 }
 
 #' @title Compute net infectiousness of humans
-#' @param model
+#' @param model an object from [MicroWNV::make_microWNV]
 #' @return a vector of length `n`
 compute_x <- function(model) {
   UseMethod("compute_x", model$human)
