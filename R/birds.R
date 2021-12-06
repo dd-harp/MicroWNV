@@ -130,9 +130,11 @@ step_birds.SIRS_deterministic <- function(model) {
 #' @inheritParams step_birds
 #' @export
 step_birds.SIRS_stochastic <- function(model) {
+
   # get new fledglings and their dispersion
   fledglings <- compute_fledge(model)
   fledglings <- fledglings %*% model$bird$fledge_disperse
+
 }
 
 

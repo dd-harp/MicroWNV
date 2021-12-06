@@ -30,6 +30,9 @@ test_that("test deterministic SIRS birds", {
   h <- sample(x = c(0.01, 0.025), size = p, replace = TRUE)
   mod$bird$h <- h
 
+  # compute update in model
+  step_birds(model = mod)
+
   # compute update by hand
   fledge <- fledge_trace[, 1] %*% fledge_disperse
   expect_true(all.equal(sum(fledge), sum(fledge_trace[, 1])))
@@ -55,9 +58,6 @@ test_that("test deterministic SIRS birds", {
   newSIR[, "S"] <- newSIR[, "S"] + fledge - S_leave + R_toS
   newSIR[, "I"] <- newSIR[, "I"] - I_leave + S_toI
   newSIR[, "R"] <- newSIR[, "R"] - R_leave + I_toR
-
-  # compute update in model
-  step_birds(model = mod)
 
   expect_equal(mod$bird$SIR, newSIR)
 
