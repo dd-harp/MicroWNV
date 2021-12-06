@@ -43,7 +43,7 @@ test_that("trace fledgling model compute_fledge works (matrix)", {
 })
 
 
-test_that("trace fledgling model add_eggs doesn't do anything", {
+test_that("trace fledgling model add_clutch doesn't do anything", {
   # matrix
   tmax <- 5
   mod <- make_microWNV(tmax = tmax)
@@ -54,7 +54,7 @@ test_that("trace fledgling model add_eggs doesn't do anything", {
   setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
 
   fledge_before <- mod$fledge
-  add_eggs(model = mod, eggs = rep(1, p))
+  add_clutch(model = mod, eggs = rep(1, p))
   expect_equal(fledge_before, mod$fledge)
 
   # vector
@@ -63,7 +63,7 @@ test_that("trace fledgling model add_eggs doesn't do anything", {
   setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
 
   fledge_before <- mod$fledge
-  add_eggs(model = mod, eggs = rep(1, p))
+  add_clutch(model = mod, eggs = rep(1, p))
   expect_equal(fledge_before, mod$fledge)
 
 })

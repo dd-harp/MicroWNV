@@ -10,6 +10,7 @@ setup_birds_SIRS(
   fledge_disperse,
   theta,
   SIR,
+  mu,
   wf = NULL,
   b = 0.55,
   c = 0.15,
@@ -27,6 +28,9 @@ setup_birds_SIRS(
 \item{theta}{a matrix giving time spent in each bird's home range}
 
 \item{SIR}{matrix of initial states for each patch}
+
+\item{mu}{vector of length \code{p} or matrix with \code{p} rows and \code{tmax} columns giving
+daily bird death rates}
 
 \item{wf}{biting weights}
 
