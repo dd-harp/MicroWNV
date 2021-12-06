@@ -128,12 +128,40 @@ step_birds.SIRS_deterministic <- function(model) {
 
 #' @title Update SIRS bird population (stochastic)
 #' @inheritParams step_birds
+#' @importFrom stats pexp rbinom
 #' @export
 step_birds.SIRS_stochastic <- function(model) {
 
+  p <- model$global$p
+
   # get new fledglings and their dispersion
   fledglings <- compute_fledge(model)
-  fledglings <- fledglings %*% model$bird$fledge_disperse
+  fledglings <- sample_stochastic_matrix(x = fledglings, prob = model$bird$fledge_disperse)
+
+  # compute eggs laid
+  N <- rowSums(model$bird$SIR)
+  eggs <- compute_clutch(model, N)
+
+  # compute differences: S
+  S_haz <- model$bird$h + model$bird$mu[, model$global$tnow]
+  S_leave <- rbinom(n = p,  size = model$bird$SIR[, "S"], prob = pexp(q = S_haz))
+  S_toI <- rbinom(n = p, size = S_leave, prob = model$bird$h / S_haz)
+
+  # compute differences: I
+  I_haz <- model$bird$gamma + model$bird$mu[, model$global$tnow]
+  I_leave <- rbinom(n = p,  size = model$bird$SIR[, "I"], prob = pexp(q = I_haz))
+  I_toR <- rbinom(n = p, size = I_leave, prob = model$bird$gamma / I_haz)
+
+  # compute differences: R
+  R_haz <- model$bird$r + model$bird$mu[, model$global$tnow]
+  R_leave <- rbinom(n = p, size = model$bird$SIR[, "R"] , prob = pexp(q =  R_haz))
+  R_toS <- rbinom(n = p, size = R_leave, prob = model$bird$r / R_haz)
+
+  # update
+  add_clutch(model, eggs)
+  model$bird$SIR[, "S"] <- model$bird$SIR[, "S"] - S_leave + fledglings + R_toS
+  model$bird$SIR[, "I"] <- model$bird$SIR[, "I"] - I_leave + S_toI
+  model$bird$SIR[, "R"] <- model$bird$SIR[, "R"] - R_leave + I_toR
 
 }
 

@@ -11,6 +11,7 @@ test_that("sample stochastic matrix", {
 
   draw <- sample_stochastic_matrix(x = x, prob = pmat)
   expect_true(ks.test(x = expect, y = draw)$p.value > 0.8)
+  expect_equal(sum(x), sum(draw))
 
 
   cell <- 4
@@ -24,5 +25,6 @@ test_that("sample stochastic matrix", {
 
   draw <- sample_stochastic_matrix(x = x, prob = pmat)
   expect_true(ks.test(x = expect, y = draw)$p.value > 0.8)
+  expect_equal(sum(x), sum(draw))
 
 })
