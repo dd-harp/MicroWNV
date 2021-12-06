@@ -54,6 +54,7 @@
   <span class="va">fledge_disperse</span>,
   <span class="va">theta</span>,
   <span class="va">SIR</span>,
+  <span class="va">mu</span>,
   wf <span class="op">=</span> <span class="cn">NULL</span>,
   b <span class="op">=</span> <span class="fl">0.55</span>,
   c <span class="op">=</span> <span class="fl">0.15</span>,
@@ -74,6 +75,9 @@
 <dd><p>a matrix giving time spent in each bird's home range</p></dd>
 <dt>SIR</dt>
 <dd><p>matrix of initial states for each patch</p></dd>
+<dt>mu</dt>
+<dd><p>vector of length <code>p</code> or matrix with <code>p</code> rows and <code>tmax</code> columns giving
+daily bird death rates</p></dd>
 <dt>wf</dt>
 <dd><p>biting weights</p></dd>
 <dt>b</dt>

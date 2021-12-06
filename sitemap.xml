@@ -22,13 +22,19 @@
     <loc>/index.html</loc>
   </url>
   <url>
-    <loc>/reference/add_eggs.html</loc>
+    <loc>/reference/add_clutch.html</loc>
   </url>
   <url>
-    <loc>/reference/add_eggs.trace.html</loc>
+    <loc>/reference/add_clutch.trace.html</loc>
   </url>
   <url>
     <loc>/reference/compute_W.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_clutch.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_clutch.null.html</loc>
   </url>
   <url>
     <loc>/reference/compute_fledge.html</loc>
@@ -53,6 +59,9 @@
   </url>
   <url>
     <loc>/reference/setup_birds_SIRS.html</loc>
+  </url>
+  <url>
+    <loc>/reference/setup_clutch_null.html</loc>
   </url>
   <url>
     <loc>/reference/setup_fledge_trace.html</loc>
