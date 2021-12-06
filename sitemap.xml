@@ -39,4 +39,16 @@
   <url>
     <loc>/reference/setup_humans.SIR.html</loc>
   </url>
+  <url>
+    <loc>/reference/step_birds.SIRS.html</loc>
+  </url>
+  <url>
+    <loc>/reference/step_birds.SIRS_deterministic.html</loc>
+  </url>
+  <url>
+    <loc>/reference/step_birds.SIRS_stochastic.html</loc>
+  </url>
+  <url>
+    <loc>/reference/step_birds.html</loc>
+  </url>
 </urlset>
