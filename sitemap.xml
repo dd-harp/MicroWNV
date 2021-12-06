@@ -22,7 +22,25 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/add_eggs.html</loc>
+  </url>
+  <url>
+    <loc>/reference/add_eggs.trace.html</loc>
+  </url>
+  <url>
     <loc>/reference/compute_W.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_fledge.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_fledge.trace.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_fledge.trace_deterministic.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_fledge.trace_stochastic.html</loc>
   </url>
   <url>
     <loc>/reference/compute_x.html</loc>
@@ -37,7 +55,10 @@
     <loc>/reference/setup_birds_SIRS.html</loc>
   </url>
   <url>
-    <loc>/reference/setup_humans.SIR.html</loc>
+    <loc>/reference/setup_fledge_trace.html</loc>
+  </url>
+  <url>
+    <loc>/reference/setup_humans_SIR.html</loc>
   </url>
   <url>
     <loc>/reference/step_birds.SIRS.html</loc>
