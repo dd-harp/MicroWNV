@@ -145,7 +145,7 @@ test_that("test SIRS birds die out with no fledglings", {
 
   SIR <- matrix(data = rpois(n = p * 3, lambda = 20), nrow = p, ncol = 3, dimnames = list(NULL, c("S", "I", "R")))
 
-  mu <- rep(1/20, p)
+  mu <- rep(1/10, p)
 
   gamma <- 1/7
   r <- 1/20
