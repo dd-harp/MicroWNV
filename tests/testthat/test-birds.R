@@ -135,4 +135,45 @@ test_that("test stochastic SIRS birds", {
 })
 
 
+test_that("test SIRS birds die out with no fledglings", {
+  tmax <- 100
+  p <- 5
+
+  fledge_disperse <- diag(p)
+
+  theta <- diag(p)
+
+  SIR <- matrix(data = rpois(n = p * 3, lambda = 20), nrow = p, ncol = 3, dimnames = list(NULL, c("S", "I", "R")))
+
+  mu <- rep(1/20, p)
+
+  gamma <- 1/7
+  r <- 1/20
+
+  fledge_trace <- matrix(0, nrow = p, ncol = tmax)
+
+
+  # sample update in stochastic model
+  mod <- make_microWNV(tmax = tmax)
+  mod$global$p <- p
+
+  setup_birds_SIRS(
+    model = mod, stochastic = TRUE,
+    fledge_disperse = fledge_disperse, theta = theta,
+    SIR = SIR, mu = mu, gamma = gamma, r = r
+  )
+
+  setup_clutch_null(model = mod)
+  setup_fledge_trace(model = mod, trace = fledge_trace, stochastic = TRUE)
+
+  for (i in 1:tmax) {
+    step_birds(model = mod)
+    mod$global$tnow <- mod$global$tnow + 1L
+  }
+
+  expect_true(all(mod$bird$SIR == 0))
+
+})
+
+
 
