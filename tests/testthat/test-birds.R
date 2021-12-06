@@ -1,3 +1,8 @@
+test_that("test SIRS birds constructed properly", {
+
+})
+
+
 test_that("test deterministic SIRS birds", {
   mod <- make_microWNV(tmax = 10)
   p <- 5
@@ -63,6 +68,71 @@ test_that("test deterministic SIRS birds", {
 
 })
 
+
+
+test_that("test stochastic SIRS birds", {
+  p <- 5
+
+  fledge_disperse <- matrix(rexp(p^2), nrow = p, ncol = p)
+  fledge_disperse <- fledge_disperse / rowSums(fledge_disperse)
+
+  theta <- fledge_disperse + rexp(p^2)
+  theta <- theta / rowSums(theta)
+
+  SIR <- matrix(data = rpois(n = p * 3, lambda = 1e4), nrow = p, ncol = 3, dimnames = list(NULL, c("S", "I", "R")))
+  mu <- rnorm(n = p, mean = 1/70, sd = 0.001)
+  mu <- replicate(10, mu)
+
+  gamma <- 1/7
+  r <- 1/20
+
+  fledge_trace <- matrix(1, nrow = p, ncol = 10)
+
+  h <- sample(x = c(0.01, 0.025), size = p, replace = TRUE)
+
+
+  # first calculate expectation with deterministic model
+  mod <- make_microWNV(tmax = 10)
+  mod$global$p <- p
+
+  setup_birds_SIRS(
+    model = mod, stochastic = FALSE,
+    fledge_disperse = fledge_disperse, theta = theta,
+    SIR = SIR, mu = mu, gamma = gamma, r = r
+  )
+
+  setup_clutch_null(model = mod)
+  setup_fledge_trace(model = mod, trace = fledge_trace, stochastic = FALSE)
+
+  mod$bird$h <- h
+
+  step_birds(model = mod)
+  SIR_det <- mod$bird$SIR
+
+
+  # sample update in stochastic model
+  mod <- make_microWNV(tmax = 10)
+  mod$global$p <- p
+
+  setup_birds_SIRS(
+    model = mod, stochastic = TRUE,
+    fledge_disperse = fledge_disperse, theta = theta,
+    SIR = SIR, mu = mu, gamma = gamma, r = r
+  )
+
+  setup_clutch_null(model = mod)
+  setup_fledge_trace(model = mod, trace = fledge_trace, stochastic = TRUE)
+
+  mod$bird$h <- h
+
+  step_birds(model = mod)
+  SIR_stoch <- mod$bird$SIR
+
+  # difference in expectation and sampled values not greater than some proportion
+  # of expectation
+  expect_true(all(abs(SIR_det - SIR_stoch) / SIR_det < 0.05))
+
+})
 
 
 
