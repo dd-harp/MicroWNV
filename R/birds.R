@@ -88,6 +88,7 @@ step_birds.SIRS_deterministic <- function(model) {
   # get new fledglings and their dispersion
   fledglings <- compute_fledge(model)
   fledglings <- fledglings %*% model$bird$fledge_disperse
+  # compute new adults vectors
 }
 
 #' @title Update SIRS bird population (stochastic)

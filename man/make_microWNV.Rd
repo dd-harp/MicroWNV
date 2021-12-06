@@ -4,7 +4,10 @@
 \alias{make_microWNV}
 \title{Make a model object}
 \usage{
-make_microWNV()
+make_microWNV(tmax)
+}
+\arguments{
+\item{tmax}{number of days to simulate}
 }
 \description{
 The model object is a hashed \link{environment}. By default it contains

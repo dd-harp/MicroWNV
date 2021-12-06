@@ -8,7 +8,7 @@
 #' @param c transmission efficiency (human to mosquito)
 #' @param gamma rate of recovery
 #' @export
-setup_humans.SIR <- function(model, theta, wf = NULL, H, SIR, b = 0.55, c = 0.15, gamma = 1/5) {
+setup_humans_SIR <- function(model, theta, wf = NULL, H, SIR, b = 0.55, c = 0.15, gamma = 1/5) {
   stopifnot(inherits(model, "microWNV"))
   stopifnot(inherits(theta, "matrix"))
 
@@ -73,6 +73,7 @@ compute_W.SIR <- function(model) {
 #' @title Compute net infectiousness of humans
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @return a vector of length `n`
+#' @export
 compute_x <- function(model) {
   UseMethod("compute_x", model$human)
 }
