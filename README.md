@@ -14,7 +14,7 @@ model object.
 
 It should eventually be turned into a package.
 
-### Components
+## Components
 
 The model is broken into components, for humans, mosquitoes, and birds (and some others).
 Each component has an _interface_, which are methods which must be defined for that
@@ -28,3 +28,34 @@ Specific implementations are found in files that replace _\_interface_ with the
 model name, for example R/humans_SIR.R. Their accompanying test files are located in
 tests/testthat. If you are creating a new model, please remember to test it
 adequately.
+
+We list the components which require interfaces below and specific models
+to implement them.
+
+### Mosquitoes
+
+The mosquito component is responsible for all dynamics which update adult mosquito
+populations. The interface is defined in R/mosquito_interface.R.
+
+#### Ross-Macdonald (RM)
+
+Simple model
+
+### Aquatic
+
+The aquatic component is responsible for all dynamics which update immature (aquatic
+stage) mosquito populations. The interface is defined in R/aquatic_interface.R.
+
+### Birds
+
+The bird component is responsible for all dynamics which update adult bird populations.
+The interface is defined in R/birds_interface.R.
+
+### Fledge
+
+The fledge component is responsible for all dynamics which update immature (fledgling)
+bird populations. The interface is defined in R/fledge_interface.R.
+
+### Humans
+
+The human component updates human populations. The interface is defined in R/humans_interface.R.
