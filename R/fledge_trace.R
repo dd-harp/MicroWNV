@@ -33,13 +33,6 @@ setup_fledge_trace <- function(model, trace, stochastic) {
 
 # get fledglings
 
-#' @title Compute number of new fledglings
-#' @param model an object from [MicroWNV::make_microWNV]
-#' @export
-compute_fledge <- function(model) {
-  UseMethod("compute_fledge", model$fledge)
-}
-
 #' @title Compute number of new fledglings from trace
 #' @inheritParams compute_fledge
 #' @details see [MicroWNV::compute_fledge.trace_deterministic] and [MicroWNV::compute_fledge.trace_stochastic]
@@ -69,14 +62,6 @@ compute_fledge.trace_stochastic <- function(model) {
 
 # add clutch
 
-#' @title Add clutch (eggs) to fledgling model
-#' @param model an object from [MicroWNV::make_microWNV]
-#' @param eggs a vector of length `p` giving eggs for each place
-#' @export
-add_clutch <- function(model, eggs) {
-  UseMethod("add_clutch", model$fledge)
-}
-
 #' @title Add eggs to trace fledgling model
 #' @description This function does nothing as trace models are not affected by
 #' endogenous dynamics.
@@ -85,38 +70,13 @@ add_clutch <- function(model, eggs) {
 add_clutch.trace <- function(model, eggs) {invisible()}
 
 
-
-
-# clutch laying dynamics
-
-#' @title Setup null model for clutches
-#' @description This requires the birds to be set up prior to being called. The
-#' null model is to be used with trace-based fledgling births (from [MicroWNV::setup_fledge_trace]).
-#' @param model an object from [MicroWNV::make_microWNV]
-#' @export
-setup_clutch_null <- function(model) {
-  stopifnot(inherits(model, "microWNV"))
-  stopifnot(!is.null(model$bird))
-
-  model$bird$clutch <- structure(list(), class = "null")
-}
-
-
 # compute clutch (eggs/patch/day)
-
-#' @title Compute egg clutches from birds
-#' @param model an object from [MicroWNV::make_microWNV]
-#' @param N total number of birds in each patch
-#' @export
-compute_clutch <- function(model, N) {
-  UseMethod("compute_clutch", model$bird$clutch)
-}
 
 #' @title Compute null egg clutches from birds
 #' @description This is to be used with modeling fledgling birth as a trace.
 #' @inheritParams compute_clutch
 #' @export
-compute_clutch.null <- function(model, N) {invisible()}
+compute_clutch.trace <- function(model, N) {invisible()}
 
 # if we have compute_clutch.logistic, for example, call NextMethod to
 # dispatch on deterministic or stochastic

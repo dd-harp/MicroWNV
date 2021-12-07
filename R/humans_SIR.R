@@ -54,13 +54,6 @@ setup_humans_SIR <- function(model, theta, wf = NULL, H, SIR, b = 0.55, c = 0.15
   model$human$gamma <- gamma
 }
 
-#' @title Compute available humans
-#' @param model an object from [MicroWNV::make_microWNV]
-#' @return a vector of length `p`
-#' @export
-compute_W <- function(model) {
-  UseMethod("compute_W", model$human)
-}
 
 #' @inheritParams compute_W
 #' @export
@@ -68,14 +61,6 @@ compute_W.SIR <- function(model) {
   Psi <- model$human$theta
   W <- t(Psi) %*% (model$human$wf * model$human$H)
   return(W)
-}
-
-#' @title Compute net infectiousness of humans
-#' @param model an object from [MicroWNV::make_microWNV]
-#' @return a vector of length `n`
-#' @export
-compute_x <- function(model) {
-  UseMethod("compute_x", model$human)
 }
 
 #' @inheritParams compute_x

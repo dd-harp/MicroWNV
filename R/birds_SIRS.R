@@ -74,13 +74,6 @@ setup_birds_SIRS <- function(model, stochastic, fledge_disperse, theta, SIR, mu,
 
 # update birds over one time step
 
-#' @title Update bird population
-#' @param model an object from [MicroWNV::make_microWNV]
-#' @export
-step_birds <- function(model) {
-  UseMethod("step_birds", model$bird)
-}
-
 #' @title Update SIRS bird population
 #' @inheritParams step_birds
 #' @details see [MicroWNV::step_birds.SIRS_deterministic] and [MicroWNV::step_birds.SIRS_stochastic]
