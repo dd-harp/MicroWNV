@@ -1,4 +1,5 @@
 #' @title Setup humans with SIR infection model
+#' @param stochastic should the model update deterministically or stochastically?
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @param theta a time spent matrix
 #' @param wf biting weights
@@ -8,7 +9,7 @@
 #' @param c transmission efficiency (human to mosquito)
 #' @param gamma rate of recovery
 #' @export
-setup_humans_SIR <- function(model, theta, wf = NULL, H, SIR, b = 0.55, c = 0.15, gamma = 1/5) {
+setup_humans_SIR <- function(model, stochastic, theta, wf = NULL, H, SIR, b = 0.55, c = 0.15, gamma = 1/5) {
   stopifnot(inherits(model, "microWNV"))
   stopifnot(inherits(theta, "matrix"))
 
@@ -43,11 +44,20 @@ setup_humans_SIR <- function(model, theta, wf = NULL, H, SIR, b = 0.55, c = 0.15
     stopifnot(colnames(SIR) == c("S", "I", "R"))
   }
 
-  model$human <- structure(list(), class = "SIR")
+  human_class <- c("SIR")
+  if (stochastic) {
+    human_class <- c(human_class, "SIR_stochastic")
+  } else {
+    human_class <- c(human_class, "SIR_deterministic")
+  }
+
+  model$human <- structure(list(), class = human_class)
   model$human$theta <- theta
   model$human$wf <- wf
   model$human$H <- H
   model$human$SIR <- SIR
+
+  model$human$h <- rep(0, n)
 
   model$human$b <- b
   model$human$c <- c
@@ -55,6 +65,7 @@ setup_humans_SIR <- function(model, theta, wf = NULL, H, SIR, b = 0.55, c = 0.15
 }
 
 
+#' @title Compute available humans for SIR model
 #' @inheritParams compute_W
 #' @export
 compute_W.SIR <- function(model) {
@@ -63,9 +74,60 @@ compute_W.SIR <- function(model) {
   return(W)
 }
 
+#' @title Compute net infectiousness for SIR model
 #' @inheritParams compute_x
 #' @export
 compute_x.SIR <- function(model) {
   X <- model$human$SIR[, "I"] / model$human$H
   return(X * model$human$c)
+}
+
+
+#' @title Update SIR human model
+#' @inheritParams step_humans
+#' @export
+step_humans.SIR <- function(model) {
+  NextMethod()
+}
+
+#' @title Update SIR human model (deterministic)
+#' @inheritParams step_humans
+#' @importFrom stats pexp
+#' @export
+step_humans.SIR_deterministic <- function(model) {
+
+  # compute differences: S
+  S_leave <- model$human$SIR[, "S"] * pexp(q =  model$human$h)
+
+  # compute differences: I
+  I_leave <- model$human$SIR[, "I"] * pexp(q =  model$human$gamma)
+
+  # update
+  model$human$SIR[, "S"] <- model$human$SIR[, "S"] - S_leave
+  model$human$SIR[, "I"] <- model$human$SIR[, "I"] + S_leave - I_leave
+  model$human$SIR[, "R"] <- model$human$SIR[, "R"] + I_leave
+
+  model$human$SIR <- pmax(model$human$SIR, 0)
+
+}
+
+#' @title Update SIR human model (stochastic)
+#' @inheritParams step_humans
+#' @importFrom stats pexp rbinom
+#' @export
+step_humans.SIR_stochastic <- function(model) {
+
+  n <- model$global$n
+
+  # compute differences: S
+  S_leave <- rbinom(n = n, size = model$human$SIR[, "S"], prob = pexp(q =  model$human$h))
+
+  # compute differences: I
+  I_leave <- rbinom(n = n, size = model$human$SIR[, "I"], prob = pexp(q =  model$human$gamma))
+
+  # update
+  model$human$SIR[, "S"] <- model$human$SIR[, "S"] - S_leave
+  model$human$SIR[, "I"] <- model$human$SIR[, "I"] + S_leave - I_leave
+  model$human$SIR[, "R"] <- model$human$SIR[, "R"] + I_leave
+
 }

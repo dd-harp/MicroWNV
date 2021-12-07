@@ -146,7 +146,6 @@ test_that("test SIRS birds die out with no fledglings", {
 
   fledge_trace <- matrix(0, nrow = p, ncol = tmax)
 
-
   # sample update in stochastic model
   mod <- make_microWNV(tmax = tmax)
   mod$global$p <- p
