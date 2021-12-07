@@ -6,6 +6,7 @@
 \usage{
 setup_humans_SIR(
   model,
+  stochastic,
   theta,
   wf = NULL,
   H,
@@ -17,6 +18,8 @@ setup_humans_SIR(
 }
 \arguments{
 \item{model}{an object from \link{make_microWNV}}
+
+\item{stochastic}{should the model update deterministically or stochastically?}
 
 \item{theta}{a time spent matrix}
 

@@ -71,15 +71,3 @@ periodically.
 Please note that sometimes hard to diagnose bugs can be due to out of date
 workflows. If you find a strange or unusual bug when pushing to a branch, this
 is one thing to consider checking.
-
-## Code organisation
-
-*R/blood_feeding.R* - stuff
-
-*R/human.R* - stuff
-
-*R/other_hosts.R* - stuff
-
-*R/time_spent.R* - stuff
-
-*tests/* - tests for Micro-MoB

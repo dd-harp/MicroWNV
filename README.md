@@ -25,4 +25,6 @@ they must return values consistent with their definition.
 
 We call a specific implementation of a component a _model_.
 Specific implementations are found in files that replace _\_interface_ with the
-model name, for example R/humans_SIR.R.
+model name, for example R/humans_SIR.R. Their accompanying test files are located in
+tests/testthat. If you are creating a new model, please remember to test it
+adequately.

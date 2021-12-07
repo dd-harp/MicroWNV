@@ -19,3 +19,11 @@ compute_W <- function(model) {
 compute_x <- function(model) {
   UseMethod("compute_x", model$human)
 }
+
+
+#' @title Update human population
+#' @param model an object from [MicroWNV::make_microWNV]
+#' @export
+step_humans <- function(model) {
+  UseMethod("step_humans", model$human)
+}

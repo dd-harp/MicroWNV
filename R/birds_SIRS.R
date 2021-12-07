@@ -117,6 +117,8 @@ step_birds.SIRS_deterministic <- function(model) {
   model$bird$SIR[, "I"] <- model$bird$SIR[, "I"] - I_leave + S_toI
   model$bird$SIR[, "R"] <- model$bird$SIR[, "R"] - R_leave + I_toR
 
+  model$bird$SIR <- pmax(model$bird$SIR, 0)
+
 }
 
 #' @title Update SIRS bird population (stochastic)
