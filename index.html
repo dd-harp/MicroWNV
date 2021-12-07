@@ -76,6 +76,12 @@
 </h2>
 <p>This is intended to quickly get a prototype running. Therefore we will eschew some elegance for speed. The model object will be an environment with a class attribute. All interior structure will be named lists. Each function will be passed the entire model object.</p>
 <p>It should eventually be turned into a package.</p>
+<div class="section level3">
+<h3 id="components">Components<a class="anchor" aria-label="anchor" href="#components"></a>
+</h3>
+<p>The model is broken into components, for humans, mosquitoes, and birds (and some others). Each component has an <em>interface</em>, which are methods which must be defined for that component. A component’s interface is stored in file, for example, R/humans_interface.R shows the user what methods must be defined for any human model. Other components (e.g. the bloodmeal) will call generic methods not knowing what specific code is implementing them, and so they must return values consistent with their definition.</p>
+<p>We call a specific implementation of a component a <em>model</em>. Specific implementations are found in files that replace <em>_interface</em> with the model name, for example R/humans_SIR.R.</p>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
