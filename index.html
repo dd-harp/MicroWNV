@@ -76,11 +76,42 @@
 </h2>
 <p>This is intended to quickly get a prototype running. Therefore we will eschew some elegance for speed. The model object will be an environment with a class attribute. All interior structure will be named lists. Each function will be passed the entire model object.</p>
 <p>It should eventually be turned into a package.</p>
-<div class="section level3">
-<h3 id="components">Components<a class="anchor" aria-label="anchor" href="#components"></a>
-</h3>
+</div>
+<div class="section level2">
+<h2 id="components">Components<a class="anchor" aria-label="anchor" href="#components"></a>
+</h2>
 <p>The model is broken into components, for humans, mosquitoes, and birds (and some others). Each component has an <em>interface</em>, which are methods which must be defined for that component. A component’s interface is stored in file, for example, R/humans_interface.R shows the user what methods must be defined for any human model. Other components (e.g. the bloodmeal) will call generic methods not knowing what specific code is implementing them, and so they must return values consistent with their definition.</p>
-<p>We call a specific implementation of a component a <em>model</em>. Specific implementations are found in files that replace <em>_interface</em> with the model name, for example R/humans_SIR.R.</p>
+<p>We call a specific implementation of a component a <em>model</em>. Specific implementations are found in files that replace <em>_interface</em> with the model name, for example R/humans_SIR.R. Their accompanying test files are located in tests/testthat. If you are creating a new model, please remember to test it adequately.</p>
+<p>We list the components which require interfaces below and specific models to implement them.</p>
+<div class="section level3">
+<h3 id="mosquitoes">Mosquitoes<a class="anchor" aria-label="anchor" href="#mosquitoes"></a>
+</h3>
+<p>The mosquito component is responsible for all dynamics which update adult mosquito populations. The interface is defined in R/mosquito_interface.R.</p>
+<div class="section level4">
+<h4 id="ross-macdonald-rm">Ross-Macdonald (RM)<a class="anchor" aria-label="anchor" href="#ross-macdonald-rm"></a>
+</h4>
+<p>Simple model</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="aquatic">Aquatic<a class="anchor" aria-label="anchor" href="#aquatic"></a>
+</h3>
+<p>The aquatic component is responsible for all dynamics which update immature (aquatic stage) mosquito populations. The interface is defined in R/aquatic_interface.R.</p>
+</div>
+<div class="section level3">
+<h3 id="birds">Birds<a class="anchor" aria-label="anchor" href="#birds"></a>
+</h3>
+<p>The bird component is responsible for all dynamics which update adult bird populations. The interface is defined in R/birds_interface.R.</p>
+</div>
+<div class="section level3">
+<h3 id="fledge">Fledge<a class="anchor" aria-label="anchor" href="#fledge"></a>
+</h3>
+<p>The fledge component is responsible for all dynamics which update immature (fledgling) bird populations. The interface is defined in R/fledge_interface.R.</p>
+</div>
+<div class="section level3">
+<h3 id="humans">Humans<a class="anchor" aria-label="anchor" href="#humans"></a>
+</h3>
+<p>The human component updates human populations. The interface is defined in R/humans_interface.R.</p>
 </div>
 </div>
 </div>

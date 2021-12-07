@@ -28,6 +28,9 @@
     <loc>/reference/add_clutch.trace.html</loc>
   </url>
   <url>
+    <loc>/reference/compute_W.SIR.html</loc>
+  </url>
+  <url>
     <loc>/reference/compute_W.html</loc>
   </url>
   <url>
@@ -47,6 +50,9 @@
   </url>
   <url>
     <loc>/reference/compute_fledge.trace_stochastic.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_x.SIR.html</loc>
   </url>
   <url>
     <loc>/reference/compute_x.html</loc>
@@ -80,5 +86,20 @@
   </url>
   <url>
     <loc>/reference/step_birds.html</loc>
+  </url>
+  <url>
+    <loc>/reference/step_humans.SIR.html</loc>
+  </url>
+  <url>
+    <loc>/reference/step_humans.SIR_deterministic.html</loc>
+  </url>
+  <url>
+    <loc>/reference/step_humans.SIR_stochastic.html</loc>
+  </url>
+  <url>
+    <loc>/reference/step_humans.html</loc>
+  </url>
+  <url>
+    <loc>/reference/step_mosquitoes.html</loc>
   </url>
 </urlset>
