@@ -28,8 +28,6 @@ test_that("test deterministic SIRS birds", {
     fledge_disperse = fledge_disperse, theta = theta,
     SIR = SIR, mu = mu, gamma = gamma, r = r
   )
-
-  setup_clutch_null(model = mod)
   setup_fledge_trace(model = mod, trace = fledge_trace, stochastic = FALSE)
 
   h <- sample(x = c(0.01, 0.025), size = p, replace = TRUE)
@@ -100,8 +98,6 @@ test_that("test stochastic SIRS birds", {
     fledge_disperse = fledge_disperse, theta = theta,
     SIR = SIR, mu = mu, gamma = gamma, r = r
   )
-
-  setup_clutch_null(model = mod)
   setup_fledge_trace(model = mod, trace = fledge_trace, stochastic = FALSE)
 
   mod$bird$h <- h
@@ -119,8 +115,6 @@ test_that("test stochastic SIRS birds", {
     fledge_disperse = fledge_disperse, theta = theta,
     SIR = SIR, mu = mu, gamma = gamma, r = r
   )
-
-  setup_clutch_null(model = mod)
   setup_fledge_trace(model = mod, trace = fledge_trace, stochastic = TRUE)
 
   mod$bird$h <- h
@@ -162,8 +156,6 @@ test_that("test SIRS birds die out with no fledglings", {
     fledge_disperse = fledge_disperse, theta = theta,
     SIR = SIR, mu = mu, gamma = gamma, r = r
   )
-
-  setup_clutch_null(model = mod)
   setup_fledge_trace(model = mod, trace = fledge_trace, stochastic = TRUE)
 
   for (i in 1:tmax) {
