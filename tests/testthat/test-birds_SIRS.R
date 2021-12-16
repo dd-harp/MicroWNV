@@ -21,6 +21,24 @@ test_that("test SIRS birds constructed properly", {
     fledge_disperse = fledge_disperse, theta = theta,
     SIR = SIR, mu = mu, gamma = gamma, r = r
   )
+
+  expect_equal(
+    names(mod$bird),
+    c("fledge_disperse", "theta", "wf", "SIR", "h", "mu", "b", "c", "gamma", "r"
+    )
+  )
+  expect_equal(mod$bird$SIR, SIR)
+
+  # errors
+  mod <- make_microWNV(tmax = 10, p = p)
+  expect_error(
+    setup_birds_SIRS(
+      model = mod, stochastic = FALSE,
+      fledge_disperse = fledge_disperse, theta = theta,
+      SIR = matrix(0), mu = mu, gamma = gamma, r = r
+    )
+  )
+
 })
 
 

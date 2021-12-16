@@ -1,5 +1,15 @@
 # interface for humans: any model of humans must implement these functions
 
+# update (step)
+
+#' @title Update human population
+#' @param model an object from [MicroWNV::make_microWNV]
+#' @export
+step_humans <- function(model) {
+  UseMethod("step_humans", model$human)
+}
+
+
 #' @title Compute available humans
 #' @description This is normally computed as \deqn{W = \Psi^{\intercal} \cdot w_{f} H}
 #' @param model an object from [MicroWNV::make_microWNV]
@@ -18,12 +28,4 @@ compute_W <- function(model) {
 #' @export
 compute_x <- function(model) {
   UseMethod("compute_x", model$human)
-}
-
-
-#' @title Update human population
-#' @param model an object from [MicroWNV::make_microWNV]
-#' @export
-step_humans <- function(model) {
-  UseMethod("step_humans", model$human)
 }

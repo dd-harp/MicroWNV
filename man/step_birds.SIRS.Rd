@@ -10,7 +10,8 @@
 \item{model}{an object from \link{make_microWNV}}
 }
 \description{
-Update SIRS bird population
+This function dispatches on the second argument of \code{model$bird}
+for stochastic or deterministic behavior.
 }
 \details{
 see \link{step_birds.SIRS_deterministic} and \link{step_birds.SIRS_stochastic}

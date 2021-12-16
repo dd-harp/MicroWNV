@@ -10,7 +10,8 @@
 \item{model}{an object from \link{make_microWNV}}
 }
 \description{
-Update Ross-Macdonald mosquitoes
+This function dispatches on the second argument of \code{model$mosquito}
+for stochastic or deterministic behavior.
 }
 \details{
 see \link{step_mosquitoes.RM_deterministic} and \link{step_mosquitoes.RM_stochastic}

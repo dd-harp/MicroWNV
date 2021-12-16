@@ -65,23 +65,7 @@ setup_humans_SIR <- function(model, stochastic, theta, wf = NULL, H, SIR, b = 0.
 }
 
 
-#' @title Compute available humans for SIR model
-#' @inheritParams compute_W
-#' @export
-compute_W.SIR <- function(model) {
-  Psi <- model$human$theta
-  W <- t(Psi) %*% (model$human$wf * model$human$H)
-  return(W)
-}
-
-#' @title Compute net infectiousness for SIR model
-#' @inheritParams compute_x
-#' @export
-compute_x.SIR <- function(model) {
-  X <- model$human$SIR[, "I"] / model$human$H
-  return(X * model$human$c)
-}
-
+# step (update)
 
 #' @title Update SIR human model
 #' @inheritParams step_humans
@@ -131,3 +115,22 @@ step_humans.SIR_stochastic <- function(model) {
   model$human$SIR[, "R"] <- model$human$SIR[, "R"] + I_leave
 
 }
+
+
+#' @title Compute available humans for SIR model
+#' @inheritParams compute_W
+#' @export
+compute_W.SIR <- function(model) {
+  Psi <- model$human$theta
+  W <- t(Psi) %*% (model$human$wf * model$human$H)
+  return(W)
+}
+
+#' @title Compute net infectiousness for SIR model
+#' @inheritParams compute_x
+#' @export
+compute_x.SIR <- function(model) {
+  X <- model$human$SIR[, "I"] / model$human$H
+  return(X * model$human$c)
+}
+

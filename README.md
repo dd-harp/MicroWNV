@@ -12,8 +12,6 @@ elegance for speed. The model object will be an environment with a class attribu
 All interior structure will be named lists. Each function will be passed the entire
 model object.
 
-It should eventually be turned into a package.
-
 ## Components
 
 The model is broken into components, for humans, mosquitoes, and birds (and some others).

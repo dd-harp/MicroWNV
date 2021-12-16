@@ -1,5 +1,14 @@
 # interface for aquatic (immature) mosquito populations: any model of immature mosquitoes must implement these functions
 
+# step (update)
+
+#' @title Update aquatic (immature) mosquito populations
+#' @param model an object from [MicroWNV::make_microWNV]
+#' @export
+step_aqua <- function(model) {
+  UseMethod("step_aqua", model$aqua)
+}
+
 # get emergents
 
 #' @title Compute number of newly emerging adults

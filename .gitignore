@@ -66,3 +66,6 @@ Temporary Items
 .apdisk
 .Rproj.user
 inst/doc
+
+# additional folders
+docs/
