@@ -75,7 +75,7 @@ setup_birds_SIRS <- function(model, stochastic, fledge_disperse, theta, SIR, mu,
 # update birds over one time step
 
 #' @title Update SIRS bird population
-#' @description This function dispatches on the second argument of `model$aqua`
+#' @description This function dispatches on the second argument of `model$bird`
 #' for stochastic or deterministic behavior.
 #' @inheritParams step_birds
 #' @details see [MicroWNV::step_birds.SIRS_deterministic] and [MicroWNV::step_birds.SIRS_stochastic]

@@ -10,7 +10,7 @@
 \item{model}{an object from \link{make_microWNV}}
 }
 \description{
-This function dispatches on the second argument of \code{model$aqua}
+This function dispatches on the second argument of \code{model$bird}
 for stochastic or deterministic behavior.
 }
 \details{
