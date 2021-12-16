@@ -27,7 +27,7 @@ setup_humans_SIR(
 
 \item{H}{vector of strata population sizes}
 
-\item{SIR}{a matrix giving S, I, R counts for each strata}
+\item{SIR}{a matrix giving S, I, R counts (columns) for each strata (rows)}
 
 \item{b}{transmission efficiency (mosquito to human)}
 

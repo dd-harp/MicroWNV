@@ -41,7 +41,7 @@ compute_fledge.trace <- function(model) {
   NextMethod()
 }
 
-#' @title Update SIRS bird population (deterministic)
+#' @title Compute number of new fledglings from trace (deterministic)
 #' @description Return the column of the trace matrix for this day.
 #' @inheritParams compute_fledge
 #' @export
@@ -49,7 +49,7 @@ compute_fledge.trace_deterministic <- function(model) {
   return(model$fledge$trace[, model$global$tnow])
 }
 
-#' @title Update SIRS bird population (stochastic)
+#' @title Compute number of new fledglings from trace (stochastic)
 #' @description Draw a Poisson distributed number of fledglings with mean parameter
 #' from the column of the trace matrix for this day.
 #' @inheritParams compute_fledge

@@ -5,8 +5,8 @@
 #' @param fledge_disperse a dispersal matrix for fledglings
 #' @param theta a matrix giving time spent in each bird's home range
 #' @param SIR matrix of initial states for each patch
-#' @param mu vector of length `p` or matrix with `p` rows and `tmax` columns giving
-#' daily bird death rates
+#' @param mu vector of length `tmax` or a scalar value giving time varying or constant
+#' daily mortality rate
 #' @param wf biting weights
 #' @param b transmission efficiency (mosquitoes to birds)
 #' @param c transmission efficiency (birds to mosquitoes)
@@ -29,13 +29,13 @@ setup_birds_SIRS <- function(model, stochastic, fledge_disperse, theta, SIR, mu,
   stopifnot(nrow(fledge_disperse) == p)
   stopifnot(approx_equal(rowSums(fledge_disperse), 1))
 
-  if (inherits(mu, "matrix")) {
-    stopifnot(nrow(mu) == model$global$p)
-    stopifnot(ncol(mu) == model$global$tmax)
+  if (length(mu) > 1) {
+    stopifnot(length(mu) == model$global$tmax)
   } else {
-    stopifnot(length(mu) == model$global$p)
-    mu <- replicate(n = model$global$tmax, expr = mu)
+    mu <- rep(mu, model$global$tmax)
   }
+  stopifnot(is.finite(mu))
+  stopifnot(mu >= 0)
 
   if (is.null(colnames(SIR))) {
     colnames(SIR) <- c("S", "I", "R")
@@ -97,17 +97,17 @@ step_birds.SIRS_deterministic <- function(model) {
   eggs <- compute_clutch(model, N)
 
   # compute differences: S
-  S_haz <- model$bird$h + model$bird$mu[, model$global$tnow]
+  S_haz <- model$bird$h + model$bird$mu[model$global$tnow]
   S_leave <- model$bird$SIR[, "S"] * pexp(q =  S_haz)
   S_toI <- S_leave * (model$bird$h / S_haz)
 
   # compute differences: I
-  I_haz <- model$bird$gamma + model$bird$mu[, model$global$tnow]
+  I_haz <- model$bird$gamma + model$bird$mu[model$global$tnow]
   I_leave <- model$bird$SIR[, "I"] * pexp(q =  I_haz)
   I_toR <- I_leave * (model$bird$gamma / I_haz)
 
   # compute differences: R
-  R_haz <- model$bird$r + model$bird$mu[, model$global$tnow]
+  R_haz <- model$bird$r + model$bird$mu[model$global$tnow]
   R_leave <- model$bird$SIR[, "R"] * pexp(q =  R_haz)
   R_toS <- R_leave * (model$bird$r / R_haz)
 
@@ -138,17 +138,17 @@ step_birds.SIRS_stochastic <- function(model) {
   eggs <- compute_clutch(model, N)
 
   # compute differences: S
-  S_haz <- model$bird$h + model$bird$mu[, model$global$tnow]
+  S_haz <- model$bird$h + model$bird$mu[model$global$tnow]
   S_leave <- rbinom(n = p,  size = model$bird$SIR[, "S"], prob = pexp(q = S_haz))
   S_toI <- rbinom(n = p, size = S_leave, prob = model$bird$h / S_haz)
 
   # compute differences: I
-  I_haz <- model$bird$gamma + model$bird$mu[, model$global$tnow]
+  I_haz <- model$bird$gamma + model$bird$mu[model$global$tnow]
   I_leave <- rbinom(n = p,  size = model$bird$SIR[, "I"], prob = pexp(q = I_haz))
   I_toR <- rbinom(n = p, size = I_leave, prob = model$bird$gamma / I_haz)
 
   # compute differences: R
-  R_haz <- model$bird$r + model$bird$mu[, model$global$tnow]
+  R_haz <- model$bird$r + model$bird$mu[model$global$tnow]
   R_leave <- rbinom(n = p, size = model$bird$SIR[, "R"] , prob = pexp(q =  R_haz))
   R_toS <- rbinom(n = p, size = R_leave, prob = model$bird$r / R_haz)
 
@@ -161,3 +161,22 @@ step_birds.SIRS_stochastic <- function(model) {
 }
 
 
+# compute net infectiousness of birds
+
+#' @title Compute net infectiousness of SIRS birds
+#' @inheritParams compute_xB
+#' @export
+compute_xB.SIRS <- function(model) {
+  XB <- model$bird$SIR[, "I"] / rowSums(model$bird$SIR)
+  return(XB * model$bird$c)
+}
+
+
+# compute total bird population
+
+#' @title Compute total SIRS bird population
+#' @inheritParams compute_B_pop
+#' @export
+compute_B_pop.SIRS <- function(model) {
+  return(rowSums(model$bird$SIR))
+}

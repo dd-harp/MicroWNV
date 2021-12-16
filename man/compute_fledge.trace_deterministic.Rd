@@ -2,7 +2,7 @@
 % Please edit documentation in R/fledge_trace.R
 \name{compute_fledge.trace_deterministic}
 \alias{compute_fledge.trace_deterministic}
-\title{Update SIRS bird population (deterministic)}
+\title{Compute number of new fledglings from trace (deterministic)}
 \usage{
 \method{compute_fledge}{trace_deterministic}(model)
 }

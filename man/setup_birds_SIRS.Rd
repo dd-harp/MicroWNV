@@ -29,8 +29,8 @@ setup_birds_SIRS(
 
 \item{SIR}{matrix of initial states for each patch}
 
-\item{mu}{vector of length \code{p} or matrix with \code{p} rows and \code{tmax} columns giving
-daily bird death rates}
+\item{mu}{vector of length \code{tmax} or a scalar value giving time varying or constant
+daily mortality rate}
 
 \item{wf}{biting weights}
 
