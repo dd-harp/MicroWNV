@@ -118,6 +118,12 @@
     <loc>/reference/setup_mosquito_RM.html</loc>
   </url>
   <url>
+    <loc>/reference/step_aqua.html</loc>
+  </url>
+  <url>
+    <loc>/reference/step_aqua.trace.html</loc>
+  </url>
+  <url>
     <loc>/reference/step_birds.SIRS.html</loc>
   </url>
   <url>
@@ -128,6 +134,12 @@
   </url>
   <url>
     <loc>/reference/step_birds.html</loc>
+  </url>
+  <url>
+    <loc>/reference/step_fledge.html</loc>
+  </url>
+  <url>
+    <loc>/reference/step_fledge.trace.html</loc>
   </url>
   <url>
     <loc>/reference/step_humans.SIR.html</loc>

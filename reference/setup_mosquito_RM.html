@@ -30,7 +30,13 @@
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/dd-harp/MicroWNV/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -38,7 +44,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Setup generalized Ross-Macdonald mosquito model</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/dd-harp/MicroWNV/blob/HEAD/R/mosquito_RM.R" class="external-link"><code>R/mosquito_RM.R</code></a></small>
       <div class="d-none name"><code>setup_mosquito_RM.Rd</code></div>
     </div>
 
@@ -48,7 +54,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">setup_mosquito_RM</span><span class="op">(</span><span class="va">model</span>, <span class="va">stochastic</span>, <span class="va">f</span>, <span class="va">q</span>, <span class="va">eip</span>, <span class="va">p</span>, <span class="va">psi</span>, <span class="va">M</span>, <span class="va">Y</span>, <span class="va">Z</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">setup_mosquito_RM</span><span class="op">(</span><span class="va">model</span>, <span class="va">stochastic</span>, <span class="va">a</span>, <span class="va">eip</span>, <span class="va">p</span>, <span class="va">psi</span>, <span class="va">M</span>, <span class="va">Y</span>, <span class="va">Z</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -57,10 +63,9 @@
 <dd><p>an object from <a href="make_microWNV.html">make_microWNV</a></p></dd>
 <dt>stochastic</dt>
 <dd><p>should the model update deterministically or stochastically?</p></dd>
-<dt>f</dt>
-<dd><p>the feeding rate</p></dd>
-<dt>q</dt>
-<dd><p>proportion of bites taken on humans and birds</p></dd>
+<dt>a</dt>
+<dd><p>the feeding rate on humans and birds (normally calculated as \(a = fq\) using
+Ross-Macdonald parameters)</p></dd>
 <dt>eip</dt>
 <dd><p>the Extrinsic Incubation Period, may either be a scalar, a vector of
 length 365, or a vector of length equal to <code>tmax</code> in the <code>model</code> object from <a href="make_microWNV.html">make_microWNV</a></p></dd>
