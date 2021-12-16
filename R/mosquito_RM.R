@@ -4,8 +4,8 @@
 #' @description This requires the birds to be set up prior to being called.
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @param stochastic should the model update deterministically or stochastically?
-#' @param f the feeding rate
-#' @param q proportion of bites taken on humans and birds
+#' @param a the feeding rate on humans and birds (normally calculated as \eqn{a = fq} using
+#' Ross-Macdonald parameters)
 #' @param eip the Extrinsic Incubation Period, may either be a scalar, a vector of
 #' length 365, or a vector of length equal to `tmax` in the `model` object from [MicroWNV::make_microWNV]
 #' @param p daily survival probability, may either be a scalar, a vector of
@@ -15,7 +15,7 @@
 #' @param Y density of incubating mosquitoes per patch
 #' @param Z density of infectious mosquitoes per patch
 #' @export
-setup_mosquito_RM <- function(model, stochastic, f, q, eip, p, psi, M, Y, Z) {
+setup_mosquito_RM <- function(model, stochastic, a, eip, p, psi, M, Y, Z) {
   stopifnot(inherits(model, "microWNV"))
   stopifnot(is.logical(stochastic))
 
@@ -36,6 +36,8 @@ setup_mosquito_RM <- function(model, stochastic, f, q, eip, p, psi, M, Y, Z) {
   } else {
     stop("incorrect length of eip vector")
   }
+
+  maxEIP <- max(eip_vec) + 1L
 
   if (length(p) == 1L) {
     stopifnot(is.finite(p))
@@ -69,9 +71,9 @@ setup_mosquito_RM <- function(model, stochastic, f, q, eip, p, psi, M, Y, Z) {
   }
 
   model$mosquito <- structure(list(), class = mosy_class)
-  model$mosquito$f <- f
-  model$mosquito$q <- q
+  model$mosquito$a <- a
   model$mosquito$eip <- eip_vec
+  model$mosquito$maxEIP <- maxEIP
   model$mosquito$p <- p_vec
   model$mosquito$psi <- psi
 
@@ -109,6 +111,36 @@ step_mosquitoes.RM <- function(model) {
 #' @export
 step_mosquitoes.RM_deterministic <- function(model) {
 
+  tnow <- model$global$tnow
+  EIP <- model$mosquito$eip[tnow]
+  maxEIP <- model$mosquito$maxEIP
+  p <- model$mosquito$p[tnow]
+  psi <- model$mosquito$psi
+
+  # newly emerging adults
+  lambda <- compute_emergents(model)
+  model$mosquito$M <- model$mosquito$M + lambda
+
+  # newly infected mosquitoes
+  Y0 <- model$mosquito$a * model$mosquito$kappa * (model$mosquito$M - model$mosquito$Y)
+  Y0 <- pmax(Y0, 0)
+
+  # survival
+  model$mosquito$M <- p * model$mosquito$M
+  model$mosquito$Y <- p * (model$mosquito$Y + Y0)
+  model$mosquito$Z <- p * model$mosquito$Z
+  model$mosquito$ZZ <- p * model$mosquito$ZZ
+
+  # dispersal
+  model$mosquito$M = psi %*% model$mosquito$M
+  model$mosquito$Y = psi %*% model$mosquito$Y
+  model$mosquito$Z = psi %*% (model$mosquito$Z + model$mosquito$ZZ[1, ])
+
+  # ZZ[t, ] is the number of mosquitoes that become infectious in each patch t days from now.
+  model$mosquito$ZZ[1, ] <- 0
+  model$mosquito$ZZ[-maxEIP, ] = model$mosquito$ZZ[-1, ]
+  model$mosquito$ZZ[EIP, ] = model$mosquito$ZZ[EIP, ] + (psi %*% Y0 * p)
+
 }
 
 #' @title Update Ross-Macdonald mosquitoes (stochastic)
@@ -117,86 +149,3 @@ step_mosquitoes.RM_deterministic <- function(model) {
 step_mosquitoes.RM_stochastic <- function(model) {
 
 }
-
-
-# RMdM = function(t, kappa){with(MOSQUITOES,{
-#   eip = getEIP(t)
-#
-#   #########################################################
-#   # The number of mosquitoes that become infected today
-#   #########################################################
-#   Y0 = f*Q*kappa*(M-Y)
-#
-#   #Mosquito Survival
-#   M = p*M + recruitRM()
-#   Y = p*(Y+Y0)
-#   Z = p*Z
-#
-#   #Mosquito Dispersal
-#   M = MacroMove(M,1)
-#   Y = MacroMove(Y,1)
-#   Z = MacroMove(Z,1) + ZZ[1,]
-#
-#   #########################################################
-#   # ZZ[t,] is the number of mosquitoes that become infectious
-#   # in each patch t days from now.
-#   #########################################################
-#   ZZ[1,] = 0
-#   ZZ[-maxEIP,] = ZZ[-1,]
-#   ZZ[eip,] = ZZ[eip,] + MacroMove(p^eip*Y0, eip)
-#
-#   MOSQUITOES$M<<-M
-#   MOSQUITOES$Y<<-Y
-#   MOSQUITOES$Z<<-Z
-#   MOSQUITOES$ZZ<<-ZZ
-# })}
-
-
-
-
-tmax <- 50
-
-EIP_vec <- rep(4, tmax)
-
-N <- 3
-
-p <- 0.9
-f <- 0.3
-Q <- 0.9
-v <- 20
-maxEIP <- 30
-P <- p^c(1:maxEIP) # survival over EIP
-
-M   = rep(10, N) # mosquito density
-Y   = rep(0, N) # infected (incubating)
-Z   = rep(0, N) # infectious
-ZZ  = matrix(0,maxEIP,N) # each row is the number that will be added to the infectious state on that day
-
-kappa <- rep(0.01, N)
-
-lambda <- rep(0.5, N)
-
-psi <- diag(N)
-
-eip <- EIP_vec[1]
-
-Y0 = f*Q*kappa*(M-Y)
-
-#Mosquito Survival
-M = p*M + lambda
-Y = p*(Y+Y0)
-Z = p*Z
-
-#Mosquito Dispersal
-M = psi %*% M
-Y = psi %*% Y
-Z = psi %*% Z + ZZ[1,]
-
-#########################################################
-# ZZ[t,] is the number of mosquitoes that become infectious
-# in each patch t days from now.
-#########################################################
-ZZ[1,] = 0
-ZZ[-maxEIP,] = ZZ[-1,]
-ZZ[eip,] = ZZ[eip,] + (psi %*% Y0)
-

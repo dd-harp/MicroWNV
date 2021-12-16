@@ -3,3 +3,128 @@ template:
   bslib:
     border-radius: 0.5rem
     btn-border-radius: 0.25rem
+
+reference:
+
+- title: Utility and global methods
+  contents:
+  - make_microWNV
+  - sample_stochastic_matrix
+
+- title: Adult mosquito component
+
+  desc: >
+    The adult mosquito component is responsible for updating mosquito populations
+    of the adult (flying) life stage, and handling pathogen dynamics in adult
+    populations. Any model of adult mosquitoes in MicroWNV is required to
+    implement the following interface methods.
+  contents:
+  - step_mosquitoes
+
+- subtitle: Ross-Macdonald (RM) mosquito model
+  desc: This model implements the generalized RM mosquito model.
+  contents:
+  - setup_mosquito_RM
+  - step_mosquitoes.RM
+  - step_mosquitoes.RM_deterministic
+  - step_mosquitoes.RM_stochastic
+
+- title: Aquatic (immature) mosquito component
+
+  desc: >
+    The aquatic mosquito component is responsible for updating aquatic mosquito
+    populations which live in aquatic habitats. It must calculate how many eggs
+    are oviposited by adults per day, add them to aquatic habitats, update the aquatic life stages, and calculate
+    the number of emerging adults. Any model of immature mosquitoes in MicroWNV is required to
+    implement the following interface methods.
+  contents:
+    - step_aqua
+    - compute_emergents
+    - add_oviposit
+    - compute_oviposit
+
+- subtitle: Trace (forced) aquatic model
+  desc: >
+    This is a model of aquatic mosquitoes where emergence is passed as a trace (forcing)
+    term and it is not affected by endogenous dynamics.
+  contents:
+  - setup_aqua_trace
+  - step_aqua.trace
+  - compute_emergents.trace
+  - compute_emergents.trace_deterministic
+  - compute_emergents.trace_stochastic
+  - add_oviposit.trace
+  - compute_oviposit.trace
+
+- title: Adult bird component
+
+  desc: >
+    The adult bird component is responsible for updating adult bird populations
+    and their pathogen dynamics. Any model of adult birds in MicroWNV is required to
+    implement the following interface methods.
+  contents:
+  - step_birds
+  - compute_xB
+  - compute_B_pop
+
+- subtitle: SIRS adult bird model
+  desc: >
+    This model implements a simple SIRS model of adult birds with risk distributed
+    accross a "home range".
+  contents:
+  - setup_birds_SIRS
+  - step_birds.SIRS
+  - step_birds.SIRS_deterministic
+  - step_birds.SIRS_stochastic
+  - compute_xB.SIRS
+  - compute_B_pop.SIRS
+
+- title: Fledgling (immature) bird component
+
+  desc: >
+    The fledgling component is responsible for updating fledgling bird
+    populations which live in nests. It must calculate how many eggs clutches
+    are laid by adults per day, add them to nests, update the fledglings, and calculate
+    the number of new adults. Any model of fledglings in MicroWNV is required to
+    implement the following interface methods.
+  contents:
+    - step_fledge
+    - compute_fledge
+    - add_clutch
+    - compute_clutch
+
+- subtitle: Trace (forced) fledgling model
+  desc: >
+    This is a model of fledglings where birth is passed as a trace (forcing)
+    term and it is not affected by endogenous dynamics.
+  contents:
+  - setup_fledge_trace
+  - step_fledge.trace
+  - compute_fledge.trace
+  - compute_fledge.trace_deterministic
+  - compute_fledge.trace_stochastic
+  - add_clutch.trace
+  - compute_clutch.trace
+
+- title: Human component
+
+  desc: >
+    The human component is responsible for updating human populations
+    and their pathogen dynamics. Any model of humans in MicroWNV is required to
+    implement the following interface methods.
+  contents:
+  - step_humans
+  - compute_W
+  - compute_x
+
+- subtitle: SIR human model
+  desc: >
+    This model implements a simple SIR model of humans with risk distributed
+    according to time at risk matrices.
+  contents:
+  - setup_humans_SIR
+  - step_humans.SIR
+  - step_humans.SIR_deterministic
+  - step_humans.SIR_stochastic
+  - compute_W.SIR
+  - compute_x.SIR

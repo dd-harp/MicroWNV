@@ -10,7 +10,8 @@
 \item{model}{an object from \link{make_microWNV}}
 }
 \description{
-Compute number of newly emerging adults from forcing term
+This function dispatches on the second argument of \code{model$aqua}
+for stochastic or deterministic behavior.
 }
 \details{
 see \link{compute_emergents.trace_deterministic} and \link{compute_emergents.trace_stochastic}

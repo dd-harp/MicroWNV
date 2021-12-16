@@ -1,5 +1,14 @@
 # interface for fledglings: any model of fledglings must implement these functions
 
+# step (update)
+
+#' @title Update fledgling populations
+#' @param model an object from [MicroWNV::make_microWNV]
+#' @export
+step_fledge <- function(model) {
+  UseMethod("step_fledge", model$fledge)
+}
+
 # get fledglings
 
 #' @title Compute number of new fledglings

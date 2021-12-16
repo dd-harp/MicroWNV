@@ -30,6 +30,15 @@ setup_fledge_trace <- function(model, trace, stochastic) {
 }
 
 
+# step
+
+#' @title Update fledgling populations for forced births
+#' @description This function does nothing as trace models are do not have
+#' endogenous dynamics.
+#' @inheritParams step_fledge
+#' @export
+step_fledge.trace <- function(model) {invisible()}
+
 
 # get fledglings
 

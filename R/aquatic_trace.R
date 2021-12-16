@@ -46,10 +46,21 @@ setup_aqua_trace <- function(model, lambda, stochastic) {
 }
 
 
+# step function
 
-# get fledglings
+#' @title Update aquatic (immature) mosquito populations for forced emergence
+#' @description This function does nothing as trace models are do not have
+#' endogenous dynamics.
+#' @inheritParams step_aqua
+#' @export
+step_aqua.trace <- function(model) {invisible()}
+
+
+# get emerging adults
 
 #' @title Compute number of newly emerging adults from forcing term
+#' @description This function dispatches on the second argument of `model$aqua`
+#' for stochastic or deterministic behavior.
 #' @inheritParams compute_emergents
 #' @details see [MicroWNV::compute_emergents.trace_deterministic] and [MicroWNV::compute_emergents.trace_stochastic]
 #' @export
