@@ -1,3 +1,22 @@
+test_that("test emergence model of aquatic dynamics errors with incorrect lambda", {
+  p <- 2
+  tmax <- 10
+  mod <- make_microWNV(tmax = tmax, p = p)
+
+  lambda <- c(10, 100, 1000)
+  expect_error(setup_aqua_trace(model = mod, lambda = lambda, stochastic = FALSE))
+  expect_error(setup_aqua_trace(model = mod, lambda = lambda, stochastic = TRUE))
+
+  lambda <- matrix()
+  expect_error(setup_aqua_trace(model = mod, lambda = lambda, stochastic = FALSE))
+  expect_error(setup_aqua_trace(model = mod, lambda = lambda, stochastic = TRUE))
+
+  lambda <- matrix(rexp(100), 10, 10)
+  expect_error(setup_aqua_trace(model = mod, lambda = lambda, stochastic = FALSE))
+  expect_error(setup_aqua_trace(model = mod, lambda = lambda, stochastic = TRUE))
+})
+
+
 test_that("test emergence model of aquatic dynamics with vector lambda", {
   tmax <- 10
   p <- 2
