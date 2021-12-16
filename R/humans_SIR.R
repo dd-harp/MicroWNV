@@ -4,7 +4,7 @@
 #' @param theta a time spent matrix
 #' @param wf biting weights
 #' @param H vector of strata population sizes
-#' @param SIR a matrix giving S, I, R counts for each strata
+#' @param SIR a matrix giving S, I, R counts (columns) for each strata (rows)
 #' @param b transmission efficiency (mosquito to human)
 #' @param c transmission efficiency (human to mosquito)
 #' @param gamma rate of recovery
@@ -18,6 +18,7 @@ setup_humans_SIR <- function(model, stochastic, theta, wf = NULL, H, SIR, b = 0.
 
   n <- nrow(theta)
   p <- ncol(theta)
+  stopifnot(p == model$global$p)
 
   stopifnot(length(wf) == n)
   stopifnot(is.finite(wf))
@@ -32,7 +33,6 @@ setup_humans_SIR <- function(model, stochastic, theta, wf = NULL, H, SIR, b = 0.
   stopifnot(c(b, c) <= 1)
 
   model$global$n <- n
-  model$global$p <- p
 
   if (is.null(wf)) {
     wf <- rep(1, n)

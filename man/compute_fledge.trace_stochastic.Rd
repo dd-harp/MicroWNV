@@ -2,7 +2,7 @@
 % Please edit documentation in R/fledge_trace.R
 \name{compute_fledge.trace_stochastic}
 \alias{compute_fledge.trace_stochastic}
-\title{Update SIRS bird population (stochastic)}
+\title{Compute number of new fledglings from trace (stochastic)}
 \usage{
 \method{compute_fledge}{trace_stochastic}(model)
 }

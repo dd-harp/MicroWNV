@@ -1,14 +1,16 @@
 test_that("trace fledgling model compute_fledge works (vector)", {
-  mod <- make_microWNV(tmax = 10)
+  tmax <- 10
   p <- 5
-  mod$global$p <- p
+
+  mod <- make_microWNV(tmax = tmax, p = p)
+
   trace <- 10^(5:(p+4))
   setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
   fledge <- compute_fledge(model = mod)
 
   expect_true(all(abs(log10(fledge) - log10(trace)) < 0.05))
 
-  mod <- make_microWNV(tmax = 10)
+  mod <- make_microWNV(tmax = 10, p = p)
   p <- 5
   mod$global$p <- p
   setup_fledge_trace(model = mod, trace = trace, stochastic = FALSE)
@@ -20,9 +22,10 @@ test_that("trace fledgling model compute_fledge works (vector)", {
 
 test_that("trace fledgling model compute_fledge works (matrix)", {
   tmax <- 5
-  mod <- make_microWNV(tmax = tmax)
   p <- 5
-  mod$global$p <- p
+
+  mod <- make_microWNV(tmax = tmax, p = p)
+
   trace <- replicate(n = tmax, expr = 10^(5:(p+4)))
   trace <- trace * matrix(rep(1:tmax, each = tmax), nrow = p, ncol = tmax)
 
@@ -32,7 +35,7 @@ test_that("trace fledgling model compute_fledge works (matrix)", {
 
   expect_true(all(abs(log10(fledge) - log10(trace[, 3])) < 0.01))
 
-  mod <- make_microWNV(tmax = tmax)
+  mod <- make_microWNV(tmax = tmax, p = p)
   p <- 5
   mod$global$p <- p
   setup_fledge_trace(model = mod, trace = trace, stochastic = FALSE)
@@ -44,11 +47,11 @@ test_that("trace fledgling model compute_fledge works (matrix)", {
 
 
 test_that("trace fledgling model add_clutch doesn't do anything", {
-  # matrix
   tmax <- 5
-  mod <- make_microWNV(tmax = tmax)
   p <- 5
-  mod$global$p <- p
+
+  mod <- make_microWNV(tmax = tmax, p = p)
+
   trace <- replicate(n = tmax, expr = 1:p)
 
   setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
