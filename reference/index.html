@@ -63,6 +63,26 @@
         <dd>Add eggs to trace fledgling model</dd>
       </dl><dl><dt>
           
+          <code><a href="add_oviposit.html">add_oviposit()</a></code> 
+        </dt>
+        <dd>Add eggs from oviposition to aquatic model</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_oviposit.trace.html">add_oviposit(<i>&lt;trace&gt;</i>)</a></code> 
+        </dt>
+        <dd>Add eggs from oviposition to forced aquatic model</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_B_pop.html">compute_B_pop()</a></code> 
+        </dt>
+        <dd>Compute total bird population</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_B_pop.SIRS.html">compute_B_pop(<i>&lt;SIRS&gt;</i>)</a></code> 
+        </dt>
+        <dd>Compute total SIRS bird population</dd>
+      </dl><dl><dt>
+          
           <code><a href="compute_W.html">compute_W()</a></code> 
         </dt>
         <dd>Compute available humans</dd>
@@ -83,6 +103,26 @@
         <dd>Compute null egg clutches from birds</dd>
       </dl><dl><dt>
           
+          <code><a href="compute_emergents.html">compute_emergents()</a></code> 
+        </dt>
+        <dd>Compute number of newly emerging adults</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_emergents.trace.html">compute_emergents(<i>&lt;trace&gt;</i>)</a></code> 
+        </dt>
+        <dd>Compute number of newly emerging adults from forcing term</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_emergents.trace_deterministic.html">compute_emergents(<i>&lt;trace_deterministic&gt;</i>)</a></code> 
+        </dt>
+        <dd>Compute number of newly emerging adults from forcing term (deterministic)</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_emergents.trace_stochastic.html">compute_emergents(<i>&lt;trace_stochastic&gt;</i>)</a></code> 
+        </dt>
+        <dd>Compute number of newly emerging adults from forcing term (stochastic)</dd>
+      </dl><dl><dt>
+          
           <code><a href="compute_fledge.html">compute_fledge()</a></code> 
         </dt>
         <dd>Compute number of new fledglings</dd>
@@ -95,12 +135,22 @@
           
           <code><a href="compute_fledge.trace_deterministic.html">compute_fledge(<i>&lt;trace_deterministic&gt;</i>)</a></code> 
         </dt>
-        <dd>Update SIRS bird population (deterministic)</dd>
+        <dd>Compute number of new fledglings from trace (deterministic)</dd>
       </dl><dl><dt>
           
           <code><a href="compute_fledge.trace_stochastic.html">compute_fledge(<i>&lt;trace_stochastic&gt;</i>)</a></code> 
         </dt>
-        <dd>Update SIRS bird population (stochastic)</dd>
+        <dd>Compute number of new fledglings from trace (stochastic)</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_oviposit.html">compute_oviposit()</a></code> 
+        </dt>
+        <dd>Compute number of eggs laid from oviposition for each patch</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_oviposit.trace.html">compute_oviposit(<i>&lt;trace&gt;</i>)</a></code> 
+        </dt>
+        <dd>Compute number of eggs laid from oviposition for each patch</dd>
       </dl><dl><dt>
           
           <code><a href="compute_x.html">compute_x()</a></code> 
@@ -113,6 +163,16 @@
         <dd>Compute net infectiousness for SIR model</dd>
       </dl><dl><dt>
           
+          <code><a href="compute_xB.html">compute_xB()</a></code> 
+        </dt>
+        <dd>Compute net infectiousness of birds</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_xB.SIRS.html">compute_xB(<i>&lt;SIRS&gt;</i>)</a></code> 
+        </dt>
+        <dd>Compute net infectiousness of SIRS birds</dd>
+      </dl><dl><dt>
+          
           <code><a href="make_microWNV.html">make_microWNV()</a></code> 
         </dt>
         <dd>Make a model object</dd>
@@ -121,6 +181,11 @@
           <code><a href="sample_stochastic_matrix.html">sample_stochastic_matrix()</a></code> 
         </dt>
         <dd>Sample a stochastic matrix</dd>
+      </dl><dl><dt>
+          
+          <code><a href="setup_aqua_trace.html">setup_aqua_trace()</a></code> 
+        </dt>
+        <dd>Setup aquatic (immature) mosquito model with trace (forced) emergence</dd>
       </dl><dl><dt>
           
           <code><a href="setup_birds_SIRS.html">setup_birds_SIRS()</a></code> 
@@ -136,6 +201,11 @@
           <code><a href="setup_humans_SIR.html">setup_humans_SIR()</a></code> 
         </dt>
         <dd>Setup humans with SIR infection model</dd>
+      </dl><dl><dt>
+          
+          <code><a href="setup_mosquito_RM.html">setup_mosquito_RM()</a></code> 
+        </dt>
+        <dd>Setup generalized Ross-Macdonald mosquito model</dd>
       </dl><dl><dt>
           
           <code><a href="step_birds.html">step_birds()</a></code> 
@@ -176,6 +246,21 @@
           <code><a href="step_humans.SIR_stochastic.html">step_humans(<i>&lt;SIR_stochastic&gt;</i>)</a></code> 
         </dt>
         <dd>Update SIR human model (stochastic)</dd>
+      </dl><dl><dt>
+          
+          <code><a href="step_mosquitoes.RM.html">step_mosquitoes(<i>&lt;RM&gt;</i>)</a></code> 
+        </dt>
+        <dd>Update Ross-Macdonald mosquitoes</dd>
+      </dl><dl><dt>
+          
+          <code><a href="step_mosquitoes.RM_deterministic.html">step_mosquitoes(<i>&lt;RM_deterministic&gt;</i>)</a></code> 
+        </dt>
+        <dd>Update Ross-Macdonald mosquitoes (deterministic)</dd>
+      </dl><dl><dt>
+          
+          <code><a href="step_mosquitoes.RM_stochastic.html">step_mosquitoes(<i>&lt;RM_stochastic&gt;</i>)</a></code> 
+        </dt>
+        <dd>Update Ross-Macdonald mosquitoes (stochastic)</dd>
       </dl><dl><dt>
           
           <code><a href="step_mosquitoes.html">step_mosquitoes()</a></code> 

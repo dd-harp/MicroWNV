@@ -28,6 +28,18 @@
     <loc>/reference/add_clutch.trace.html</loc>
   </url>
   <url>
+    <loc>/reference/add_oviposit.html</loc>
+  </url>
+  <url>
+    <loc>/reference/add_oviposit.trace.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_B_pop.SIRS.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_B_pop.html</loc>
+  </url>
+  <url>
     <loc>/reference/compute_W.SIR.html</loc>
   </url>
   <url>
@@ -38,6 +50,18 @@
   </url>
   <url>
     <loc>/reference/compute_clutch.trace.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_emergents.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_emergents.trace.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_emergents.trace_deterministic.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_emergents.trace_stochastic.html</loc>
   </url>
   <url>
     <loc>/reference/compute_fledge.html</loc>
@@ -52,10 +76,22 @@
     <loc>/reference/compute_fledge.trace_stochastic.html</loc>
   </url>
   <url>
+    <loc>/reference/compute_oviposit.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_oviposit.trace.html</loc>
+  </url>
+  <url>
     <loc>/reference/compute_x.SIR.html</loc>
   </url>
   <url>
     <loc>/reference/compute_x.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_xB.SIRS.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_xB.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
@@ -67,6 +103,9 @@
     <loc>/reference/sample_stochastic_matrix.html</loc>
   </url>
   <url>
+    <loc>/reference/setup_aqua_trace.html</loc>
+  </url>
+  <url>
     <loc>/reference/setup_birds_SIRS.html</loc>
   </url>
   <url>
@@ -74,6 +113,9 @@
   </url>
   <url>
     <loc>/reference/setup_humans_SIR.html</loc>
+  </url>
+  <url>
+    <loc>/reference/setup_mosquito_RM.html</loc>
   </url>
   <url>
     <loc>/reference/step_birds.SIRS.html</loc>
@@ -98,6 +140,15 @@
   </url>
   <url>
     <loc>/reference/step_humans.html</loc>
+  </url>
+  <url>
+    <loc>/reference/step_mosquitoes.RM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/step_mosquitoes.RM_deterministic.html</loc>
+  </url>
+  <url>
+    <loc>/reference/step_mosquitoes.RM_stochastic.html</loc>
   </url>
   <url>
     <loc>/reference/step_mosquitoes.html</loc>
