@@ -8,7 +8,7 @@
 #' and `tmax` columns, or a matrix with `p` rows and `365` columns
 #' @param stochastic should the model update deterministically or stochastically?
 #' @export
-setup_fledge_trace <- function(model, lambda, stochastic) {
+setup_aqua_trace <- function(model, lambda, stochastic) {
   stopifnot(inherits(model, "microWNV"))
 
   tmax <- model$global$tmax
@@ -22,7 +22,7 @@ setup_fledge_trace <- function(model, lambda, stochastic) {
     if (ncol(lambda) == 365L) {
       ix <- (1:tmax) %% 365L
       ix[which(ix == 0L)] <- 365L
-      lambda_max <- lambda[, ix]
+      lambda_mat <- lambda[, ix]
     } else if (ncol(lambda) == tmax) {
       lambda_mat <- lambda
     } else {
