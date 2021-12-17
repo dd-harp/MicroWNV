@@ -182,11 +182,12 @@ step_mosquitoes.RM_stochastic <- function(model) {
   zz_deaths <- vapply(X = 1:n_patch, FUN = function(x) {
     probs <- model$mosquito$ZZ[, x] > 0 # scatter deaths across populated bins
     if (all(!probs)) {
-      rep(0, n_patch)
+      rep(0, maxEIP)
     } else {
-      rmultinom(n = 1, size = y_deaths[x], prob = probs)
+      # y_deaths - z_deaths is the amount of deaths in incubating mosquitoes
+      rmultinom(n = 1, size = y_deaths[x] - z_deaths[x], prob = probs)
     }
-  },FUN.VALUE = numeric(n_patch), USE.NAMES = FALSE)
+  }, FUN.VALUE = numeric(maxEIP), USE.NAMES = FALSE)
 
   model$mosquito$M <- model$mosquito$M - m_deaths + lambda
   model$mosquito$Y <- model$mosquito$Y - y_deaths
