@@ -7,17 +7,19 @@
 sample_stochastic_matrix(x, prob)
 }
 \arguments{
-\item{x}{a vector}
+\item{x}{a matrix}
 
-\item{prob}{a matrix, it must have number of rows equal to \code{x} and rows that sum
+\item{prob}{a matrix, it must have number of columns equal to the number of columns of \code{x} and rows that sum
 to one}
 }
 \value{
-a vector of length equal to the number of columns of \code{prob}
+a matrix whose dimensions equal the original \code{x}
 }
 \description{
-Given a vector of counts in cells, \code{x} and a matrix \code{prob}, each
-row of which describes a probability distribution of how that cell should be
-distributed among bins, sample destination bins for each cell count, and return
-a vector giving the number of counts in bins.
+\code{x} is a matrix with arbitrary number of rows but whose columns
+are equal to the number of bins that the stochastic matrix \code{prob} parameterizes
+a distribution over. Each row of \code{x} gives a distribution of counts over bins
+and is resampled according to \code{prob}. It is conceptually similar to
+"stochastically" distributing the matrix as \code{x \%*\% prob}, which gives the
+expectation.
 }

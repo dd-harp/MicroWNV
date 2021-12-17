@@ -136,7 +136,7 @@ step_birds.SIRS_stochastic <- function(model) {
 
   # get new fledglings and their dispersion
   fledglings <- compute_fledge(model)
-  fledglings <- sample_stochastic_matrix(x = fledglings, prob = model$bird$fledge_disperse)
+  fledglings <- sample_stochastic_vector(x = fledglings, prob = model$bird$fledge_disperse)
 
   # compute eggs laid
   N <- rowSums(model$bird$SIR)
