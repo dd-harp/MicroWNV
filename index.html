@@ -93,11 +93,6 @@
 <h3 id="mosquitoes">Mosquitoes<a class="anchor" aria-label="anchor" href="#mosquitoes"></a>
 </h3>
 <p>The mosquito component is responsible for all dynamics which update adult mosquito populations. The interface is defined in R/mosquito_interface.R.</p>
-<div class="section level4">
-<h4 id="ross-macdonald-rm">Ross-Macdonald (RM)<a class="anchor" aria-label="anchor" href="#ross-macdonald-rm"></a>
-</h4>
-<p>Simple model</p>
-</div>
 </div>
 <div class="section level3">
 <h3 id="aquatic">Aquatic<a class="anchor" aria-label="anchor" href="#aquatic"></a>
@@ -119,6 +114,11 @@
 </h3>
 <p>The human component updates human populations. The interface is defined in R/humans_interface.R.</p>
 </div>
+</div>
+<div class="section level2">
+<h2 id="update">Update<a class="anchor" aria-label="anchor" href="#update"></a>
+</h2>
+<p>To update the model, a function is called which gathers information from the various components to calculate rates which couple components (i.e. infection) together, which are then passed back to each individual component, and updated using the generic interface for each component.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -157,7 +157,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/dd-harp/MicroWNV/actions" class="external-link"><img src="https://github.com/dd-harp/MicroWNV/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://codecov.io/gh/dd-harp/MicroWNV" class="external-link"><img src="https://codecov.io/gh/dd-harp/MicroWNV/branch/main/graph/badge.svg" alt="codecov"></a></li>
+<li><a href="https://codecov.io/gh/dd-harp/MicroWNV" class="external-link"><img src="https://codecov.io/gh/dd-harp/MicroWNV/branch/main/graph/badge.svg?token=3IPFQEBJ5P" alt="codecov"></a></li>
 </ul>
 </div>
 
