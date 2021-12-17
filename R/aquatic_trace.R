@@ -36,7 +36,6 @@ setup_aqua_trace <- function(model, lambda, stochastic) {
   aqua_class <- c("trace")
   if (stochastic) {
     aqua_class <- c(aqua_class, "trace_stochastic")
-    storage.mode(lambda_mat) <- "integer"
   } else {
     aqua_class <- c(aqua_class, "trace_deterministic")
   }

@@ -20,7 +20,6 @@ setup_fledge_trace <- function(model, trace, stochastic) {
   fledge_class <- c("trace")
   if (stochastic) {
     fledge_class <- c(fledge_class, "trace_stochastic")
-    storage.mode(trace) <- "integer"
   } else {
     fledge_class <- c(fledge_class, "trace_deterministic")
   }
