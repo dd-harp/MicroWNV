@@ -109,4 +109,63 @@ test_that("deterministic RM step is working with pulse of infection", {
   expect_equal(mod$mosquito$Y, mod$mosquito$Z)
   expect_true(all(mod$mosquito$ZZ == 0))
 
+  # by hand
+  expect_equal((M * a) * (0.9^4), mod$mosquito$Z)
+
 })
+
+
+test_that("stochastic RM step is working with pulse of infection", {
+  tmax <- 20
+
+  a <- 0.3
+  psi <- diag(3)
+  M <- c(1e5, 5e5, 2e5)
+  Y <- c(0, 0, 0)
+  Z <- c(0, 0, 0)
+
+  mod <- make_microWNV(tmax = tmax, p = 3)
+  setup_mosquito_RM(mod, stochastic = TRUE, a = a, eip = 3, p = 0.9, psi = psi, M = M, Y = Y, Z = Z)
+  setup_aqua_trace(model = mod, lambda = c(1e1, 1e2, 1e3), stochastic = FALSE)
+
+  expect_equal(mod$mosquito$Y, Y)
+  expect_equal(mod$mosquito$Z, Z)
+
+  # time = 1
+  mod$mosquito$kappa <- rep(1, 3)
+  step_mosquitoes(model = mod)
+
+  # expect_true(all(mod$mosquito$Y > 0))
+  # expect_true(all(mod$mosquito$Z == 0))
+  # expect_true(all(mod$mosquito$ZZ[1:2, ] == 0))
+  # expect_equal(mod$mosquito$ZZ[3, ], mod$mosquito$Y)
+
+  # time = 2
+  mod$mosquito$kappa <- rep(0, 3)
+  mod$global$tnow <- 2
+  step_mosquitoes(model = mod)
+
+  # expect_true(all(mod$mosquito$Y > 0))
+  # expect_true(all(mod$mosquito$Z == 0))
+  # expect_equal(mod$mosquito$ZZ[2, ], mod$mosquito$Y)
+  # expect_true(all(mod$mosquito$ZZ[-2, ] == 0))
+
+  # time = 3
+  mod$global$tnow <- 3
+  step_mosquitoes(model = mod)
+
+  # expect_true(all(mod$mosquito$Y > 0))
+  # expect_true(all(mod$mosquito$Z == 0))
+  # expect_equal(mod$mosquito$ZZ[1, ], mod$mosquito$Y)
+  # expect_true(all(mod$mosquito$ZZ[-1, ] == 0))
+
+  # time = 4 (expect Z mosquitoes)
+  mod$global$tnow <- 4
+  step_mosquitoes(model = mod)
+
+  # expect_true(all(mod$mosquito$Y > 0))
+  # expect_equal(mod$mosquito$Y, mod$mosquito$Z)
+  # expect_true(all(mod$mosquito$ZZ == 0))
+
+})
+

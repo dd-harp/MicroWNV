@@ -125,16 +125,15 @@ step_mosquitoes.RM_deterministic <- function(model) {
   p <- model$mosquito$p[tnow]
   psi <- model$mosquito$psi
 
-  # newly emerging adults
-  lambda <- compute_emergents(model)
-  model$mosquito$M <- model$mosquito$M + lambda
-
   # newly infected mosquitoes
   Y0 <- model$mosquito$a * model$mosquito$kappa * (model$mosquito$M - model$mosquito$Y)
   Y0 <- pmax(Y0, 0)
 
+  # newly emerging adults
+  lambda <- compute_emergents(model)
+
   # survival
-  model$mosquito$M <- p * model$mosquito$M
+  model$mosquito$M <- (p * model$mosquito$M) + lambda
   model$mosquito$Y <- p * (model$mosquito$Y + Y0)
   model$mosquito$Z <- p * model$mosquito$Z
   model$mosquito$ZZ <- p * model$mosquito$ZZ
@@ -158,7 +157,7 @@ step_mosquitoes.RM_deterministic <- function(model) {
 
 #' @title Update Ross-Macdonald mosquitoes (stochastic)
 #' @inheritParams step_mosquitoes
-#' @importFrom stats rbinom
+#' @importFrom stats rbinom rmultinom
 #' @export
 step_mosquitoes.RM_stochastic <- function(model) {
 
@@ -172,31 +171,39 @@ step_mosquitoes.RM_stochastic <- function(model) {
 
   # newly emerging adults
   lambda <- compute_emergents(model)
-  model$mosquito$M <- model$mosquito$M + lambda
-
-  # newly infected mosquitoes
-  h <- model$mosquito$a * model$mosquito$kappa
-  Y0 <- rbinom(n = n_patch, size = model$mosquito$M - model$mosquito$Y, prob = h)
-
-  # survival/dispersal calculated for Y0 so that only 1 rng draw is used for each
-  Y0 <- rbinom(n = n_patch, size = Y0, prob = p)
-  Y0 <- sample_stochastic_matrix(x = Y0, prob = psi)
 
   # survival
-  model$mosquito$M <- rbinom(n = n_patch, size = model$mosquito$M, prob = p)
-  model$mosquito$Y <- rbinom(n = n_patch, size = model$mosquito$Y, prob = p)
-  model$mosquito$Z <- rbinom(n = n_patch, size = model$mosquito$Z, prob = p)
-  model$mosquito$ZZ <- matrix(
-    data = rbinom(n = prod(dim(model$mosquito$ZZ)), size = model$mosquito$ZZ, prob = p),
-    nrow = nrow(model$mosquito$ZZ), ncol = n_patch
-  )
+  m_deaths <- rbinom(n = n_patch, size = model$mosquito$M, prob = 1 - p)
+  y_deaths <- suppressWarnings(rbinom(n = n_patch, size = m_deaths, prob = model$mosquito$Y / model$mosquito$M))
+  y_deaths[is.na(y_deaths)] <- 0
+  z_deaths <- suppressWarnings(rbinom(n = n_patch, size = y_deaths, prob = model$mosquito$Z / model$mosquito$Y))
+  z_deaths[is.na(z_deaths)] <- 0
+
+  zz_deaths <- vapply(X = 1:n_patch, FUN = function(x) {
+    probs <- model$mosquito$ZZ[, x] > 0 # scatter deaths across populated bins
+    if (all(!probs)) {
+      rep(0, n_patch)
+    } else {
+      rmultinom(n = 1, size = y_deaths[x], prob = probs)
+    }
+  },FUN.VALUE = numeric(n_patch), USE.NAMES = FALSE)
+
+  model$mosquito$M <- model$mosquito$M - m_deaths + lambda
+  model$mosquito$Y <- model$mosquito$Y - y_deaths
+  model$mosquito$ZZ <- model$mosquito$ZZ - zz_deaths
+  model$mosquito$Z <- model$mosquito$Z - z_deaths + model$mosquito$ZZ[1, ]
+
+  # newly infected mosquitoes, and dispersal
+  h <- model$mosquito$a * model$mosquito$kappa
+  Y0 <- rbinom(n = n_patch, size = model$mosquito$M - model$mosquito$Y, prob = h)
+  Y0 <- sample_stochastic_matrix(x = Y0, prob = psi)
 
   # dispersal
   model$mosquito$M <- sample_stochastic_matrix(x = model$mosquito$M, prob = psi)
   model$mosquito$Y <- sample_stochastic_matrix(x = model$mosquito$Y, prob = psi)
   model$mosquito$Z <- sample_stochastic_matrix(x = model$mosquito$Z, prob = psi)
   model$mosquito$ZZ <- t(vapply(X = 1:maxEIP, FUN = function(d) {
-    sample_stochastic_matrix(x = ZZ[d, ], prob = psi)
+    sample_stochastic_matrix(x = model$mosquito$ZZ[d, ], prob = psi)
   }, FUN.VALUE = numeric(n_patch), USE.NAMES = FALSE))
 
   # add newly infecteds
