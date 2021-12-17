@@ -2,7 +2,10 @@
 #' @description This requires the humans to be set up prior to being called.
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @param stochastic should the model update deterministically or stochastically?
-#' @param fledge_disperse a dispersal matrix for fledglings
+#' @param fledge_disperse a dispersal matrix for fledglings; this parameter is part
+#' of the adult model rather than fledgling model because the handoff of responsibility
+#' between the two occurs at the moment a fledgling leaves its nest, which is exactly
+#' the point at which they decide where to disperse as a new adult.
 #' @param theta a matrix giving time spent in each bird's home range
 #' @param SIR matrix of initial states for each patch
 #' @param mu vector of length `tmax` or a scalar value giving time varying or constant

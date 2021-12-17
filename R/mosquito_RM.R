@@ -94,6 +94,10 @@ setup_mosquito_RM <- function(model, stochastic, a, eip, p, psi, M, Y, Z) {
   model$mosquito$Z <- Z # infectious
   model$mosquito$ZZ <- matrix(data = 0, nrow = maxEIP, ncol = model$global$p) # each row is the number that will be added to the infectious state on that day
 
+  ZZ_shift <- matrix(0, nrow = maxEIP, ncol = maxEIP)
+  ZZ_shift[1:(maxEIP-1), 2:maxEIP] <- diag(maxEIP-1)
+  model$mosquito$ZZ_shift <- ZZ_shift
+
 }
 
 
@@ -136,15 +140,19 @@ step_mosquitoes.RM_deterministic <- function(model) {
   model$mosquito$ZZ <- p * model$mosquito$ZZ
 
   # dispersal
-  model$mosquito$M = psi %*% model$mosquito$M
-  model$mosquito$Y = psi %*% model$mosquito$Y
-  model$mosquito$Z = psi %*% (model$mosquito$Z + model$mosquito$ZZ[1, ])
-  model$mosquito$ZZ <- psi %*% model$mosquito$ZZ
+  model$mosquito$M = model$mosquito$M %*% psi
+  model$mosquito$Y = model$mosquito$Y %*% psi
+  model$mosquito$Z = (model$mosquito$Z + model$mosquito$ZZ[1, ]) %*% psi
+  model$mosquito$ZZ <- model$mosquito$ZZ %*% psi
 
   # ZZ[t, ] is the number of mosquitoes that become infectious in each patch t days from now.
-  model$mosquito$ZZ[1, ] <- 0
-  model$mosquito$ZZ[-maxEIP, ] <- model$mosquito$ZZ[-1, ]
+  model$mosquito$ZZ <- model$mosquito$ZZ_shift %*% model$mosquito$ZZ
   model$mosquito$ZZ[EIP, ] <- model$mosquito$ZZ[EIP, ] + (psi %*% Y0 * p)
+
+  # make vectors
+  model$mosquito$M <- as.vector(model$mosquito$M)
+  model$mosquito$Y <- as.vector(model$mosquito$Y)
+  model$mosquito$Z <- as.vector(model$mosquito$Z)
 
 }
 
@@ -195,8 +203,7 @@ step_mosquitoes.RM_stochastic <- function(model) {
   model$mosquito$Y <- model$mosquito$Y + Y0
 
   # ZZ[t, ] is the number of mosquitoes that become infectious in each patch t days from now.
-  model$mosquito$ZZ[1, ] <- 0
-  model$mosquito$ZZ[-maxEIP, ] <- model$mosquito$ZZ[-1, ]
+  model$mosquito$ZZ <- model$mosquito$ZZ_shift %*% model$mosquito$ZZ
   model$mosquito$ZZ[EIP, ] <- model$mosquito$ZZ[EIP, ] + Y0
 
 }
