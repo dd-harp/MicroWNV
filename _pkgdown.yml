@@ -9,6 +9,7 @@ reference:
 - title: Utility and global methods
   contents:
   - make_microWNV
+  - sample_stochastic_vector
   - sample_stochastic_matrix
 
 - title: Adult mosquito component
