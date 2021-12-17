@@ -23,7 +23,10 @@ setup_birds_SIRS(
 
 \item{stochastic}{should the model update deterministically or stochastically?}
 
-\item{fledge_disperse}{a dispersal matrix for fledglings}
+\item{fledge_disperse}{a dispersal matrix for fledglings; this parameter is part
+of the adult model rather than fledgling model because the handoff of responsibility
+between the two occurs at the moment a fledgling leaves its nest, which is exactly
+the point at which they decide where to disperse as a new adult.}
 
 \item{theta}{a matrix giving time spent in each bird's home range}
 
