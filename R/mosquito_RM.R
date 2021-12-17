@@ -37,7 +37,7 @@ setup_mosquito_RM <- function(model, stochastic, a, eip, p, psi, M, Y, Z) {
     stop("incorrect length of eip vector")
   }
 
-  maxEIP <- max(eip_vec) + 1L
+  maxEIP <- max(eip_vec)
 
   if (length(p) == 1L) {
     stopifnot(is.finite(p))
@@ -57,10 +57,11 @@ setup_mosquito_RM <- function(model, stochastic, a, eip, p, psi, M, Y, Z) {
     stop("incorrect length of p vector")
   }
 
-  p <- model$global$p
-  stopifnot(p >= 1)
-  stopifnot(!is.null(p))
-  stopifnot(dim(psi) == p)
+  stopifnot(p_vec <= 1)
+  stopifnot(p_vec >= 0)
+  stopifnot(!is.null(p_vec))
+
+  stopifnot(dim(psi) == model$global$p)
   stopifnot(approx_equal(a = rowSums(psi), b = 1))
 
   mosy_class <- c("RM")
@@ -77,11 +78,11 @@ setup_mosquito_RM <- function(model, stochastic, a, eip, p, psi, M, Y, Z) {
   model$mosquito$p <- p_vec
   model$mosquito$psi <- psi
 
-  model$mosquito$kappa <- rep(0, p)
+  model$mosquito$kappa <- rep(0, model$global$p)
 
-  stopifnot(length(M) == p)
-  stopifnot(length(Y) == p)
-  stopifnot(length(Z) == p)
+  stopifnot(length(M) == model$global$p)
+  stopifnot(length(Y) == model$global$p)
+  stopifnot(length(Z) == model$global$p)
   stopifnot(is.finite(M))
   stopifnot(is.finite(Y))
   stopifnot(is.finite(Z))
@@ -91,7 +92,7 @@ setup_mosquito_RM <- function(model, stochastic, a, eip, p, psi, M, Y, Z) {
   model$mosquito$M <- M # mosquito density
   model$mosquito$Y <- Y # infected (incubating)
   model$mosquito$Z <- Z # infectious
-  model$mosquito$ZZ <- matrix(data = 0, nrow = maxEIP, ncol = p) # each row is the number that will be added to the infectious state on that day
+  model$mosquito$ZZ <- matrix(data = 0, nrow = maxEIP, ncol = model$global$p) # each row is the number that will be added to the infectious state on that day
 
 }
 
@@ -110,7 +111,6 @@ step_mosquitoes.RM <- function(model) {
 
 #' @title Update Ross-Macdonald mosquitoes (deterministic)
 #' @inheritParams step_mosquitoes
-#' @importFrom stats rbinom
 #' @export
 step_mosquitoes.RM_deterministic <- function(model) {
 
@@ -150,6 +150,7 @@ step_mosquitoes.RM_deterministic <- function(model) {
 
 #' @title Update Ross-Macdonald mosquitoes (stochastic)
 #' @inheritParams step_mosquitoes
+#' @importFrom stats rbinom
 #' @export
 step_mosquitoes.RM_stochastic <- function(model) {
 

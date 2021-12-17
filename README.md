@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/dd-harp/MicroWNV/workflows/R-CMD-check/badge.svg)](https://github.com/dd-harp/MicroWNV/actions)
-[![codecov](https://codecov.io/gh/dd-harp/MicroWNV/branch/main/graph/badge.svg)](https://codecov.io/gh/dd-harp/MicroWNV)
+[![codecov](https://codecov.io/gh/dd-harp/MicroWNV/branch/main/graph/badge.svg?token=3IPFQEBJ5P)](https://codecov.io/gh/dd-harp/MicroWNV)
 <!-- badges: end -->
 
 ## Software design
@@ -35,10 +35,6 @@ to implement them.
 The mosquito component is responsible for all dynamics which update adult mosquito
 populations. The interface is defined in R/mosquito_interface.R.
 
-#### Ross-Macdonald (RM)
-
-Simple model
-
 ### Aquatic
 
 The aquatic component is responsible for all dynamics which update immature (aquatic
@@ -57,3 +53,10 @@ bird populations. The interface is defined in R/fledge_interface.R.
 ### Humans
 
 The human component updates human populations. The interface is defined in R/humans_interface.R.
+
+## Update
+
+To update the model, a function is called which gathers information from the various
+components to calculate rates which couple components (i.e. infection) together, which
+are then passed back to each individual component, and updated using the generic
+interface for each component.
