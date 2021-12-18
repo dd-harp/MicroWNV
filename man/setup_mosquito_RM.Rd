@@ -29,5 +29,7 @@ length 365, or a vector of length equal to \code{tmax} in the \code{model} objec
 \item{Z}{density of infectious mosquitoes per patch}
 }
 \description{
-This requires the birds to be set up prior to being called.
+This is a generalized RM model which allows for time varying EIP and
+survival probability. It complies with the mosquito component interface, and may
+be simulated deterministically or stochastically.
 }

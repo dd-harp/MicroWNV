@@ -9,8 +9,8 @@ setup_fledge_trace(model, trace, stochastic)
 \arguments{
 \item{model}{an object from \link{make_microWNV}}
 
-\item{trace}{either a vector of length equal to \code{p} or a matrix with \code{p} rows
-and \code{tmax} columns, vectors will be converted to the appropriate matrix internally.}
+\item{trace}{either a vector of length equal to \code{p}, a matrix with \code{p} rows
+and \code{tmax} columns, or a matrix with \code{p} rows and \code{365} columns}
 
 \item{stochastic}{should the model update deterministically or stochastically?}
 }
