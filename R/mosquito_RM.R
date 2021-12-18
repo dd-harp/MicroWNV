@@ -158,6 +158,7 @@ step_mosquitoes.RM_deterministic <- function(model) {
 #' @title Update Ross-Macdonald mosquitoes (stochastic)
 #' @inheritParams step_mosquitoes
 #' @importFrom stats rbinom rmultinom
+#' @importFrom extraDistr rmvhyper
 #' @export
 #' @export
 step_mosquitoes.RM_stochastic <- function(model) {
@@ -189,12 +190,15 @@ step_mosquitoes.RM_stochastic <- function(model) {
   zz_deaths <- vapply(X = 1:n_patch, FUN = function(x) {
     if (zz_deaths[x] > 0) {
       # scatter deaths across incubating bins (equiprobable for each bin)
-      probs <- model$mosquito$ZZ[, x] > 0
-      rmultinom(n = 1, size = zz_deaths[x], prob = probs)
+      rmvhyper(nn = 1, n = model$mosquito$ZZ[, x], k = zz_deaths[x])
+      # probs <- model$mosquito$ZZ[, x] > 0
+      # rmultinom(n = 1, size = zz_deaths[x], prob = probs)
     } else {
       rep(0, maxEIP)
     }
   }, FUN.VALUE = numeric(maxEIP), USE.NAMES = FALSE)
+
+  # if (any(zz_deaths > model$mosquito$ZZ)) {browser()}
 
   model$mosquito$ZZ <- model$mosquito$ZZ - zz_deaths
   model$mosquito$Z <- model$mosquito$Z - z_deaths

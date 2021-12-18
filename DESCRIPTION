@@ -19,9 +19,13 @@ URL: https://github.com/dd-harp/MicroWNV, https://dd-harp.github.io/MicroWNV/
 BugReports: https://github.com/dd-harp/MicroWNV/issues
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Imports:
+    extraDistr
 Suggests: 
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    ggplot2,
+    data.table
 Config/testthat/edition: 3
 VignetteBuilder: knitr
