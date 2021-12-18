@@ -3,18 +3,29 @@
 #' @title Setup fledglings with trace (forced) births
 #' @description This requires the birds to be set up prior to being called.
 #' @param model an object from [MicroWNV::make_microWNV]
-#' @param trace either a vector of length equal to `p` or a matrix with `p` rows
-#' and `tmax` columns, vectors will be converted to the appropriate matrix internally.
+#' @param trace either a vector of length equal to `p`, a matrix with `p` rows
+#' and `tmax` columns, or a matrix with `p` rows and `365` columns
 #' @param stochastic should the model update deterministically or stochastically?
 #' @export
 setup_fledge_trace <- function(model, trace, stochastic) {
   stopifnot(inherits(model, "microWNV"))
+  tmax <- model$global$tmax
+  p <- model$global$p
+
   if (inherits(trace, "matrix")) {
-    stopifnot(nrow(trace) == model$global$p)
-    stopifnot(ncol(trace) == model$global$tmax)
+    stopifnot(nrow(trace) == p)
+    if (ncol(trace) == 365L) {
+      ix <- (1:tmax) %% 365L
+      ix[which(ix == 0L)] <- 365L
+      trace_mat <- trace[, ix]
+    } else if (ncol(trace) == tmax) {
+      trace_mat <- trace
+    } else {
+      stop("incorrect dimensions of trace matrix")
+    }
   } else {
-    stopifnot(length(trace) == model$global$p)
-    trace <- replicate(n = model$global$tmax, expr = trace)
+    stopifnot(length(trace) == p)
+    trace_mat <- replicate(n = tmax, expr = trace)
   }
 
   fledge_class <- c("trace")
@@ -25,7 +36,7 @@ setup_fledge_trace <- function(model, trace, stochastic) {
   }
 
   model$fledge <- structure(list(), class = fledge_class)
-  model$fledge$trace <- trace
+  model$fledge$trace <- trace_mat
 
 }
 

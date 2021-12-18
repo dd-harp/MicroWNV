@@ -1,72 +1,151 @@
-test_that("trace fledgling model compute_fledge works (vector)", {
+test_that("trace fledgling model errors with incorrect trace", {
+  p <- 2
   tmax <- 10
-  p <- 5
-
   mod <- make_microWNV(tmax = tmax, p = p)
 
-  trace <- 10^(5:(p+4))
-  setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
-  fledge <- compute_fledge(model = mod)
+  trace <- c(10, 100, 1000)
+  expect_error(setup_fledge_trace(model = mod, trace = trace, stochastic = FALSE))
+  expect_error(setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE))
 
-  expect_true(all(abs(log10(fledge) - log10(trace)) < 0.05))
+  trace <- matrix()
+  expect_error(setup_fledge_trace(model = mod, trace = trace, stochastic = FALSE))
+  expect_error(setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE))
 
-  mod <- make_microWNV(tmax = 10, p = p)
-  p <- 5
-  mod$global$p <- p
+  trace <- matrix(rexp(100), 10, 10)
+  expect_error(setup_fledge_trace(model = mod, trace = trace, stochastic = FALSE))
+  expect_error(setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE))
+})
+
+
+test_that("test trace fledgling model with vector trace", {
+  tmax <- 10
+  p <- 2
+  trace <- c(10, 100)
+
+  # deterministic
+  mod <- make_microWNV(tmax = tmax, p = p)
   setup_fledge_trace(model = mod, trace = trace, stochastic = FALSE)
-  fledge <- compute_fledge(model = mod)
+  expect_equal(compute_fledge(model = mod), trace)
 
-  expect_equal(fledge, trace)
+  aq_before <- mod$fledge
+  compute_clutch(model = mod)
+  expect_equal(aq_before, mod$fledge)
+
+  aq_before <- mod$fledge
+  add_clutch(model = mod, eggs = c(10, 20))
+  expect_equal(aq_before, mod$fledge)
+
+  # stochastic
+  mod <- make_microWNV(tmax = tmax, p = p)
+  setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
+  trace <- compute_fledge(model = mod)
+  expect_true(trace[1] < trace[2])
+
+  aq_before <- mod$fledge
+  compute_clutch(model = mod)
+  expect_equal(aq_before, mod$fledge)
+
+  aq_before <- mod$fledge
+  add_clutch(model = mod, eggs = c(10, 20))
+  expect_equal(aq_before, mod$fledge)
+
 })
 
 
-test_that("trace fledgling model compute_fledge works (matrix)", {
-  tmax <- 5
-  p <- 5
+test_that("test trace fledgling model with 365 matrix trace, tmax < 365", {
+  tmax <- 50
+  p <- 2
+  trace <- matrix(rnorm(n = 365 * p, mean = rep(c(10, 100), each = 365), sd = rep(c(2.5, 20), each = 365)), nrow = p, ncol = 365, byrow = TRUE)
+  trace <- pmax(trace, 0)
 
+  # deterministic
   mod <- make_microWNV(tmax = tmax, p = p)
-
-  trace <- replicate(n = tmax, expr = 10^(5:(p+4)))
-  trace <- trace * matrix(rep(1:tmax, each = tmax), nrow = p, ncol = tmax)
-
-  setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
-  mod$global$tnow <- 3
-  fledge <- compute_fledge(model = mod)
-
-  expect_true(all(abs(log10(fledge) - log10(trace[, 3])) < 0.01))
-
-  mod <- make_microWNV(tmax = tmax, p = p)
-  p <- 5
-  mod$global$p <- p
   setup_fledge_trace(model = mod, trace = trace, stochastic = FALSE)
-  mod$global$tnow <- 3
-  fledge <- compute_fledge(model = mod)
 
-  expect_equal(fledge, trace[, 3])
-})
+  expect_equal(mod$fledge$trace, trace[, 1:tmax])
+  expect_equal(compute_fledge(model = mod), trace[, 1])
 
+  aq_before <- mod$fledge
+  compute_clutch(model = mod)
+  expect_equal(aq_before, mod$fledge)
 
-test_that("trace fledgling model add_clutch doesn't do anything", {
-  tmax <- 5
-  p <- 5
+  aq_before <- mod$fledge
+  add_clutch(model = mod, eggs = c(10, 20))
+  expect_equal(aq_before, mod$fledge)
 
+  # stochastic
   mod <- make_microWNV(tmax = tmax, p = p)
-
-  trace <- replicate(n = tmax, expr = 1:p)
-
   setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
 
-  fledge_before <- mod$fledge
-  add_clutch(model = mod, eggs = rep(1, p))
-  expect_equal(fledge_before, mod$fledge)
+  expect_equal(mod$fledge$trace, trace[, 1:tmax])
+  trace <- compute_fledge(model = mod)
+  expect_true(trace[1] < trace[2])
 
-  # vector
-  trace <- 1:p
+  aq_before <- mod$fledge
+  compute_clutch(model = mod)
+  expect_equal(aq_before, mod$fledge)
 
-  setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
-
-  fledge_before <- mod$fledge
-  add_clutch(model = mod, eggs = rep(1, p))
-  expect_equal(fledge_before, mod$fledge)
+  aq_before <- mod$fledge
+  add_clutch(model = mod, eggs = c(10, 20))
+  expect_equal(aq_before, mod$fledge)
 
 })
+
+
+test_that("test trace fledgling model with 365 matrix trace, tmax > 365", {
+  tmax <- 730
+  p <- 2
+  trace <- matrix(rnorm(n = 365 * p, mean = rep(c(10, 100), each = 365), sd = rep(c(2.5, 20), each = 365)), nrow = p, ncol = 365, byrow = TRUE)
+  trace <- pmax(trace, 0)
+
+  # deterministic
+  mod <- make_microWNV(tmax = tmax, p = p)
+  setup_fledge_trace(model = mod, trace = trace, stochastic = FALSE)
+
+  expect_equal(mod$fledge$trace, cbind(trace, trace))
+  expect_equal(compute_fledge(model = mod), trace[, 1])
+
+  mod$global$tnow <- 366
+  expect_equal(compute_fledge(model = mod), trace[, 1])
+
+  mod$global$tnow <- tmax
+  expect_equal(compute_fledge(model = mod), trace[, 365])
+
+  # stochastic
+  mod <- make_microWNV(tmax = tmax, p = p)
+  setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
+
+  expect_equal(mod$fledge$trace, cbind(trace, trace))
+  trace <- compute_fledge(model = mod)
+  expect_true(trace[1] < trace[2])
+
+})
+
+
+test_that("test trace fledgling model with tmax matrix trace", {
+  tmax <- 20
+  p <- 2
+  trace <- matrix(rnorm(n = 20 * p, mean = rep(c(10, 100), each = 20), sd = rep(c(2.5, 20), each = 20)), nrow = p, ncol = 20, byrow = TRUE)
+  trace <- pmax(trace, 0)
+
+  # deterministic
+  mod <- make_microWNV(tmax = tmax, p = p)
+  setup_fledge_trace(model = mod, trace = trace, stochastic = FALSE)
+
+  expect_equal(mod$fledge$trace, trace)
+  expect_equal(compute_fledge(model = mod), trace[, 1])
+
+  mod$global$tnow <- 19
+  expect_equal(compute_fledge(model = mod), trace[, 19])
+
+  # stochastic
+  mod <- make_microWNV(tmax = tmax, p = p)
+  setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
+
+  expect_equal(mod$fledge$trace, trace)
+  trace <- compute_fledge(model = mod)
+  expect_true(trace[1] < trace[2])
+
+})
+
+

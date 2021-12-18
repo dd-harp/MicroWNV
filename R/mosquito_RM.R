@@ -1,7 +1,9 @@
 # classes and methods to implement a reasonably detailed RM model of mosquitoes
 
 #' @title Setup generalized Ross-Macdonald mosquito model
-#' @description This requires the birds to be set up prior to being called.
+#' @description This is a generalized RM model which allows for time varying EIP and
+#' survival probability. It complies with the mosquito component interface, and may
+#' be simulated deterministically or stochastically.
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @param stochastic should the model update deterministically or stochastically?
 #' @param a the feeding rate on humans and birds (normally calculated as \eqn{a = fq} using
@@ -191,14 +193,10 @@ step_mosquitoes.RM_stochastic <- function(model) {
     if (zz_deaths[x] > 0) {
       # scatter deaths across incubating bins (equiprobable for each bin)
       rmvhyper(nn = 1, n = model$mosquito$ZZ[, x], k = zz_deaths[x])
-      # probs <- model$mosquito$ZZ[, x] > 0
-      # rmultinom(n = 1, size = zz_deaths[x], prob = probs)
     } else {
       rep(0, maxEIP)
     }
   }, FUN.VALUE = numeric(maxEIP), USE.NAMES = FALSE)
-
-  # if (any(zz_deaths > model$mosquito$ZZ)) {browser()}
 
   model$mosquito$ZZ <- model$mosquito$ZZ - zz_deaths
   model$mosquito$Z <- model$mosquito$Z - z_deaths
