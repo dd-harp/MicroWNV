@@ -10,5 +10,5 @@ compute_emergents(model)
 \item{model}{an object from \link{make_microWNV}}
 }
 \description{
-Compute number of newly emerging adults
+This method dispatches on the type of \code{model$aqua}
 }

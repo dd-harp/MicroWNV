@@ -15,4 +15,5 @@ a vector of length \code{p}
 \description{
 This is normally computed as the prevalence of disease in each place
 multiplied by the transmission efficiency from birds to mosquitoes.
+This method dispatches on the type of \code{model$bird}
 }

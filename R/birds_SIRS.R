@@ -1,5 +1,6 @@
 #' @title Setup birds with SIRS infection model
-#' @description This requires the humans to be set up prior to being called.
+#' @description This model interfaces with bloodmeals via the vector `model$bird$h`,
+#' giving the per-capita force of infection for birds in each patch.
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @param stochastic should the model update deterministically or stochastically?
 #' @param fledge_disperse a dispersal matrix for fledglings; this parameter is part
@@ -8,13 +9,13 @@
 #' the point at which they decide where to disperse as a new adult.
 #' @param theta a matrix giving time spent in each bird's home range
 #' @param SIR matrix of initial states for each patch
-#' @param mu vector of length `tmax` or a scalar value giving time varying or constant
-#' daily mortality rate
-#' @param wf biting weights
+#' @param mu either a scalar, a vector of length `tmax`, or a vector of length `365`
+#' giving daily mortality rates
+#' @param wf biting weights, should be a vector of length `p` or `NULL` to use `1` for all places/patches.
 #' @param b transmission efficiency (mosquitoes to birds)
 #' @param c transmission efficiency (birds to mosquitoes)
-#' @param gamma inverse of infectious duration
-#' @param r recovery rate
+#' @param gamma inverse of infectious duration (recovery rate)
+#' @param r inverse of immune duration (rate of loss of immunity)
 #' @export
 setup_birds_SIRS <- function(model, stochastic, fledge_disperse, theta, SIR, mu, wf = NULL, b = 0.55, c = 0.15, gamma = 1/5, r = 1/120) {
   stopifnot(inherits(model, "microWNV"))
@@ -23,6 +24,7 @@ setup_birds_SIRS <- function(model, stochastic, fledge_disperse, theta, SIR, mu,
   stopifnot(is.logical(stochastic))
 
   p <- model$global$p
+  tmax <- model$global$tmax
 
   stopifnot(nrow(theta) == ncol(theta))
   stopifnot(nrow(theta) == p)
@@ -32,13 +34,20 @@ setup_birds_SIRS <- function(model, stochastic, fledge_disperse, theta, SIR, mu,
   stopifnot(nrow(fledge_disperse) == p)
   stopifnot(approx_equal(rowSums(fledge_disperse), 1))
 
-  if (length(mu) > 1) {
-    stopifnot(length(mu) == model$global$tmax)
+  stopifnot(length(mu) > 0)
+  if (length(mu) == 365L) {
+    ix <- (1:tmax) %% 365L
+    ix[which(ix == 0L)] <- 365L
+    mu_vec <- mu[ix]
+  } else if (length(mu) == tmax) {
+    mu_vec <- mu
   } else {
-    mu <- rep(mu, model$global$tmax)
+    stopifnot(length(mu) == 1L)
+    mu_vec <- rep(mu, tmax)
   }
-  stopifnot(is.finite(mu))
-  stopifnot(mu >= 0)
+
+  stopifnot(is.finite(mu_vec))
+  stopifnot(mu_vec >= 0)
 
   if (is.null(colnames(SIR))) {
     colnames(SIR) <- c("S", "I", "R")
@@ -66,7 +75,7 @@ setup_birds_SIRS <- function(model, stochastic, fledge_disperse, theta, SIR, mu,
   model$bird$SIR <- SIR
 
   model$bird$h <- rep(0, p)
-  model$bird$mu <- mu
+  model$bird$mu <- mu_vec
 
   model$bird$b <- b
   model$bird$c <- c

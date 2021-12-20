@@ -14,5 +14,5 @@ a vector of length \code{n}
 }
 \description{
 In a Ross-Macdonald style transmission model, this is computed as
-\deqn{x = c X}
+\deqn{x = c X} This method dispatches on the type of \code{model$human}.
 }

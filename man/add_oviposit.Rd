@@ -12,5 +12,5 @@ add_oviposit(model, eggs)
 \item{eggs}{a vector of length \code{p} giving eggs for each place}
 }
 \description{
-Add eggs from oviposition to aquatic model
+This method dispatches on the type of \code{model$aqua}
 }

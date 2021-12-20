@@ -10,5 +10,5 @@ step_birds(model)
 \item{model}{an object from \link{make_microWNV}}
 }
 \description{
-Update bird population
+This method dispatches on the type of \code{model$bird}.
 }

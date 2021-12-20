@@ -10,5 +10,5 @@ step_fledge(model)
 \item{model}{an object from \link{make_microWNV}}
 }
 \description{
-Update fledgling populations
+This method dispatches on the type of \code{model$fledge}
 }
