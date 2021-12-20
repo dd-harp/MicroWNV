@@ -3,6 +3,7 @@
 # step (update)
 
 #' @title Update aquatic (immature) mosquito populations
+#' @description This method dispatches on the type of `model$aqua`
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @export
 step_aqua <- function(model) {
@@ -12,6 +13,7 @@ step_aqua <- function(model) {
 # get emergents
 
 #' @title Compute number of newly emerging adults
+#' @description This method dispatches on the type of `model$aqua`
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @export
 compute_emergents <- function(model) {
@@ -22,6 +24,7 @@ compute_emergents <- function(model) {
 # add oviposition
 
 #' @title Add eggs from oviposition to aquatic model
+#' @description This method dispatches on the type of `model$aqua`
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @param eggs a vector of length `p` giving eggs for each place
 #' @export
@@ -33,6 +36,7 @@ add_oviposit <- function(model, eggs) {
 # compute oviposition (eggs/patch/day)
 
 #' @title Compute number of eggs laid from oviposition for each patch
+#' @description This method dispatches on the type of `model$aqua`
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @export
 compute_oviposit <- function(model) {

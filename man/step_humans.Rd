@@ -10,5 +10,5 @@ step_humans(model)
 \item{model}{an object from \link{make_microWNV}}
 }
 \description{
-Update human population
+This method dispatches on the type of \code{model$human}.
 }

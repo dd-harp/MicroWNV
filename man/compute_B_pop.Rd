@@ -14,4 +14,5 @@ a vector of length \code{p}
 }
 \description{
 Compute the total bird population in each place
+This method dispatches on the type of \code{model$bird}
 }

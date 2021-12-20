@@ -10,5 +10,5 @@ step_aqua(model)
 \item{model}{an object from \link{make_microWNV}}
 }
 \description{
-Update aquatic (immature) mosquito populations
+This method dispatches on the type of \code{model$aqua}
 }

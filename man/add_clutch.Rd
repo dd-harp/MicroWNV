@@ -12,5 +12,5 @@ add_clutch(model, eggs)
 \item{eggs}{a vector of length \code{p} giving eggs for each place}
 }
 \description{
-Add clutch (eggs) to fledgling model
+This method dispatches on the type of \code{model$fledge}
 }

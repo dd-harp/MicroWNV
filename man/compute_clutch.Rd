@@ -12,5 +12,5 @@ compute_clutch(model, N)
 \item{N}{total number of birds in each patch}
 }
 \description{
-Compute egg clutches from birds
+This method dispatches on the type of \code{model$fledge}
 }

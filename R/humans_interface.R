@@ -3,6 +3,7 @@
 # update (step)
 
 #' @title Update human population
+#' @description This method dispatches on the type of `model$human`.
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @export
 step_humans <- function(model) {
@@ -11,7 +12,8 @@ step_humans <- function(model) {
 
 
 #' @title Compute available humans
-#' @description This is normally computed as \deqn{W = \Psi^{\intercal} \cdot w_{f} H}
+#' @description This is normally computed as \deqn{W = \Psi^{\intercal} \cdot w_{f} H}.
+#' This method dispatches on the type of `model$human`.
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @return a vector of length `p`
 #' @export
@@ -22,7 +24,7 @@ compute_W <- function(model) {
 
 #' @title Compute net infectiousness of humans
 #' @description In a Ross-Macdonald style transmission model, this is computed as
-#' \deqn{x = c X}
+#' \deqn{x = c X} This method dispatches on the type of `model$human`.
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @return a vector of length `n`
 #' @export

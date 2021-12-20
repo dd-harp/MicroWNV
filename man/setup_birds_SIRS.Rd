@@ -32,19 +32,20 @@ the point at which they decide where to disperse as a new adult.}
 
 \item{SIR}{matrix of initial states for each patch}
 
-\item{mu}{vector of length \code{tmax} or a scalar value giving time varying or constant
-daily mortality rate}
+\item{mu}{either a scalar, a vector of length \code{tmax}, or a vector of length \code{365}
+giving daily mortality rates}
 
-\item{wf}{biting weights}
+\item{wf}{biting weights, should be a vector of length \code{p} or \code{NULL} to use \code{1} for all places/patches.}
 
 \item{b}{transmission efficiency (mosquitoes to birds)}
 
 \item{c}{transmission efficiency (birds to mosquitoes)}
 
-\item{gamma}{inverse of infectious duration}
+\item{gamma}{inverse of infectious duration (recovery rate)}
 
-\item{r}{recovery rate}
+\item{r}{inverse of immune duration (rate of loss of immunity)}
 }
 \description{
-This requires the humans to be set up prior to being called.
+This model interfaces with bloodmeals via the vector \code{model$bird$h},
+giving the per-capita force of infection for birds in each patch.
 }

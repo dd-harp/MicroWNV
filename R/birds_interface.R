@@ -1,6 +1,7 @@
 # interface for birds: any model of birds must implement these functions
 
 #' @title Update bird population
+#' @description This method dispatches on the type of `model$bird`.
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @export
 step_birds <- function(model) {
@@ -10,6 +11,7 @@ step_birds <- function(model) {
 #' @title Compute net infectiousness of birds
 #' @description This is normally computed as the prevalence of disease in each place
 #' multiplied by the transmission efficiency from birds to mosquitoes.
+#' This method dispatches on the type of `model$bird`
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @return a vector of length `p`
 #' @export
@@ -19,6 +21,7 @@ compute_xB <- function(model) {
 
 #' @title Compute total bird population
 #' @description Compute the total bird population in each place
+#' This method dispatches on the type of `model$bird`
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @return a vector of length `p`
 #' @export

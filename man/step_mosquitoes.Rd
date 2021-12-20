@@ -10,5 +10,5 @@ step_mosquitoes(model)
 \item{model}{an object from \link{make_microWNV}}
 }
 \description{
-Update mosquito population
+This method dispatches on the type of \code{model$mosquito}
 }
