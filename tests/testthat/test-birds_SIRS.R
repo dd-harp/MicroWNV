@@ -1,48 +1,60 @@
-test_that("test SIRS birds constructed properly", {
-  p <- 5
-  mod <- make_microWNV(tmax = 10, p = p)
-
-  fledge_disperse <- matrix(rexp(p^2), nrow = p, ncol = p)
-  fledge_disperse <- fledge_disperse / rowSums(fledge_disperse)
-
-  theta <- fledge_disperse + rexp(p^2)
-  theta <- theta / rowSums(theta)
-
-  SIR <- matrix(data = rpois(n = p * 3, lambda = 1e4), nrow = p, ncol = 3, dimnames = list(NULL, c("S", "I", "R")))
-  mu <- 1/50
+test_that("SIRS birds model setup is working", {
+  tmax <- 20
+  p <- 3
 
   gamma <- 1/7
-  r <- 1/20
+  r <- 1/60
 
-  fledge_trace <- matrix(1, nrow = p, ncol = 10)
-
-  setup_birds_SIRS(
-    model = mod, stochastic = FALSE,
-    fledge_disperse = fledge_disperse, theta = theta,
-    SIR = SIR, mu = mu, gamma = gamma, r = r
+  fledge_disperse <- matrix(
+    c(
+      0.9, 0.05, 0.05,
+      0.05, 0.9, 0.05,
+      0.05, 0.05, 0.9
+    ), nrow = 3, ncol = 3,
+    byrow = TRUE
   )
 
+  theta <- fledge_disperse
+
+  SIR <- matrix(0, p, 3)
+  SIR[, 1] <- 10
+
+  mod <- make_microWNV(tmax = tmax, p = p)
+
+  # basic errors with scalar values for mu
+  expect_error(setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = -1, gamma = gamma, r = r))
+  expect_error(setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = numeric(0), gamma = gamma, r = r))
+  expect_error(setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = Inf, gamma = gamma, r = r))
+  expect_error(setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = NULL, gamma = gamma, r = r))
+  expect_error(setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = matrix(0, 10, 10), gamma = gamma, r = r))
+  expect_error(setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = rep(0.9, 100), gamma = gamma, r = r))
+  expect_error(setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = matrix(0), mu = 1/60, gamma = gamma, r = r))
+
+  # mu tests
+  setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = 1/365, gamma = gamma, r = r)
+  expect_equal(mod$bird$mu, rep(1/365, tmax))
+  expect_equal(unname(mod$bird$SIR), SIR)
+
+  mod <- make_microWNV(tmax = tmax, p = 3)
+  mu <- 1:365
+  setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = mu, gamma = gamma, r = r)
+  expect_equal(mod$bird$mu, 1:tmax)
+
+  mod <- make_microWNV(tmax = tmax, p = 3)
+  mu <- 1:tmax
+  setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = mu, gamma = gamma, r = r)
+  expect_equal(mod$bird$mu, 1:tmax)
+
+  # other objs
+  expect_equal(length(mod$bird$h), p)
   expect_equal(
     names(mod$bird),
-    c("fledge_disperse", "theta", "wf", "SIR", "h", "mu", "b", "c", "gamma", "r"
-    )
+    c("fledge_disperse", "theta", "wf", "SIR", "h", "mu", "b", "c", "gamma", "r")
   )
-  expect_equal(mod$bird$SIR, SIR)
-
-  # errors
-  mod <- make_microWNV(tmax = 10, p = p)
-  expect_error(
-    setup_birds_SIRS(
-      model = mod, stochastic = FALSE,
-      fledge_disperse = fledge_disperse, theta = theta,
-      SIR = matrix(0), mu = mu, gamma = gamma, r = r
-    )
-  )
-
 })
 
 
-test_that("test deterministic SIRS birds", {
+test_that("test deterministic SIRS birds step equal hand-calculation", {
   p <- 5
   tmax <- 10
   mod <- make_microWNV(tmax = tmax, p = p)
@@ -106,7 +118,7 @@ test_that("test deterministic SIRS birds", {
 
 
 
-test_that("test stochastic SIRS birds", {
+test_that("test stochastic SIRS birds step equal hand-calculation", {
   p <- 5
   tmax <- 10
 
@@ -125,7 +137,6 @@ test_that("test stochastic SIRS birds", {
   fledge_trace <- matrix(1, nrow = p, ncol = tmax)
 
   h <- sample(x = c(0.01, 0.025), size = p, replace = TRUE)
-
 
   # first calculate expectation with deterministic model
   mod <- make_microWNV(tmax = tmax, p = p)
@@ -202,4 +213,108 @@ test_that("test SIRS birds die out with no fledglings", {
 })
 
 
+test_that("deterministic SIRS bird step is working with pulse of infection", {
+  tmax <- 20
+  p <- 3
+
+  gamma <- 1/7
+  r <- 1/60
+
+  fledge_disperse <- matrix(
+    c(
+      0.9, 0.05, 0.05,
+      0.05, 0.9, 0.05,
+      0.05, 0.05, 0.9
+    ), nrow = 3, ncol = 3,
+    byrow = TRUE
+  )
+
+  theta <- fledge_disperse
+
+  SIR <- matrix(0, p, 3)
+  SIR[, 1] <- 10
+
+  mod <- make_microWNV(tmax = tmax, p = p)
+  setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = 1/365, gamma = gamma, r = r)
+  setup_fledge_trace(mod, stochastic = FALSE, trace = c(0.1, 0.1, 0.1))
+
+  expect_equal(unname(mod$bird$SIR), SIR)
+  expect_true(all(mod$bird$SIR[, 2] == 0))
+
+  # time = 1
+  mod$bird$h <- rep(qexp(p = 0.25), 3)
+  step_birds(model = mod)
+
+  expect_S <- SIR[, 1] * (1 - pexp(q = qexp(p = 0.25) + 1/365))
+  expect_S <- expect_S + rep(0.1, 3)
+
+  expect_true(all(mod$bird$SIR[, 1] < SIR[, 1]))
+  expect_equal(mod$bird$SIR[, 1], expect_S)
+  expect_true(all(mod$bird$SIR[, 2] > 0))
+  expect_true(all(mod$bird$SIR[, 3] == 0))
+
+  t1_I <- mod$bird$SIR[, 2]
+
+  # time = 2
+  mod$bird$h <- rep(0, 3)
+  mod$global$tnow <- 2
+  step_birds(model = mod)
+
+  expect_true(all(mod$bird$SIR[, 1] < SIR[, 1]))
+  expect_true(all(mod$bird$SIR[, 2] > 0))
+  expect_true(all(mod$bird$SIR[, 3] > 0))
+  expect_true(all(t1_I > mod$bird$SIR[, 2]))
+
+})
+
+
+test_that("stochastic SIRS bird step is working with pulse of infection", {
+  tmax <- 20
+  p <- 3
+
+  gamma <- 1/7
+  r <- 1/60
+
+  fledge_disperse <- matrix(
+    c(
+      0.9, 0.05, 0.05,
+      0.05, 0.9, 0.05,
+      0.05, 0.05, 0.9
+    ), nrow = 3, ncol = 3,
+    byrow = TRUE
+  )
+
+  theta <- fledge_disperse
+
+  SIR <- matrix(0, p, 3)
+  SIR[, 1] <- 1e3
+
+  mod <- make_microWNV(tmax = tmax, p = p)
+  setup_birds_SIRS(mod, stochastic = TRUE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = 1/365, gamma = gamma, r = r)
+  setup_fledge_trace(mod, stochastic = FALSE, trace = rep(1, 3))
+
+  expect_equal(unname(mod$bird$SIR), SIR)
+  expect_true(all(mod$bird$SIR[, 2] == 0))
+
+  # time = 1
+  mod$bird$h <- rep(qexp(p = 0.25), 3)
+  step_birds(model = mod)
+
+  expect_true(all(mod$bird$SIR[, 1] < SIR[, 1]))
+  expect_true(all(mod$bird$SIR[, 2] > 0))
+  expect_true(all(mod$bird$SIR[, 3] == 0))
+
+  t1_I <- mod$bird$SIR[, 2]
+
+  # time = 2
+  mod$bird$h <- rep(0, 3)
+  mod$global$tnow <- 2
+  step_birds(model = mod)
+
+  expect_true(all(mod$bird$SIR[, 1] < SIR[, 1]))
+  expect_true(all(mod$bird$SIR[, 2] > 0))
+  expect_true(all(mod$bird$SIR[, 3] > 0))
+  expect_true(all(t1_I > mod$bird$SIR[, 2]))
+
+})
 
