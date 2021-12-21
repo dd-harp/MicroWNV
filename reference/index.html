@@ -75,6 +75,22 @@
         </dt>
         <dd>Sample a stochastic matrix</dd>
       </dl></div><div class="section level2">
+      <h2 id="bloodmeal">Bloodmeal<a class="anchor" aria-label="anchor" href="#bloodmeal"></a></h2>
+      
+      <p class="section-desc"></p><p>The bloodmeal function computes bites taken by mosquitoes on hosts relevant for pathogen transmission between species over a time step. After it is computed, the various components can be updated independently.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="compute_bloodmeal.html">compute_bloodmeal()</a></code> 
+        </dt>
+        <dd>Compute bloodmeals taken by mosquitoes on hosts</dd>
+      </dl></div><div class="section level2">
       <h2 id="adult-mosquito-component">Adult mosquito component<a class="anchor" aria-label="anchor" href="#adult-mosquito-component"></a></h2>
       
       <p class="section-desc"></p><p>The adult mosquito component is responsible for updating mosquito populations of the adult (flying) life stage, and handling pathogen dynamics in adult populations. Any model of adult mosquitoes in MicroWNV is required to implement the following interface methods.</p>
@@ -224,6 +240,11 @@
           <code><a href="compute_B_pop.html">compute_B_pop()</a></code> 
         </dt>
         <dd>Compute total bird population</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_WB.html">compute_WB()</a></code> 
+        </dt>
+        <dd>Compute available birds</dd>
       </dl></div><div class="section level2">
       
       <h3 id="sirs-adult-bird-model">SIRS adult bird model<a class="anchor" aria-label="anchor" href="#sirs-adult-bird-model"></a></h3>
@@ -265,6 +286,11 @@
           <code><a href="compute_B_pop.SIRS.html">compute_B_pop(<i>&lt;SIRS&gt;</i>)</a></code> 
         </dt>
         <dd>Compute total SIRS bird population</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_WB.SIRS.html">compute_WB(<i>&lt;SIRS&gt;</i>)</a></code> 
+        </dt>
+        <dd>Compute available SIRS bird population</dd>
       </dl></div><div class="section level2">
       <h2 id="fledgling-immature-bird-component">Fledgling (immature) bird component<a class="anchor" aria-label="anchor" href="#fledgling-immature-bird-component"></a></h2>
       
