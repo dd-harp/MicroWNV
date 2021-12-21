@@ -75,6 +75,7 @@ reference:
   - step_birds
   - compute_xB
   - compute_B_pop
+  - compute_WB
 
 - subtitle: SIRS adult bird model
   desc: >
@@ -87,6 +88,7 @@ reference:
   - step_birds.SIRS_stochastic
   - compute_xB.SIRS
   - compute_B_pop.SIRS
+  - compute_WB.SIRS
 
 - title: Fledgling (immature) bird component
 
