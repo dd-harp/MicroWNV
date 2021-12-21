@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 library(MicroWNV)
 library(ggplot2)
 library(data.table)
+library(parallel)
 ```
 
 One of the mainstays of mosquito-borne pathogen transmission modeling is the Ross-Macdonald (RM) model and
@@ -165,7 +166,7 @@ ggplot(det_out) +
 Now we run 10 stochastic simulations, using the same parameters.
 
 ```{r, fig.width=10, fig.height=8}
-sto_out <- lapply(X = 1:10, FUN = function(runid) {
+sto_out <- mclapply(X = 1:10, FUN = function(runid) {
   
   mod <- make_microWNV(tmax = tmax, p = 3)
   setup_mosquito_RM(mod, stochastic = TRUE, a = a, eip = EIP, p = psurv, psi = psi, M = M, Y = Y, Z = Z)
