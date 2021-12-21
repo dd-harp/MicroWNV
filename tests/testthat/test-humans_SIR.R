@@ -29,7 +29,7 @@ test_that("human object setup is working", {
 
 test_that("deterministic updates of human SIR model work", {
 
-  tmax <- 1e3
+  tmax <- 1e2
   n <- 3
   p <- 3
 
@@ -63,9 +63,61 @@ test_that("deterministic updates of human SIR model work", {
 })
 
 
+test_that("deterministic updates of human SIR model work with pulsed h", {
+
+  tmax <- 1e2
+  n <- 3
+  p <- 3
+
+  mod <- make_microWNV(tmax = tmax, p = p)
+
+  b <- 0.55
+  c <- 0.15
+  gamma <- 1/5
+
+  theta <- matrix(rexp(9), n, p)
+  theta <- theta / rowSums(theta)
+  wf <- rep(1, 3)
+  H <- c(100, 80, 50)
+  SIR <- matrix(
+    c(85, 5, 10,
+      70, 5, 5,
+      25, 10, 15),
+    nrow = n, ncol = 3, byrow = TRUE
+  )
+
+  setup_humans_SIR(model = mod, stochastic = FALSE, theta = theta, wf = wf, H = H, SIR = SIR, b = b, c = c, gamma = gamma)
+
+  mod$human$h <- rep(qexp(p = 0.25), n)
+  step_humans(model = mod)
+
+  expect_true(all(mod$human$SIR[, 1] < SIR[, 1]))
+  expect_true(all(mod$human$SIR[, 2] > SIR[, 2]))
+  expect_true(all(mod$human$SIR[, 3] > SIR[, 3]))
+
+  mod$global$tnow <- mod$global$tnow + 1L
+  prev_I <- mod$human$SIR[, "I"]
+
+  mod$human$h <- rep(0, n)
+  for (i in 2:tmax) {
+    step_humans(model = mod)
+    expect_true(all(mod$human$SIR[, "I"] < prev_I))
+    mod$global$tnow <- mod$global$tnow + 1L
+    prev_I <- mod$human$SIR[, "I"]
+  }
+
+  expect_equal(mod$human$SIR[, 1], SIR[, 1] * (1 - 0.25))
+  expect_true(all(mod$human$SIR[, 2] >= 0))
+  expect_true(all(mod$human$SIR[, 3] >= 0))
+  expect_true(all(mod$human$SIR[, 3] > mod$human$SIR[, 2]))
+  expect_equal(sum(SIR), sum(mod$human$SIR))
+
+})
+
+
 test_that("stochastic updates of human SIR model work", {
 
-  tmax <- 1e3
+  tmax <- 1e2
   n <- 3
   p <- 3
 
@@ -93,8 +145,58 @@ test_that("stochastic updates of human SIR model work", {
     mod$global$tnow <- mod$global$tnow + 1L
   }
 
-  expect_equal(mod$human$SIR[, 3], rowSums(SIR[, 2:3]))
   expect_equal(mod$human$SIR[, 1], SIR[, 1])
-  expect_true(all(mod$human$SIR[, 2] >= 0))
+  expect_true(all(mod$human$SIR[, 2] == 0))
+  expect_equal(mod$human$SIR[, 3], rowSums(SIR[, 2:3]))
 })
 
+
+test_that("stochastic updates of human SIR model work with pulsed h", {
+
+  tmax <- 1e2
+  n <- 3
+  p <- 3
+
+  mod <- make_microWNV(tmax = tmax, p = p)
+
+  b <- 0.55
+  c <- 0.15
+  gamma <- 1/5
+
+  theta <- matrix(rexp(9), n, p)
+  theta <- theta / rowSums(theta)
+  wf <- rep(1, 3)
+  H <- c(100, 80, 50)
+  SIR <- matrix(
+    c(85, 5, 10,
+      70, 5, 5,
+      25, 10, 15),
+    nrow = n, ncol = 3, byrow = TRUE
+  )
+
+  setup_humans_SIR(model = mod, stochastic = TRUE, theta = theta, wf = wf, H = H, SIR = SIR, b = b, c = c, gamma = gamma)
+
+  mod$human$h <- rep(qexp(p = 0.25), n)
+  step_humans(model = mod)
+
+  expect_true(all(mod$human$SIR[, 1] <= SIR[, 1]))
+  expect_true(all(mod$human$SIR[, 2] >= SIR[, 2]))
+  expect_true(all(mod$human$SIR[, 3] >= SIR[, 3]))
+
+  mod$global$tnow <- mod$global$tnow + 1L
+  prev_I <- mod$human$SIR[, "I"]
+
+  mod$human$h <- rep(0, n)
+  for (i in 2:tmax) {
+    step_humans(model = mod)
+    expect_true(all(mod$human$SIR[, "I"] <= prev_I))
+    mod$global$tnow <- mod$global$tnow + 1L
+    prev_I <- mod$human$SIR[, "I"]
+  }
+
+  expect_true(all(mod$human$SIR[, 2] >= 0))
+  expect_true(all(mod$human$SIR[, 3] >= 0))
+  expect_true(all(mod$human$SIR[, 3] > mod$human$SIR[, 2]))
+  expect_equal(sum(SIR), sum(mod$human$SIR))
+
+})
