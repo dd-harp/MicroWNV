@@ -12,6 +12,14 @@ reference:
   - sample_stochastic_vector
   - sample_stochastic_matrix
 
+- title: Bloodmeal
+  desc: >
+    The bloodmeal function computes bites taken by mosquitoes on hosts relevant
+    for pathogen transmission between species over a time step. After it is computed, the various
+    components can be updated independently.
+  contents:
+  - compute_bloodmeal
+
 - title: Adult mosquito component
 
   desc: >
@@ -67,6 +75,7 @@ reference:
   - step_birds
   - compute_xB
   - compute_B_pop
+  - compute_WB
 
 - subtitle: SIRS adult bird model
   desc: >
@@ -79,6 +88,7 @@ reference:
   - step_birds.SIRS_stochastic
   - compute_xB.SIRS
   - compute_B_pop.SIRS
+  - compute_WB.SIRS
 
 - title: Fledgling (immature) bird component
 

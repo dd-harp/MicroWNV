@@ -54,6 +54,50 @@ test_that("SIRS birds model setup is working", {
 })
 
 
+test_that("SIRS birds interface is working", {
+  tmax <- 20
+  p <- 3
+
+  gamma <- 1/7
+  r <- 1/60
+
+  fledge_disperse <- matrix(
+    c(
+      0.9, 0.05, 0.05,
+      0.05, 0.9, 0.05,
+      0.05, 0.05, 0.9
+    ), nrow = 3, ncol = 3,
+    byrow = TRUE
+  )
+
+  theta <- matrix(
+    c(
+      0.9, 0.025, 0.075,
+      0.01, 0.9, 0.09,
+      0.04, 0.06, 0.9
+    ), nrow = 3, ncol = 3,
+    byrow = TRUE
+  )
+
+  SIR <- matrix(0, p, 3)
+  SIR[, 1] <- c(80, 90, 95)
+  SIR[, 2] <- c(10, 5, 1)
+  SIR[, 3] <- c(10, 5, 4)
+
+  mod <- make_microWNV(tmax = tmax, p = p)
+  setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = 1/365, gamma = gamma, r = r)
+
+  WB_manual <- (rep(1, 3) * rowSums(SIR)) %*% theta
+  xB_manual <- SIR[, 2] / rowSums(SIR) * mod$bird$c
+
+  expect_equal(compute_xB(mod), xB_manual)
+  expect_equal(sum(sum(WB_manual)), sum(SIR))
+  expect_equal(compute_WB(mod), WB_manual)
+  expect_equal(compute_B_pop(mod), rowSums(SIR))
+
+})
+
+
 test_that("test deterministic SIRS birds step equal hand-calculation", {
   p <- 5
   tmax <- 10

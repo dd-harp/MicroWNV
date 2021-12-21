@@ -28,3 +28,14 @@ compute_xB <- function(model) {
 compute_B_pop <- function(model) {
   UseMethod("compute_B_pop", model$bird)
 }
+
+
+#' @title Compute available birds
+#' @description Compute the bird population in each place weighted by home range
+#' and biting weight. This method dispatches on the type of `model$bird`.
+#' @param model an object from [MicroWNV::make_microWNV]
+#' @return a vector of length `p`
+#' @export
+compute_WB <- function(model) {
+  UseMethod("compute_WB", model$bird)
+}

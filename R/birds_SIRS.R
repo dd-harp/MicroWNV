@@ -194,3 +194,15 @@ compute_xB.SIRS <- function(model) {
 compute_B_pop.SIRS <- function(model) {
   return(rowSums(model$bird$SIR))
 }
+
+
+# compute available birds
+
+#' @title Compute available SIRS bird population
+#' @inheritParams compute_WB
+#' @export
+compute_WB.SIRS <- function(model) {
+  theta <- model$bird$theta
+  WB <- (model$bird$wf * rowSums(model$bird$SIR)) %*% theta
+  return(WB)
+}
