@@ -62,7 +62,7 @@ be simulated deterministically or stochastically.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">setup_mosquito_RM</span><span class="op">(</span><span class="va">model</span>, <span class="va">stochastic</span>, <span class="va">a</span>, <span class="va">eip</span>, <span class="va">p</span>, <span class="va">psi</span>, <span class="va">M</span>, <span class="va">Y</span>, <span class="va">Z</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">setup_mosquito_RM</span><span class="op">(</span><span class="va">model</span>, <span class="va">stochastic</span>, <span class="va">f</span>, <span class="va">q</span>, <span class="va">eip</span>, <span class="va">p</span>, <span class="va">psi</span>, <span class="va">M</span>, <span class="va">Y</span>, <span class="va">Z</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -71,9 +71,10 @@ be simulated deterministically or stochastically.</p>
 <dd><p>an object from <a href="make_microWNV.html">make_microWNV</a></p></dd>
 <dt>stochastic</dt>
 <dd><p>should the model update deterministically or stochastically?</p></dd>
-<dt>a</dt>
-<dd><p>the feeding rate on humans and birds (normally calculated as \(a = fq\) using
-Ross-Macdonald parameters)</p></dd>
+<dt>f</dt>
+<dd><p>the blood feeding rate</p></dd>
+<dt>q</dt>
+<dd><p>the human blood feeding fraction</p></dd>
 <dt>eip</dt>
 <dd><p>the Extrinsic Incubation Period, may either be a scalar, a vector of
 length 365, or a vector of length equal to <code>tmax</code> in the <code>model</code> object from <a href="make_microWNV.html">make_microWNV</a></p></dd>
@@ -83,11 +84,11 @@ length 365, or a vector of length equal to <code>tmax</code> in the <code>model<
 <dt>psi</dt>
 <dd><p>a mosquito dispersal matrix (rows must sum to 1)</p></dd>
 <dt>M</dt>
-<dd><p>total mosquito density per patch</p></dd>
+<dd><p>total mosquito density per patch (vector of length <code>p</code>)</p></dd>
 <dt>Y</dt>
-<dd><p>density of incubating mosquitoes per patch</p></dd>
+<dd><p>density of incubating mosquitoes per patch (vector of length <code>p</code>)</p></dd>
 <dt>Z</dt>
-<dd><p>density of infectious mosquitoes per patch</p></dd>
+<dd><p>density of infectious mosquitoes per patch (vector of length <code>p</code>)</p></dd>
 </dl></div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

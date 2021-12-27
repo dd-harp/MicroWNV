@@ -58,6 +58,12 @@
     <loc>/reference/compute_WB.html</loc>
   </url>
   <url>
+    <loc>/reference/compute_Z.RM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_Z.html</loc>
+  </url>
+  <url>
     <loc>/reference/compute_bloodmeal.html</loc>
   </url>
   <url>
@@ -79,6 +85,12 @@
     <loc>/reference/compute_emergents.trace_stochastic.html</loc>
   </url>
   <url>
+    <loc>/reference/compute_f.RM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_f.html</loc>
+  </url>
+  <url>
     <loc>/reference/compute_fledge.html</loc>
   </url>
   <url>
@@ -95,6 +107,12 @@
   </url>
   <url>
     <loc>/reference/compute_oviposit.trace.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_q.RM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_q.html</loc>
   </url>
   <url>
     <loc>/reference/compute_x.SIR.html</loc>
