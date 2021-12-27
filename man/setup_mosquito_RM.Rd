@@ -4,15 +4,16 @@
 \alias{setup_mosquito_RM}
 \title{Setup generalized Ross-Macdonald mosquito model}
 \usage{
-setup_mosquito_RM(model, stochastic, a, eip, p, psi, M, Y, Z)
+setup_mosquito_RM(model, stochastic, f, q, eip, p, psi, M, Y, Z)
 }
 \arguments{
 \item{model}{an object from \link{make_microWNV}}
 
 \item{stochastic}{should the model update deterministically or stochastically?}
 
-\item{a}{the feeding rate on humans and birds (normally calculated as \eqn{a = fq} using
-Ross-Macdonald parameters)}
+\item{f}{the blood feeding rate}
+
+\item{q}{the human blood feeding fraction}
 
 \item{eip}{the Extrinsic Incubation Period, may either be a scalar, a vector of
 length 365, or a vector of length equal to \code{tmax} in the \code{model} object from \link{make_microWNV}}
@@ -22,11 +23,11 @@ length 365, or a vector of length equal to \code{tmax} in the \code{model} objec
 
 \item{psi}{a mosquito dispersal matrix (rows must sum to 1)}
 
-\item{M}{total mosquito density per patch}
+\item{M}{total mosquito density per patch (vector of length \code{p})}
 
-\item{Y}{density of incubating mosquitoes per patch}
+\item{Y}{density of incubating mosquitoes per patch (vector of length \code{p})}
 
-\item{Z}{density of infectious mosquitoes per patch}
+\item{Z}{density of infectious mosquitoes per patch (vector of length \code{p})}
 }
 \description{
 This is a generalized RM model which allows for time varying EIP and

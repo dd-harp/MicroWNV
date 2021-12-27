@@ -25,7 +25,11 @@ setup_fledge_trace <- function(model, trace, stochastic) {
     }
   } else {
     stopifnot(length(trace) == p)
-    trace_mat <- replicate(n = tmax, expr = trace)
+    if (p > 1) {
+      trace_mat <- replicate(n = tmax, expr = trace)
+    } else {
+      trace_mat <- matrix(data = trace, nrow = 1, ncol = tmax)
+    }
   }
 
   fledge_class <- c("trace")

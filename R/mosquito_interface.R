@@ -7,3 +7,34 @@
 step_mosquitoes <- function(model) {
   UseMethod("step_mosquitoes", model$mosquito)
 }
+
+#' @title Compute mosquito feeding rate (\eqn{f})
+#' @description This method dispatches on the type of `model$mosquito`
+#' @param model an object from [MicroWNV::make_microWNV]
+#' @param B a vector of length `p` giving total blood host availability by patch
+#' @return a vector of length `p`
+#' @export
+compute_f <- function(model, B) {
+  UseMethod("compute_f", model$mosquito)
+}
+
+#' @title Compute human blood feeding fraction (\eqn{q})
+#' @description This method dispatches on the type of `model$mosquito`
+#' @param model an object from [MicroWNV::make_microWNV]
+#' @param W a vector of length `p` giving human availability by patch (\eqn{W})
+#' @param Wd a vector of length `p` giving visitor availability by patch (\eqn{W_{\delta}})
+#' @param B a vector of length `p` giving total blood host availability by patch (\eqn{B})
+#' @return a vector of length `p`
+#' @export
+compute_q <- function(model, W, Wd, B) {
+  UseMethod("compute_q", model$mosquito)
+}
+
+#' @title Compute density of infective mosquitoes (\eqn{Z})
+#' @description This method dispatches on the type of `model$mosquito`
+#' @param model an object from [MicroWNV::make_microWNV]
+#' @return a vector of length `p`
+#' @export
+compute_Z <- function(model) {
+  UseMethod("compute_Z", model$mosquito)
+}
