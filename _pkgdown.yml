@@ -29,6 +29,9 @@ reference:
     implement the following interface methods.
   contents:
   - step_mosquitoes
+  - compute_Z
+  - compute_f
+  - compute_q
 
 - subtitle: Ross-Macdonald (RM) mosquito model
   desc: This model implements the generalized RM mosquito model.
@@ -37,6 +40,9 @@ reference:
   - step_mosquitoes.RM
   - step_mosquitoes.RM_deterministic
   - step_mosquitoes.RM_stochastic
+  - compute_Z.RM
+  - compute_f.RM
+  - compute_q.RM
 
 - title: Aquatic (immature) mosquito component
 
