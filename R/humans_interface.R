@@ -11,7 +11,7 @@ step_humans <- function(model) {
 }
 
 
-#' @title Compute available humans
+#' @title Compute available humans (\eqn{W})
 #' @description This is normally computed as \deqn{W = \Psi^{\intercal} \cdot w_{f} H}.
 #' This method dispatches on the type of `model$human`.
 #' @param model an object from [MicroWNV::make_microWNV]
@@ -21,8 +21,16 @@ compute_W <- function(model) {
   UseMethod("compute_W", model$human)
 }
 
+#' @title Compute human biting weights (\eqn{w_{f}})
+#' @description This method dispatches on the type of `model$human`.
+#' @param model an object from [MicroWNV::make_microWNV]
+#' @return a vector of length `n`
+#' @export
+compute_wf <- function(model) {
+  UseMethod("compute_wf", model$human)
+}
 
-#' @title Compute net infectiousness of humans
+#' @title Compute net infectiousness of humans (\eqn{x})
 #' @description In a Ross-Macdonald style transmission model, this is computed as
 #' \deqn{x = c X} This method dispatches on the type of `model$human`.
 #' @param model an object from [MicroWNV::make_microWNV]
@@ -30,4 +38,23 @@ compute_W <- function(model) {
 #' @export
 compute_x <- function(model) {
   UseMethod("compute_x", model$human)
+}
+
+#' @title Compute human population strata sizes (\eqn{H})
+#' @description This method dispatches on the type of `model$human`.
+#' @param model an object from [MicroWNV::make_microWNV]
+#' @return a vector of length `n`
+#' @export
+compute_H <- function(model) {
+  UseMethod("compute_H", model$human)
+}
+
+
+#' @title Compute time at risk matrix (\eqn{\Psi})
+#' @description The time at risk matrix is \eqn{\Psi = \Theta \xi} This method dispatches on the type of `model$human`.
+#' @param model an object from [MicroWNV::make_microWNV]
+#' @return a matrix with `n` rows and `p` columns
+#' @export
+compute_Psi <- function(model) {
+  UseMethod("compute_Psi", model$human)
 }

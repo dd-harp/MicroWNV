@@ -117,20 +117,41 @@ step_humans.SIR_stochastic <- function(model) {
 }
 
 
-#' @title Compute available humans for SIR model
+#' @title Compute available humans for SIR model (\eqn{W})
 #' @inheritParams compute_W
 #' @export
 compute_W.SIR <- function(model) {
   Psi <- model$human$theta
   W <- t(Psi) %*% (model$human$wf * model$human$H)
-  return(W)
+  return(as.vector(W))
 }
 
-#' @title Compute net infectiousness for SIR model
+#' @title Compute human biting weights for SIR model (\eqn{w_{f}})
+#' @inheritParams compute_wf
+#' @export
+compute_wf.SIR <- function(model) {
+  model$human$wf
+}
+
+#' @title Compute net infectiousness for SIR model (\eqn{x})
 #' @inheritParams compute_x
 #' @export
 compute_x.SIR <- function(model) {
   X <- model$human$SIR[, "I"] / model$human$H
-  return(X * model$human$c)
+  return(as.vector(X * model$human$c))
 }
 
+#' @title Compute human population strata sizes for SIR model (\eqn{H})
+#' @inheritParams compute_H
+#' @export
+compute_H.SIR <- function(model) {
+  model$human$H
+}
+
+
+#' @title Compute time at risk matrix for SIR model (\eqn{\Psi})
+#' @inheritParams compute_Psi
+#' @export
+compute_Psi.SIR <- function(model) {
+  model$human$theta
+}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/humans_SIR.R
 \name{compute_x.SIR}
 \alias{compute_x.SIR}
-\title{Compute net infectiousness for SIR model}
+\title{Compute net infectiousness for SIR model (\eqn{x})}
 \usage{
 \method{compute_x}{SIR}(model)
 }
@@ -10,5 +10,5 @@
 \item{model}{an object from \link{make_microWNV}}
 }
 \description{
-Compute net infectiousness for SIR model
+Compute net infectiousness for SIR model (\eqn{x})
 }

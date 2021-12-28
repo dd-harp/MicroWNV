@@ -22,8 +22,12 @@ test_that("human object setup is working", {
   )
 
   setup_humans_SIR(model = mod, stochastic = FALSE, theta = theta, wf = wf, H = H, SIR = SIR, b = b, c = c, gamma = gamma)
-  expect_equal(compute_W(mod), t(theta) %*% (wf * H))
+  expect_equal(compute_W(mod), as.vector(t(theta) %*% (wf * H)))
+  expect_equal(compute_wf(mod), rep(1, p))
   expect_equal(compute_x(mod), (SIR[, 2] / H) * c)
+  expect_equal(compute_H(mod), H)
+  expect_equal(compute_Psi(mod), theta)
+
 })
 
 
@@ -176,7 +180,7 @@ test_that("stochastic updates of human SIR model work with pulsed h", {
 
   setup_humans_SIR(model = mod, stochastic = TRUE, theta = theta, wf = wf, H = H, SIR = SIR, b = b, c = c, gamma = gamma)
 
-  mod$human$h <- rep(qexp(p = 0.25), n)
+  mod$human$h <- rep(qexp(p = 0.5), n)
   step_humans(model = mod)
 
   expect_true(all(mod$human$SIR[, 1] <= SIR[, 1]))

@@ -2,7 +2,7 @@
 % Please edit documentation in R/birds_SIRS.R
 \name{compute_xB.SIRS}
 \alias{compute_xB.SIRS}
-\title{Compute net infectiousness of SIRS birds}
+\title{Compute net infectiousness of SIRS birds (\eqn{x_{B}})}
 \usage{
 \method{compute_xB}{SIRS}(model)
 }
@@ -10,5 +10,5 @@
 \item{model}{an object from \link{make_microWNV}}
 }
 \description{
-Compute net infectiousness of SIRS birds
+Compute net infectiousness of SIRS birds (\eqn{x_{B}})
 }

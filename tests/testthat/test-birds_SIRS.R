@@ -51,6 +51,12 @@ test_that("SIRS birds model setup is working", {
     names(mod$bird),
     c("fledge_disperse", "theta", "wf", "SIR", "h", "mu", "b", "c", "gamma", "r")
   )
+  expect_equal(compute_WB(mod), as.vector(theta %*% rowSums(SIR)))
+  expect_equal(compute_wfB(mod), rep(1, p))
+  expect_equal(compute_xB(mod), rep(0, p))
+  expect_equal(compute_B_pop(mod), rowSums(SIR))
+  expect_equal(compute_PsiB(mod), theta)
+
 })
 
 
@@ -92,7 +98,7 @@ test_that("SIRS birds interface is working", {
 
   expect_equal(compute_xB(mod), xB_manual)
   expect_equal(sum(sum(WB_manual)), sum(SIR))
-  expect_equal(compute_WB(mod), WB_manual)
+  expect_equal(compute_WB(mod), as.vector(WB_manual))
   expect_equal(compute_B_pop(mod), rowSums(SIR))
 
 })

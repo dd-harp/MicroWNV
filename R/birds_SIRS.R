@@ -175,34 +175,50 @@ step_birds.SIRS_stochastic <- function(model) {
 }
 
 
+# compute available birds
+
+#' @title Compute available SIRS bird population (\eqn{W_{B}})
+#' @inheritParams compute_WB
+#' @export
+compute_WB.SIRS <- function(model) {
+  theta <- model$bird$theta
+  WB <- (model$bird$wf * rowSums(model$bird$SIR)) %*% theta
+  return(as.vector(WB))
+}
+
+# compute bird biting weights
+
+#' @title Compute bird biting weights of SIRS birds (\eqn{w_{f_{B}}})
+#' @inheritParams compute_wfB
+#' @export
+compute_wfB.SIRS <- function(model) {
+  model$bird$wf
+}
+
 # compute net infectiousness of birds
 
-#' @title Compute net infectiousness of SIRS birds
+#' @title Compute net infectiousness of SIRS birds (\eqn{x_{B}})
 #' @inheritParams compute_xB
 #' @export
 compute_xB.SIRS <- function(model) {
   XB <- model$bird$SIR[, "I"] / rowSums(model$bird$SIR)
-  return(XB * model$bird$c)
+  return(as.vector(XB * model$bird$c))
 }
-
 
 # compute total bird population
 
-#' @title Compute total SIRS bird population
+#' @title Compute total SIRS bird population (\eqn{B_{pop}})
 #' @inheritParams compute_B_pop
 #' @export
 compute_B_pop.SIRS <- function(model) {
   return(rowSums(model$bird$SIR))
 }
 
+# home range matrix
 
-# compute available birds
-
-#' @title Compute available SIRS bird population
-#' @inheritParams compute_WB
+#' @title Compute SIRS bird time at risk matrix (\eqn{\Psi})
+#' @inheritParams compute_PsiB
 #' @export
-compute_WB.SIRS <- function(model) {
-  theta <- model$bird$theta
-  WB <- (model$bird$wf * rowSums(model$bird$SIR)) %*% theta
-  return(WB)
+compute_PsiB.SIRS <- function(model) {
+  model$bird$theta
 }
