@@ -2,7 +2,7 @@
 % Please edit documentation in R/humans_SIR.R
 \name{compute_W.SIR}
 \alias{compute_W.SIR}
-\title{Compute available humans for SIR model}
+\title{Compute available humans for SIR model (\eqn{W})}
 \usage{
 \method{compute_W}{SIR}(model)
 }
@@ -10,5 +10,5 @@
 \item{model}{an object from \link{make_microWNV}}
 }
 \description{
-Compute available humans for SIR model
+Compute available humans for SIR model (\eqn{W})
 }

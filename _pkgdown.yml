@@ -79,9 +79,11 @@ reference:
     implement the following interface methods.
   contents:
   - step_birds
+  - compute_WB
+  - compute_wfB
   - compute_xB
   - compute_B_pop
-  - compute_WB
+  - compute_PsiB
 
 - subtitle: SIRS adult bird model
   desc: >
@@ -92,9 +94,11 @@ reference:
   - step_birds.SIRS
   - step_birds.SIRS_deterministic
   - step_birds.SIRS_stochastic
+  - compute_WB.SIRS
+  - compute_wfB.SIRS
   - compute_xB.SIRS
   - compute_B_pop.SIRS
-  - compute_WB.SIRS
+  - compute_PsiB.SIRS
 
 - title: Fledgling (immature) bird component
 
@@ -132,7 +136,10 @@ reference:
   contents:
   - step_humans
   - compute_W
+  - compute_wf
   - compute_x
+  - compute_H
+  - compute_Psi
 
 - subtitle: SIR human model
   desc: >
@@ -144,4 +151,7 @@ reference:
   - step_humans.SIR_deterministic
   - step_humans.SIR_stochastic
   - compute_W.SIR
+  - compute_wf.SIR
   - compute_x.SIR
+  - compute_H.SIR
+  - compute_Psi.SIR

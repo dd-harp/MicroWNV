@@ -2,7 +2,7 @@
 % Please edit documentation in R/birds_interface.R
 \name{compute_xB}
 \alias{compute_xB}
-\title{Compute net infectiousness of birds}
+\title{Compute net infectiousness of birds (\eqn{x_{B}})}
 \usage{
 compute_xB(model)
 }

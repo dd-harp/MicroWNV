@@ -176,7 +176,7 @@ test_that("stochastic updates of human SIR model work with pulsed h", {
 
   setup_humans_SIR(model = mod, stochastic = TRUE, theta = theta, wf = wf, H = H, SIR = SIR, b = b, c = c, gamma = gamma)
 
-  mod$human$h <- rep(qexp(p = 0.25), n)
+  mod$human$h <- rep(qexp(p = 0.5), n)
   step_humans(model = mod)
 
   expect_true(all(mod$human$SIR[, 1] <= SIR[, 1]))

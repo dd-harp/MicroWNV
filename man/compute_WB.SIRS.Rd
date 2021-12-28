@@ -2,7 +2,7 @@
 % Please edit documentation in R/birds_SIRS.R
 \name{compute_WB.SIRS}
 \alias{compute_WB.SIRS}
-\title{Compute available SIRS bird population}
+\title{Compute available SIRS bird population (\eqn{W_{B}})}
 \usage{
 \method{compute_WB}{SIRS}(model)
 }
@@ -10,5 +10,5 @@
 \item{model}{an object from \link{make_microWNV}}
 }
 \description{
-Compute available SIRS bird population
+Compute available SIRS bird population (\eqn{W_{B}})
 }

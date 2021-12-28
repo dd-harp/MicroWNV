@@ -2,7 +2,7 @@
 % Please edit documentation in R/birds_interface.R
 \name{compute_WB}
 \alias{compute_WB}
-\title{Compute available birds}
+\title{Compute available birds (\eqn{W_{B}})}
 \usage{
 compute_WB(model)
 }
