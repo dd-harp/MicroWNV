@@ -46,6 +46,24 @@
     <loc>/reference/compute_B_pop.html</loc>
   </url>
   <url>
+    <loc>/reference/compute_H.SIR.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_H.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_Psi.SIR.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_Psi.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_PsiB.SIRS.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_PsiB.html</loc>
+  </url>
+  <url>
     <loc>/reference/compute_W.SIR.html</loc>
   </url>
   <url>
@@ -113,6 +131,18 @@
   </url>
   <url>
     <loc>/reference/compute_q.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_wf.SIR.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_wf.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_wfB.SIRS.html</loc>
+  </url>
+  <url>
+    <loc>/reference/compute_wfB.html</loc>
   </url>
   <url>
     <loc>/reference/compute_x.SIR.html</loc>

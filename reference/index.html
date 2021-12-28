@@ -262,19 +262,29 @@
         <dd>Update bird population</dd>
       </dl><dl><dt>
           
+          <code><a href="compute_WB.html">compute_WB()</a></code> 
+        </dt>
+        <dd>Compute available birds (\(W_{B}\))</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_wfB.html">compute_wfB()</a></code> 
+        </dt>
+        <dd>Compute bird biting weights (\(w_{f_{B}}\))</dd>
+      </dl><dl><dt>
+          
           <code><a href="compute_xB.html">compute_xB()</a></code> 
         </dt>
-        <dd>Compute net infectiousness of birds</dd>
+        <dd>Compute net infectiousness of birds (\(x_{B}\))</dd>
       </dl><dl><dt>
           
           <code><a href="compute_B_pop.html">compute_B_pop()</a></code> 
         </dt>
-        <dd>Compute total bird population</dd>
+        <dd>Compute total bird population (\(B_{pop}\))</dd>
       </dl><dl><dt>
           
-          <code><a href="compute_WB.html">compute_WB()</a></code> 
+          <code><a href="compute_PsiB.html">compute_PsiB()</a></code> 
         </dt>
-        <dd>Compute available birds</dd>
+        <dd>Compute time at risk matrix (\(\Psi\))</dd>
       </dl></div><div class="section level2">
       
       <h3 id="sirs-adult-bird-model">SIRS adult bird model<a class="anchor" aria-label="anchor" href="#sirs-adult-bird-model"></a></h3>
@@ -308,19 +318,29 @@
         <dd>Update SIRS bird population (stochastic)</dd>
       </dl><dl><dt>
           
+          <code><a href="compute_WB.SIRS.html">compute_WB(<i>&lt;SIRS&gt;</i>)</a></code> 
+        </dt>
+        <dd>Compute available SIRS bird population (\(W_{B}\))</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_wfB.SIRS.html">compute_wfB(<i>&lt;SIRS&gt;</i>)</a></code> 
+        </dt>
+        <dd>Compute bird biting weights of SIRS birds (\(w_{f_{B}}\))</dd>
+      </dl><dl><dt>
+          
           <code><a href="compute_xB.SIRS.html">compute_xB(<i>&lt;SIRS&gt;</i>)</a></code> 
         </dt>
-        <dd>Compute net infectiousness of SIRS birds</dd>
+        <dd>Compute net infectiousness of SIRS birds (\(x_{B}\))</dd>
       </dl><dl><dt>
           
           <code><a href="compute_B_pop.SIRS.html">compute_B_pop(<i>&lt;SIRS&gt;</i>)</a></code> 
         </dt>
-        <dd>Compute total SIRS bird population</dd>
+        <dd>Compute total SIRS bird population (\(B_{pop}\))</dd>
       </dl><dl><dt>
           
-          <code><a href="compute_WB.SIRS.html">compute_WB(<i>&lt;SIRS&gt;</i>)</a></code> 
+          <code><a href="compute_PsiB.SIRS.html">compute_PsiB(<i>&lt;SIRS&gt;</i>)</a></code> 
         </dt>
-        <dd>Compute available SIRS bird population</dd>
+        <dd>Compute SIRS bird time at risk matrix (\(\Psi\))</dd>
       </dl></div><div class="section level2">
       <h2 id="fledgling-immature-bird-component">Fledgling (immature) bird component<a class="anchor" aria-label="anchor" href="#fledgling-immature-bird-component"></a></h2>
       
@@ -418,12 +438,27 @@
           
           <code><a href="compute_W.html">compute_W()</a></code> 
         </dt>
-        <dd>Compute available humans</dd>
+        <dd>Compute available humans (\(W\))</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_wf.html">compute_wf()</a></code> 
+        </dt>
+        <dd>Compute human biting weights (\(w_{f}\))</dd>
       </dl><dl><dt>
           
           <code><a href="compute_x.html">compute_x()</a></code> 
         </dt>
-        <dd>Compute net infectiousness of humans</dd>
+        <dd>Compute net infectiousness of humans (\(x\))</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_H.html">compute_H()</a></code> 
+        </dt>
+        <dd>Compute human population strata sizes (\(H\))</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_Psi.html">compute_Psi()</a></code> 
+        </dt>
+        <dd>Compute time at risk matrix (\(\Psi\))</dd>
       </dl></div><div class="section level2">
       
       <h3 id="sir-human-model">SIR human model<a class="anchor" aria-label="anchor" href="#sir-human-model"></a></h3>
@@ -459,12 +494,27 @@
           
           <code><a href="compute_W.SIR.html">compute_W(<i>&lt;SIR&gt;</i>)</a></code> 
         </dt>
-        <dd>Compute available humans for SIR model</dd>
+        <dd>Compute available humans for SIR model (\(W\))</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_wf.SIR.html">compute_wf(<i>&lt;SIR&gt;</i>)</a></code> 
+        </dt>
+        <dd>Compute human biting weights for SIR model (\(w_{f}\))</dd>
       </dl><dl><dt>
           
           <code><a href="compute_x.SIR.html">compute_x(<i>&lt;SIR&gt;</i>)</a></code> 
         </dt>
-        <dd>Compute net infectiousness for SIR model</dd>
+        <dd>Compute net infectiousness for SIR model (\(x\))</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_H.SIR.html">compute_H(<i>&lt;SIR&gt;</i>)</a></code> 
+        </dt>
+        <dd>Compute human population strata sizes for SIR model (\(H\))</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_Psi.SIR.html">compute_Psi(<i>&lt;SIR&gt;</i>)</a></code> 
+        </dt>
+        <dd>Compute time at risk matrix for SIR model (\(\Psi\))</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
