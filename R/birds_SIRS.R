@@ -183,7 +183,7 @@ step_birds.SIRS_stochastic <- function(model) {
 compute_WB.SIRS <- function(model) {
   theta <- model$bird$theta
   WB <- (model$bird$wf * rowSums(model$bird$SIR)) %*% theta
-  return(WB)
+  return(as.vector(WB))
 }
 
 # compute bird biting weights
@@ -202,7 +202,7 @@ compute_wfB.SIRS <- function(model) {
 #' @export
 compute_xB.SIRS <- function(model) {
   XB <- model$bird$SIR[, "I"] / rowSums(model$bird$SIR)
-  return(XB * model$bird$c)
+  return(as.vector(XB * model$bird$c))
 }
 
 # compute total bird population
