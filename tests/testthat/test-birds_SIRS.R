@@ -49,7 +49,7 @@ test_that("SIRS birds model setup is working", {
   expect_equal(length(mod$bird$h), p)
   expect_equal(
     names(mod$bird),
-    c("fledge_disperse", "theta", "wf", "SIR", "h", "mu", "b", "c", "gamma", "r")
+    c("fledge_disperse", "theta", "wf", "SIR", "EIR",  "h", "mu", "b", "c", "gamma", "r")
   )
   expect_equal(compute_WB(mod), as.vector(theta %*% rowSums(SIR)))
   expect_equal(compute_wfB(mod), rep(1, p))
@@ -131,7 +131,7 @@ test_that("test deterministic SIRS birds step equal hand-calculation", {
   setup_fledge_trace(model = mod, trace = fledge_trace, stochastic = FALSE)
 
   h <- sample(x = c(0.01, 0.025), size = p, replace = TRUE)
-  mod$bird$h <- h
+  mod$bird$EIR <- h / mod$bird$b
 
   # compute update in model
   step_birds(model = mod)
@@ -186,8 +186,6 @@ test_that("test stochastic SIRS birds step equal hand-calculation", {
 
   fledge_trace <- matrix(1, nrow = p, ncol = tmax)
 
-  h <- sample(x = c(0.01, 0.025), size = p, replace = TRUE)
-
   # first calculate expectation with deterministic model
   mod <- make_microWNV(tmax = tmax, p = p)
 
@@ -198,7 +196,8 @@ test_that("test stochastic SIRS birds step equal hand-calculation", {
   )
   setup_fledge_trace(model = mod, trace = fledge_trace, stochastic = FALSE)
 
-  mod$bird$h <- h
+  h <- sample(x = c(0.01, 0.025), size = p, replace = TRUE)
+  mod$bird$EIR <- h / mod$bird$b
 
   step_birds(model = mod)
   SIR_det <- mod$bird$SIR
@@ -292,7 +291,9 @@ test_that("deterministic SIRS bird step is working with pulse of infection", {
   expect_true(all(mod$bird$SIR[, 2] == 0))
 
   # time = 1
-  mod$bird$h <- rep(qexp(p = 0.25), 3)
+  h <- rep(qexp(p = 0.25), 3)
+  mod$bird$EIR <- h / mod$bird$b
+
   step_birds(model = mod)
 
   expect_S <- SIR[, 1] * (1 - pexp(q = qexp(p = 0.25) + 1/365))
@@ -306,7 +307,8 @@ test_that("deterministic SIRS bird step is working with pulse of infection", {
   t1_I <- mod$bird$SIR[, 2]
 
   # time = 2
-  mod$bird$h <- rep(0, 3)
+  mod$bird$EIR <- rep(0, 3)
+
   mod$global$tnow <- 2
   step_birds(model = mod)
 
@@ -347,7 +349,9 @@ test_that("stochastic SIRS bird step is working with pulse of infection", {
   expect_true(all(mod$bird$SIR[, 2] == 0))
 
   # time = 1
-  mod$bird$h <- rep(qexp(p = 0.25), 3)
+  h <- rep(qexp(p = 0.25), 3)
+  mod$bird$EIR <- h / mod$bird$b
+
   step_birds(model = mod)
 
   expect_true(all(mod$bird$SIR[, 1] < SIR[, 1]))
@@ -357,7 +361,7 @@ test_that("stochastic SIRS bird step is working with pulse of infection", {
   t1_I <- mod$bird$SIR[, 2]
 
   # time = 2
-  mod$bird$h <- rep(0, 3)
+  mod$bird$EIR <- rep(0, 3)
   mod$global$tnow <- 2
   step_birds(model = mod)
 

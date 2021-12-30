@@ -1,0 +1,64 @@
+---
+title: "Biting distribution and transmission"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Biting distribution and transmission}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+In **MicroWNV** the bloodmeal function uses generic interfaces of the human,
+adult mosquito, and adult bird components to compute quantities used to simulate
+transmission of pathogens between the species. It is a function (not a method that
+dispatches) because it enforces mathematical consistency in how transmission
+is calculated, regardless of the specific models used to implement each component.
+
+The `compute_bloodmeal` function which implements this is called after any vector
+control functions have been called but before any `update` functions which update
+model components over a time step have been called.
+Here we describe how the calculation works, and how it is implemented in the code.
+
+Using the generic human interface we calculate the following values:
+
+  * `W`: from `compute_W`, gives the weighted person time at risk spent at each patch
+  * `H`: from `compute_H`, gives the total population in each strata
+  * `x`: from `compute_x`, gives the net infectiousness from humans in each strata
+  * `wf`: from `compute_wf`, gives the biting weights of each strata
+  * `Psi`: from `compute_Psi`, gives the time at risk matrix
+  
+Likewise we use the generic bird interface to calculate:
+
+  * `WB`: from `compute_WB`, gives the weighted bird time at risk spent at each patch
+  * `B_pop`: from `compute_B_pop`, gives the total bird population in each patch
+  * `xB`: from `compute_xB`, gives the net infectiousness from birds in each patch
+  * `wfB`: from `compute_wfB`, gives the bird biting weights of each patch
+  * `PsiB`: from `compute_PsiB`, gives the bird time at risk matrix
+  
+Two biting distribution matrices (from mosquitoes to humans and birds, respectively) are calculated:
+
+\begin{equation}
+\beta_{H_{n\times p}} = \mbox{diag}(w_{f}) \cdot \Psi \cdot \mbox{diag}(1/W) \\
+\beta_{B_{p\times p}} = \mbox{diag}(w_{f_{B}}) \cdot \Psi_{B} \cdot \mbox{diag}(1/W_{B}) \\
+\end{equation}
+
+After these values have been computed we compute $f$, the blood feeding rate, and $q$, the 
+proportion of blood meals on human hosts. These use the generic interface functions
+`compute_f` and `compute_q`, which dispatch on the adult mosquito type.
+
+Finally the transmission terms which each component uses to independently update
+over a time step are calculated and sent to each component. These are the EIR
+(entomological inoculation rate) for humans and birds, and $\kappa$, the net infectiousness
+of blood hosts (humans and birds) to mosquitoes.
+
+\begin{equation}
+EIR_{H_{n\times 1}} = \beta_{H} \cdot (fqZ) \\
+EIR_{B_{p\times 1}} = \beta_{B} \cdot (f(1-q)Z) \\
+\kappa_{p\times 1} = q \cdot \beta_{H}^{\intercal} \cdot xH + (1 - q) \cdot \beta_{B}^{\intercal} \cdot x_{B} B_{pop}
+\end{equation}

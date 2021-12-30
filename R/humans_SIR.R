@@ -58,6 +58,7 @@ setup_humans_SIR <- function(model, stochastic, theta, wf = NULL, H, SIR, b = 0.
   model$human$SIR <- SIR
 
   model$human$h <- rep(0, n)
+  model$human$EIR <- rep(0, n)
 
   model$human$b <- b
   model$human$c <- c
@@ -80,6 +81,8 @@ step_humans.SIR <- function(model) {
 #' @export
 step_humans.SIR_deterministic <- function(model) {
 
+  model$human$h <- model$human$EIR * model$human$b
+
   # compute differences: S
   S_leave <- model$human$SIR[, "S"] * pexp(q =  model$human$h)
 
@@ -100,6 +103,8 @@ step_humans.SIR_deterministic <- function(model) {
 #' @importFrom stats pexp rbinom
 #' @export
 step_humans.SIR_stochastic <- function(model) {
+
+  model$human$h <- model$human$EIR * model$human$b
 
   n <- model$global$n
 
