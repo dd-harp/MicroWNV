@@ -13,7 +13,7 @@ test_that("test bloodmeal with simple RM setup (SIR humans and SIRS birds)", {
   gamma <- 1/5
 
   # bird parameters
-  theta_B <- diag(n)
+  theta_B <- diag(patches)
   SIR_B <- matrix(data = c(100, 20, 0), nrow = 1, ncol = 3)
   wfB <- 0.9
   bB <- 0.65

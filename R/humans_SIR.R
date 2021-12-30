@@ -20,6 +20,10 @@ setup_humans_SIR <- function(model, stochastic, theta, wf = NULL, H, SIR, b = 0.
   p <- ncol(theta)
   stopifnot(p == model$global$p)
 
+  if (is.null(wf)) {
+    wf <- rep(1, n)
+  }
+
   stopifnot(length(wf) == n)
   stopifnot(is.finite(wf))
   stopifnot(wf >= 0)
@@ -33,10 +37,6 @@ setup_humans_SIR <- function(model, stochastic, theta, wf = NULL, H, SIR, b = 0.
   stopifnot(c(b, c) <= 1)
 
   model$global$n <- n
-
-  if (is.null(wf)) {
-    wf <- rep(1, n)
-  }
 
   if (is.null(colnames(SIR))) {
     colnames(SIR) <- c("S", "I", "R")
