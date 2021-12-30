@@ -8,7 +8,7 @@
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @export
 compute_bloodmeal <- function(model) {
-  stopifnot(inherits(model, "MicroMoB"))
+  stopifnot(inherits(model, "microWNV"))
 
   n <- model$global$n
   p <- model$global$p
@@ -53,8 +53,13 @@ compute_bloodmeal <- function(model) {
 
   # calculate EIR and kappa (mosy->human, human->mosy
   model$human$EIR <- beta_H %*% (f*q*Z)
+  model$human$EIR <- as.vector(model$human$EIR)
+
   model$bird$EIR <-  beta_B %*% (f*(1-q)*Z)
-  model$mosquito$kappa <- (q * t(beta_H) %*% (x*H)) + ((1 - q) * t(beta_B) %*% (xB*B_pop))
+  model$bird$EIR <- as.vector(model$bird$EIR)
+
+  model$mosquito$kappa <- (q * (t(beta_H) %*% (x*H))) + ((1 - q) * (t(beta_B) %*% (xB*B_pop)))
+  model$mosquito$kappa <- as.vector(model$mosquito$kappa)
 
   stopifnot(length(model$human$EIR) == n)
   stopifnot(length(model$bird$EIR) == p)

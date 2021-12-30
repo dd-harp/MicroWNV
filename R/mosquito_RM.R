@@ -155,8 +155,7 @@ step_mosquitoes.RM_deterministic <- function(model) {
   psi <- model$mosquito$psi
 
   # newly infected mosquitoes
-  a <- model$mosquito$f * model$mosquito$q
-  Y0 <- a * model$mosquito$kappa * (model$mosquito$M - model$mosquito$Y)
+  Y0 <- model$mosquito$f * model$mosquito$kappa * (model$mosquito$M - model$mosquito$Y)
   Y0 <- pmax(Y0, 0)
 
   # newly emerging adults
@@ -205,9 +204,9 @@ step_mosquitoes.RM_stochastic <- function(model) {
   lambda <- sample_stochastic_vector(x = lambda, prob = psi)
 
   # newly infected mosquitoes
-  a <- model$mosquito$f * model$mosquito$q
   model$mosquito$Y <- model$mosquito$Z + colSums(model$mosquito$ZZ)
-  h <- a * model$mosquito$kappa
+  # different from micro-mob here because birds can also transmit, kappa include q
+  h <- model$mosquito$f * model$mosquito$kappa
   Y0 <- rbinom(n = n_patch, size = model$mosquito$M - model$mosquito$Y, prob = h)
 
   # survival

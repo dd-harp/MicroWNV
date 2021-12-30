@@ -14,6 +14,8 @@ knitr::opts_chunk$set(
 )
 ```
 
+## Biting distribution matrix
+
 In **MicroWNV** the bloodmeal function uses generic interfaces of the human,
 adult mosquito, and adult bird components to compute quantities used to simulate
 transmission of pathogens between the species. It is a function (not a method that
@@ -62,3 +64,12 @@ EIR_{H_{n\times 1}} = \beta_{H} \cdot (fqZ) \\
 EIR_{B_{p\times 1}} = \beta_{B} \cdot (f(1-q)Z) \\
 \kappa_{p\times 1} = q \cdot \beta_{H}^{\intercal} \cdot xH + (1 - q) \cdot \beta_{B}^{\intercal} \cdot x_{B} B_{pop}
 \end{equation}
+
+## Force of infection
+
+Once the above terms have been computed, most models will use them in a fairly
+similar way to compute a force of infection term. For the mosquito component, it
+is given as $\kappa fq$, the per-capita rate of infection in mosquito population.
+Humans and birds compute $h = b EIR$. While the specific way that each of these
+terms is computed and how state is updated using these terms may change between
+models, all models will use or can be modified to take as input these terms.

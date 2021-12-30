@@ -17,7 +17,7 @@ setup_fledge_trace <- function(model, trace, stochastic) {
     if (ncol(trace) == 365L) {
       ix <- (1:tmax) %% 365L
       ix[which(ix == 0L)] <- 365L
-      trace_mat <- trace[, ix]
+      trace_mat <- trace[, ix, drop = FALSE]
     } else if (ncol(trace) == tmax) {
       trace_mat <- trace
     } else {
