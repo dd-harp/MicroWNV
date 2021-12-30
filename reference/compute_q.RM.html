@@ -28,6 +28,7 @@ human hosts."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/lib
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/Bloodmeal.html">Biting distribution and transmission</a>
     <a class="dropdown-item" href="../articles/Contributing.html">Contributing</a>
     <a class="dropdown-item" href="../articles/RM_mosquito.html">Ross-Macdonald mosquito model</a>
     <a class="dropdown-item" href="../articles/SIRS_birds.html">SIRS bird model</a>
@@ -63,7 +64,7 @@ human hosts.</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for RM</span>
-<span class="fu"><a href="compute_q.html">compute_q</a></span><span class="op">(</span><span class="va">model</span>, <span class="va">W</span>, <span class="va">Wd</span>, <span class="va">B</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="compute_q.html">compute_q</a></span><span class="op">(</span><span class="va">model</span>, <span class="va">W</span>, <span class="va">WB</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -72,10 +73,8 @@ human hosts.</p>
 <dd><p>an object from <a href="make_microWNV.html">make_microWNV</a></p></dd>
 <dt>W</dt>
 <dd><p>a vector of length <code>p</code> giving human availability by patch (\(W\))</p></dd>
-<dt>Wd</dt>
-<dd><p>a vector of length <code>p</code> giving visitor availability by patch (\(W_{\delta}\))</p></dd>
-<dt>B</dt>
-<dd><p>a vector of length <code>p</code> giving total blood host availability by patch (\(B\))</p></dd>
+<dt>WB</dt>
+<dd><p>a vector of length <code>p</code> giving bird availability by patch (\(W_{\delta}\))</p></dd>
 </dl></div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
