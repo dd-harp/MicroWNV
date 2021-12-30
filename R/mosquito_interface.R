@@ -22,11 +22,10 @@ compute_f <- function(model, B) {
 #' @description This method dispatches on the type of `model$mosquito`
 #' @param model an object from [MicroWNV::make_microWNV]
 #' @param W a vector of length `p` giving human availability by patch (\eqn{W})
-#' @param Wd a vector of length `p` giving visitor availability by patch (\eqn{W_{\delta}})
-#' @param B a vector of length `p` giving total blood host availability by patch (\eqn{B})
+#' @param WB a vector of length `p` giving bird availability by patch (\eqn{W_{\delta}})
 #' @return a vector of length `p`
 #' @export
-compute_q <- function(model, W, Wd, B) {
+compute_q <- function(model, W, WB) {
   UseMethod("compute_q", model$mosquito)
 }
 

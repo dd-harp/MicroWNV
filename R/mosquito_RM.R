@@ -270,7 +270,7 @@ compute_f.RM <- function(model, B) {
 #' human hosts.
 #' @inheritParams compute_q
 #' @export
-compute_q.RM <- function(model, W, Wd, B) {
+compute_q.RM <- function(model, W, WB) {
   model$mosquito$q
 }
 

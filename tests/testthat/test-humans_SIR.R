@@ -92,7 +92,9 @@ test_that("deterministic updates of human SIR model work with pulsed h", {
 
   setup_humans_SIR(model = mod, stochastic = FALSE, theta = theta, wf = wf, H = H, SIR = SIR, b = b, c = c, gamma = gamma)
 
-  mod$human$h <- rep(qexp(p = 0.25), n)
+  h <- rep(qexp(p = 0.25), n)
+  mod$human$EIR <- h / mod$human$b
+
   step_humans(model = mod)
 
   expect_true(all(mod$human$SIR[, 1] < SIR[, 1]))
@@ -102,7 +104,7 @@ test_that("deterministic updates of human SIR model work with pulsed h", {
   mod$global$tnow <- mod$global$tnow + 1L
   prev_I <- mod$human$SIR[, "I"]
 
-  mod$human$h <- rep(0, n)
+  mod$human$EIR <- rep(0, n)
   for (i in 2:tmax) {
     step_humans(model = mod)
     expect_true(all(mod$human$SIR[, "I"] < prev_I))
@@ -180,7 +182,9 @@ test_that("stochastic updates of human SIR model work with pulsed h", {
 
   setup_humans_SIR(model = mod, stochastic = TRUE, theta = theta, wf = wf, H = H, SIR = SIR, b = b, c = c, gamma = gamma)
 
-  mod$human$h <- rep(qexp(p = 0.5), n)
+  h <- rep(qexp(p = 0.5), n)
+  mod$human$EIR <- h / mod$human$b
+
   step_humans(model = mod)
 
   expect_true(all(mod$human$SIR[, 1] <= SIR[, 1]))
@@ -190,7 +194,7 @@ test_that("stochastic updates of human SIR model work with pulsed h", {
   mod$global$tnow <- mod$global$tnow + 1L
   prev_I <- mod$human$SIR[, "I"]
 
-  mod$human$h <- rep(0, n)
+  mod$human$EIR <- rep(0, n)
   for (i in 2:tmax) {
     step_humans(model = mod)
     expect_true(all(mod$human$SIR[, "I"] <= prev_I))

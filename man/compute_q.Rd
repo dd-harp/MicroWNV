@@ -4,16 +4,14 @@
 \alias{compute_q}
 \title{Compute human blood feeding fraction (\eqn{q})}
 \usage{
-compute_q(model, W, Wd, B)
+compute_q(model, W, WB)
 }
 \arguments{
 \item{model}{an object from \link{make_microWNV}}
 
 \item{W}{a vector of length \code{p} giving human availability by patch (\eqn{W})}
 
-\item{Wd}{a vector of length \code{p} giving visitor availability by patch (\eqn{W_{\delta}})}
-
-\item{B}{a vector of length \code{p} giving total blood host availability by patch (\eqn{B})}
+\item{WB}{a vector of length \code{p} giving bird availability by patch (\eqn{W_{\delta}})}
 }
 \value{
 a vector of length \code{p}

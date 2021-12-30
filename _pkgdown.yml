@@ -6,12 +6,6 @@ template:
 
 reference:
 
-- title: Utility and global methods
-  contents:
-  - make_microWNV
-  - sample_stochastic_vector
-  - sample_stochastic_matrix
-
 - title: Bloodmeal
   desc: >
     The bloodmeal function computes bites taken by mosquitoes on hosts relevant
@@ -155,3 +149,9 @@ reference:
   - compute_x.SIR
   - compute_H.SIR
   - compute_Psi.SIR
+
+- title: Utility and global methods
+  contents:
+  - make_microWNV
+  - sample_stochastic_vector
+  - sample_stochastic_matrix

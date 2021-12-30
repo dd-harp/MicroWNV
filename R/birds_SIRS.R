@@ -74,6 +74,7 @@ setup_birds_SIRS <- function(model, stochastic, fledge_disperse, theta, SIR, mu,
   model$bird$wf <- wf
   model$bird$SIR <- SIR
 
+  model$bird$EIR <- rep(0, p)
   model$bird$h <- rep(0, p)
   model$bird$mu <- mu_vec
 
@@ -101,6 +102,8 @@ step_birds.SIRS <- function(model) {
 #' @inheritParams step_birds
 #' @export
 step_birds.SIRS_deterministic <- function(model) {
+
+  model$bird$h <- model$bird$EIR * model$bird$b
 
   # get new fledglings and their dispersion
   fledglings <- compute_fledge(model)
@@ -140,6 +143,8 @@ step_birds.SIRS_deterministic <- function(model) {
 #' @importFrom stats pexp rbinom
 #' @export
 step_birds.SIRS_stochastic <- function(model) {
+
+  model$bird$h <- model$bird$EIR * model$bird$b
 
   p <- model$global$p
 
