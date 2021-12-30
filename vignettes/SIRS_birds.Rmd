@@ -132,9 +132,11 @@ setup_fledge_trace(mod, trace = lambda, stochastic = FALSE)
 SIR_det <- matrix(data = NaN, nrow = tmax * 3, ncol = 4, dimnames = list(NULL, c("Patch", "S", "I", "R")))
 SIR_det[, "Patch"] <- rep(1:3, times = tmax)
 
+h <- rep(qexp(p = 0.05), p)
+mod$bird$EIR <- h / mod$bird$b
+
 # run it
 while(mod$global$tnow <= tmax) {
-  mod$bird$h <- qexp(p = 0.05)
   step_fledge(model = mod)
   step_birds(model = mod)
   ix_fill <- which(is.nan(SIR_det[, 2]))[1:3]
@@ -165,9 +167,11 @@ sto_out <- mclapply(X = 1:10, FUN = function(runid) {
   SIR_out <- matrix(data = NaN, nrow = tmax * 3, ncol = 4, dimnames = list(NULL, c("Patch", "S", "I", "R")))
   SIR_out[, "Patch"] <- rep(1:3, times = tmax)
   
+  h <- rep(qexp(p = 0.05), p)
+  mod$bird$EIR <- h / mod$bird$b
+  
   # run it
   while(mod$global$tnow <= tmax) {
-    mod$bird$h <- qexp(p = 0.05)
     step_fledge(model = mod)
     step_birds(model = mod)
     ix_fill <- which(is.nan(SIR_out[, 2]))[1:3]
