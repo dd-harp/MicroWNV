@@ -7,7 +7,7 @@
 \method{compute_fledge}{trace_stochastic}(model)
 }
 \arguments{
-\item{model}{an object from \link{make_microWNV}}
+\item{model}{an object from \link[MicroMoB:make_MicroMoB]{MicroMoB::make_MicroMoB}}
 }
 \description{
 Draw a Poisson distributed number of fledglings with mean parameter

@@ -7,7 +7,7 @@
 \method{compute_WB}{SIRS}(model)
 }
 \arguments{
-\item{model}{an object from \link{make_microWNV}}
+\item{model}{an object from \link[MicroMoB:make_MicroMoB]{MicroMoB::make_MicroMoB}}
 }
 \description{
 Compute available SIRS bird population (\eqn{W_{B}})

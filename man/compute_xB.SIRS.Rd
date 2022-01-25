@@ -7,7 +7,7 @@
 \method{compute_xB}{SIRS}(model)
 }
 \arguments{
-\item{model}{an object from \link{make_microWNV}}
+\item{model}{an object from \link[MicroMoB:make_MicroMoB]{MicroMoB::make_MicroMoB}}
 }
 \description{
 Compute net infectiousness of SIRS birds (\eqn{x_{B}})

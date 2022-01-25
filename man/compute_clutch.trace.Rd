@@ -7,7 +7,7 @@
 \method{compute_clutch}{trace}(model, N)
 }
 \arguments{
-\item{model}{an object from \link{make_microWNV}}
+\item{model}{an object from \link[MicroMoB:make_MicroMoB]{MicroMoB::make_MicroMoB}}
 
 \item{N}{total number of birds in each patch}
 }

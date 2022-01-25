@@ -2,13 +2,13 @@
 
 #' @title Setup fledglings with trace (forced) births
 #' @description This requires the birds to be set up prior to being called.
-#' @param model an object from [MicroWNV::make_microWNV]
+#' @param model an object from [MicroMoB::make_MicroMoB]
 #' @param trace either a vector of length equal to `p`, a matrix with `p` rows
 #' and `tmax` columns, or a matrix with `p` rows and `365` columns
 #' @param stochastic should the model update deterministically or stochastically?
 #' @export
 setup_fledge_trace <- function(model, trace, stochastic) {
-  stopifnot(inherits(model, "microWNV"))
+  stopifnot(inherits(model, "MicroMoB"))
   tmax <- model$global$tmax
   p <- model$global$p
 

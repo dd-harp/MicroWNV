@@ -7,7 +7,7 @@
 add_clutch(model, eggs)
 }
 \arguments{
-\item{model}{an object from \link{make_microWNV}}
+\item{model}{an object from \link[MicroMoB:make_MicroMoB]{MicroMoB::make_MicroMoB}}
 
 \item{eggs}{a vector of length \code{p} giving eggs for each place}
 }

@@ -4,7 +4,7 @@
 
 #' @title Update fledgling populations
 #' @description This method dispatches on the type of `model$fledge`
-#' @param model an object from [MicroWNV::make_microWNV]
+#' @param model an object from [MicroMoB::make_MicroMoB]
 #' @export
 step_fledge <- function(model) {
   UseMethod("step_fledge", model$fledge)
@@ -14,7 +14,7 @@ step_fledge <- function(model) {
 
 #' @title Compute number of new fledglings
 #' @description This method dispatches on the type of `model$fledge`
-#' @param model an object from [MicroWNV::make_microWNV]
+#' @param model an object from [MicroMoB::make_MicroMoB]
 #' @export
 compute_fledge <- function(model) {
   UseMethod("compute_fledge", model$fledge)
@@ -25,7 +25,7 @@ compute_fledge <- function(model) {
 
 #' @title Add clutch (eggs) to fledgling model
 #' @description This method dispatches on the type of `model$fledge`
-#' @param model an object from [MicroWNV::make_microWNV]
+#' @param model an object from [MicroMoB::make_MicroMoB]
 #' @param eggs a vector of length `p` giving eggs for each place
 #' @export
 add_clutch <- function(model, eggs) {
@@ -37,7 +37,7 @@ add_clutch <- function(model, eggs) {
 
 #' @title Compute egg clutches from birds
 #' @description This method dispatches on the type of `model$fledge`
-#' @param model an object from [MicroWNV::make_microWNV]
+#' @param model an object from [MicroMoB::make_MicroMoB]
 #' @param N total number of birds in each patch
 #' @export
 compute_clutch <- function(model, N) {

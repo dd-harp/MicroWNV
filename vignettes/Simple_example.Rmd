@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
+library(MicroMoB)
 library(MicroWNV)
 library(ggplot2)
 library(data.table)
@@ -34,7 +35,9 @@ We set up the birds with an offset signal for birth of fledglings peaking at 5 f
 emerging per day at the start of the year.
 
 Please note that these specific parameter values have not been calibrated nor are
-representative of WNV, but instead chosen to illustrate interesting dynamics.
+representative of WNV, but instead chosen to illustrate interesting dynamics. Note
+however that `c`, the transmission efficiency from infected humans to mosquitoes is 0,
+as birds are the only competent hosts for WNV transmission to mosquitoes.
 
 ```{R}
 patches <- 1
@@ -44,6 +47,8 @@ tmax <- 3 * 365
 # human parameters
 theta <- diag(n)
 SIR <- matrix(data = c(1e3, 0, 0), nrow = 1, ncol = 3)
+b <- 0.55
+c <- 0
 gamma <- 1/7
 
 # bird parameters
@@ -55,7 +60,7 @@ mu <- 1/365
 
 # mosquito parameters
 f <- 0.3
-q <- 0.0001
+q <- 0.5
 eip <- 10
 p <- 0.95
 M <- 500
@@ -77,10 +82,10 @@ fledge_lambda <- t(replicate(patches, fledge_lambda))
 Now we set up the model and run a deterministic simulation.
 
 ```{R}
-mod <- make_microWNV(tmax = tmax, p = patches)
+mod <- make_MicroMoB(tmax = tmax, p = patches)
 
 # humans
-setup_humans_SIR(mod, stochastic = FALSE, theta = theta, H = sum(SIR), SIR = SIR, gamma = gamma)
+setup_humans_SIR(mod, stochastic = FALSE, theta = theta, H = sum(SIR), SIR = SIR, b = b, c = c, gamma = gamma)
 
 # birds
 setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = theta_B, theta = theta_B, SIR = SIR_B, mu = mu, gamma = gammaB, r = rB)
@@ -101,7 +106,7 @@ setkeyv(det_out, c("Day", "Species"))
 # run it
 while (mod$global$tnow <= tmax) {
   # compute biting
-  compute_bloodmeal(model = mod)
+  MicroWNV::compute_bloodmeal(model = mod)
   # update state
   step_aqua(model = mod)
   step_mosquitoes(model = mod)
@@ -121,7 +126,7 @@ Now we draw 10 trajectories from the stochastic simulation, and plot output. We 
 
 ```{R}
 sto_out <- mclapply(X = 1:10, FUN = function(runid) {
-  mod <- make_microWNV(tmax = tmax, p = patches)
+  mod <- make_MicroMoB(tmax = tmax, p = patches)
 
   setup_humans_SIR(mod, stochastic = TRUE, theta = theta, H = sum(SIR), SIR = SIR, gamma = gamma)
   setup_birds_SIRS(mod, stochastic = TRUE, fledge_disperse = theta_B, theta = theta_B, SIR = SIR_B, mu = mu, gamma = gammaB, r = rB)
@@ -140,7 +145,7 @@ sto_out <- mclapply(X = 1:10, FUN = function(runid) {
   # run it
   while (mod$global$tnow <= tmax) {
     # compute biting
-    compute_bloodmeal(model = mod)
+    MicroWNV::compute_bloodmeal(model = mod)
     # update state
     step_aqua(model = mod)
     step_mosquitoes(model = mod)

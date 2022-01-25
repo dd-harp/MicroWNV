@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
+library(MicroMoB)
 library(MicroWNV)
 library(ggplot2)
 library(data.table)
@@ -125,7 +126,7 @@ the fledgling (immature) component as a simple trace (forced) model.
 SIR <- matrix(data = 0, nrow = p, ncol = 3)
 SIR[, 1] <- 10
 
-mod <- make_microWNV(tmax = tmax, p = 3)
+mod <- make_MicroMoB(tmax = tmax, p = 3)
 setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = mu, gamma = gamma, r = r)
 setup_fledge_trace(mod, trace = lambda, stochastic = FALSE)
 
@@ -160,7 +161,7 @@ Now we run 10 stochastic simulations, using the same parameters.
 ```{r, fig.width=10, fig.height=8}
 sto_out <- mclapply(X = 1:10, FUN = function(runid) {
   
-  mod <- make_microWNV(tmax = tmax, p = 3)
+  mod <- make_MicroMoB(tmax = tmax, p = 3)
   setup_birds_SIRS(mod, stochastic = TRUE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = mu, gamma = gamma, r = r)
   setup_fledge_trace(mod, trace = lambda, stochastic = TRUE)
   

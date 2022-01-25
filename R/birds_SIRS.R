@@ -1,7 +1,7 @@
 #' @title Setup birds with SIRS infection model
 #' @description This model interfaces with bloodmeals via the vector `model$bird$h`,
 #' giving the per-capita force of infection for birds in each patch.
-#' @param model an object from [MicroWNV::make_microWNV]
+#' @param model an object from [MicroMoB::make_MicroMoB]
 #' @param stochastic should the model update deterministically or stochastically?
 #' @param fledge_disperse a dispersal matrix for fledglings; this parameter is part
 #' of the adult model rather than fledgling model because the handoff of responsibility
@@ -16,9 +16,10 @@
 #' @param c transmission efficiency (birds to mosquitoes)
 #' @param gamma inverse of infectious duration (recovery rate)
 #' @param r inverse of immune duration (rate of loss of immunity)
+#' @importFrom MicroMoB approx_equal
 #' @export
 setup_birds_SIRS <- function(model, stochastic, fledge_disperse, theta, SIR, mu, wf = NULL, b = 0.55, c = 0.15, gamma = 1/5, r = 1/120) {
-  stopifnot(inherits(model, "microWNV"))
+  stopifnot(inherits(model, "MicroMoB"))
   stopifnot(inherits(fledge_disperse, "matrix"))
   stopifnot(inherits(theta, "matrix"))
   stopifnot(is.logical(stochastic))
@@ -141,6 +142,7 @@ step_birds.SIRS_deterministic <- function(model) {
 #' @title Update SIRS bird population (stochastic)
 #' @inheritParams step_birds
 #' @importFrom stats pexp rbinom
+#' @importFrom MicroMoB sample_stochastic_vector
 #' @export
 step_birds.SIRS_stochastic <- function(model) {
 

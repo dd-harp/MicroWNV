@@ -7,7 +7,7 @@
 compute_B_pop(model)
 }
 \arguments{
-\item{model}{an object from \link{make_microWNV}}
+\item{model}{an object from \link[MicroMoB:make_MicroMoB]{MicroMoB::make_MicroMoB}}
 }
 \value{
 a vector of length \code{p}

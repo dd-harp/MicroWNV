@@ -7,7 +7,7 @@
 setup_fledge_trace(model, trace, stochastic)
 }
 \arguments{
-\item{model}{an object from \link{make_microWNV}}
+\item{model}{an object from \link[MicroMoB:make_MicroMoB]{MicroMoB::make_MicroMoB}}
 
 \item{trace}{either a vector of length equal to \code{p}, a matrix with \code{p} rows
 and \code{tmax} columns, or a matrix with \code{p} rows and \code{365} columns}

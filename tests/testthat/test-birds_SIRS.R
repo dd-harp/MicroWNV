@@ -1,3 +1,5 @@
+library(MicroMoB)
+
 test_that("SIRS birds model setup is working", {
   tmax <- 20
   p <- 3
@@ -19,7 +21,7 @@ test_that("SIRS birds model setup is working", {
   SIR <- matrix(0, p, 3)
   SIR[, 1] <- 10
 
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
 
   # basic errors with scalar values for mu
   expect_error(setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = -1, gamma = gamma, r = r))
@@ -35,12 +37,12 @@ test_that("SIRS birds model setup is working", {
   expect_equal(mod$bird$mu, rep(1/365, tmax))
   expect_equal(unname(mod$bird$SIR), SIR)
 
-  mod <- make_microWNV(tmax = tmax, p = 3)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = 3)
   mu <- 1:365
   setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = mu, gamma = gamma, r = r)
   expect_equal(mod$bird$mu, 1:tmax)
 
-  mod <- make_microWNV(tmax = tmax, p = 3)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = 3)
   mu <- 1:tmax
   setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = mu, gamma = gamma, r = r)
   expect_equal(mod$bird$mu, 1:tmax)
@@ -90,7 +92,7 @@ test_that("SIRS birds interface is working", {
   SIR[, 2] <- c(10, 5, 1)
   SIR[, 3] <- c(10, 5, 4)
 
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
   setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = 1/365, gamma = gamma, r = r)
 
   WB_manual <- (rep(1, 3) * rowSums(SIR)) %*% theta
@@ -107,7 +109,7 @@ test_that("SIRS birds interface is working", {
 test_that("test deterministic SIRS birds step equal hand-calculation", {
   p <- 5
   tmax <- 10
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
 
   fledge_disperse <- matrix(rexp(p^2), nrow = p, ncol = p)
   fledge_disperse <- fledge_disperse / rowSums(fledge_disperse)
@@ -187,7 +189,7 @@ test_that("test stochastic SIRS birds step equal hand-calculation", {
   fledge_trace <- matrix(1, nrow = p, ncol = tmax)
 
   # first calculate expectation with deterministic model
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
 
   setup_birds_SIRS(
     model = mod, stochastic = FALSE,
@@ -204,7 +206,7 @@ test_that("test stochastic SIRS birds step equal hand-calculation", {
 
 
   # sample update in stochastic model
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
 
   setup_birds_SIRS(
     model = mod, stochastic = TRUE,
@@ -243,7 +245,7 @@ test_that("test SIRS birds die out with no fledglings", {
   fledge_trace <- matrix(0, nrow = p, ncol = tmax)
 
   # sample update in stochastic model
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
 
   setup_birds_SIRS(
     model = mod, stochastic = TRUE,
@@ -283,7 +285,7 @@ test_that("deterministic SIRS bird step is working with pulse of infection", {
   SIR <- matrix(0, p, 3)
   SIR[, 1] <- 10
 
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
   setup_birds_SIRS(mod, stochastic = FALSE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = 1/365, gamma = gamma, r = r)
   setup_fledge_trace(mod, stochastic = FALSE, trace = c(0.1, 0.1, 0.1))
 
@@ -341,7 +343,7 @@ test_that("stochastic SIRS bird step is working with pulse of infection", {
   SIR <- matrix(0, p, 3)
   SIR[, 1] <- 1e3
 
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
   setup_birds_SIRS(mod, stochastic = TRUE, fledge_disperse = fledge_disperse, theta = theta, SIR = SIR, mu = 1/365, gamma = gamma, r = r)
   setup_fledge_trace(mod, stochastic = FALSE, trace = rep(1, 3))
 
