@@ -7,7 +7,7 @@
 \method{compute_B_pop}{SIRS}(model)
 }
 \arguments{
-\item{model}{an object from \link{make_microWNV}}
+\item{model}{an object from \link[MicroMoB:make_MicroMoB]{MicroMoB::make_MicroMoB}}
 }
 \description{
 Compute total SIRS bird population (\eqn{B_{pop}})

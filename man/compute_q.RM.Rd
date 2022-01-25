@@ -7,11 +7,11 @@
 \method{compute_q}{RM}(model, W, WB)
 }
 \arguments{
-\item{model}{an object from \link{make_microWNV}}
+\item{model}{an object from \link[MicroMoB:make_MicroMoB]{MicroMoB::make_MicroMoB}}
 
 \item{W}{a vector of length \code{p} giving human availability by patch (\eqn{W})}
 
-\item{WB}{a vector of length \code{p} giving bird availability by patch (\eqn{W_{\delta}})}
+\item{WB}{a vector of length \code{p} giving bird availability by patch (\eqn{W_{B}})}
 }
 \description{
 This method simply returns the \code{q} parameter of the mosquito object,

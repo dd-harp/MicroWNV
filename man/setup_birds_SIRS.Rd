@@ -15,11 +15,12 @@ setup_birds_SIRS(
   b = 0.55,
   c = 0.15,
   gamma = 1/5,
-  r = 1/120
+  r = 1/120,
+  beta = 0.5
 )
 }
 \arguments{
-\item{model}{an object from \link{make_microWNV}}
+\item{model}{an object from \link[MicroMoB:make_MicroMoB]{MicroMoB::make_MicroMoB}}
 
 \item{stochastic}{should the model update deterministically or stochastically?}
 
@@ -44,6 +45,8 @@ giving daily mortality rates}
 \item{gamma}{inverse of infectious duration (recovery rate)}
 
 \item{r}{inverse of immune duration (rate of loss of immunity)}
+
+\item{beta}{number of eggs produced, per adult, per day}
 }
 \description{
 This model interfaces with bloodmeals via the vector \code{model$bird$h},

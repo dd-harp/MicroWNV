@@ -7,7 +7,7 @@
 \method{step_birds}{SIRS}(model)
 }
 \arguments{
-\item{model}{an object from \link{make_microWNV}}
+\item{model}{an object from \link[MicroMoB:make_MicroMoB]{MicroMoB::make_MicroMoB}}
 }
 \description{
 This function dispatches on the second argument of \code{model$bird}

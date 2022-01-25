@@ -1,7 +1,7 @@
 test_that("trace fledgling model errors with incorrect trace", {
   p <- 2
   tmax <- 10
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
 
   trace <- c(10, 100, 1000)
   expect_error(setup_fledge_trace(model = mod, trace = trace, stochastic = FALSE))
@@ -23,31 +23,15 @@ test_that("test trace fledgling model with vector trace", {
   trace <- c(10, 100)
 
   # deterministic
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
   setup_fledge_trace(model = mod, trace = trace, stochastic = FALSE)
   expect_equal(compute_fledge(model = mod), trace)
 
-  aq_before <- mod$fledge
-  compute_clutch(model = mod)
-  expect_equal(aq_before, mod$fledge)
-
-  aq_before <- mod$fledge
-  add_clutch(model = mod, eggs = c(10, 20))
-  expect_equal(aq_before, mod$fledge)
-
   # stochastic
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
   setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
   trace <- compute_fledge(model = mod)
   expect_true(trace[1] < trace[2])
-
-  aq_before <- mod$fledge
-  compute_clutch(model = mod)
-  expect_equal(aq_before, mod$fledge)
-
-  aq_before <- mod$fledge
-  add_clutch(model = mod, eggs = c(10, 20))
-  expect_equal(aq_before, mod$fledge)
 
 })
 
@@ -59,35 +43,19 @@ test_that("test trace fledgling model with 365 matrix trace, tmax < 365", {
   trace <- pmax(trace, 0)
 
   # deterministic
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
   setup_fledge_trace(model = mod, trace = trace, stochastic = FALSE)
 
   expect_equal(mod$fledge$trace, trace[, 1:tmax])
   expect_equal(compute_fledge(model = mod), trace[, 1])
 
-  aq_before <- mod$fledge
-  compute_clutch(model = mod)
-  expect_equal(aq_before, mod$fledge)
-
-  aq_before <- mod$fledge
-  add_clutch(model = mod, eggs = c(10, 20))
-  expect_equal(aq_before, mod$fledge)
-
   # stochastic
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
   setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
 
   expect_equal(mod$fledge$trace, trace[, 1:tmax])
   trace <- compute_fledge(model = mod)
   expect_true(trace[1] < trace[2])
-
-  aq_before <- mod$fledge
-  compute_clutch(model = mod)
-  expect_equal(aq_before, mod$fledge)
-
-  aq_before <- mod$fledge
-  add_clutch(model = mod, eggs = c(10, 20))
-  expect_equal(aq_before, mod$fledge)
 
 })
 
@@ -99,7 +67,7 @@ test_that("test trace fledgling model with 365 matrix trace, tmax > 365", {
   trace <- pmax(trace, 0)
 
   # deterministic
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
   setup_fledge_trace(model = mod, trace = trace, stochastic = FALSE)
 
   expect_equal(mod$fledge$trace, cbind(trace, trace))
@@ -112,7 +80,7 @@ test_that("test trace fledgling model with 365 matrix trace, tmax > 365", {
   expect_equal(compute_fledge(model = mod), trace[, 365])
 
   # stochastic
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
   setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
 
   expect_equal(mod$fledge$trace, cbind(trace, trace))
@@ -129,7 +97,7 @@ test_that("test trace fledgling model with tmax matrix trace", {
   trace <- pmax(trace, 0)
 
   # deterministic
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
   setup_fledge_trace(model = mod, trace = trace, stochastic = FALSE)
 
   expect_equal(mod$fledge$trace, trace)
@@ -139,7 +107,7 @@ test_that("test trace fledgling model with tmax matrix trace", {
   expect_equal(compute_fledge(model = mod), trace[, 19])
 
   # stochastic
-  mod <- make_microWNV(tmax = tmax, p = p)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
   setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
 
   expect_equal(mod$fledge$trace, trace)

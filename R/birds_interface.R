@@ -4,7 +4,7 @@
 
 #' @title Update bird population
 #' @description This method dispatches on the type of `model$bird`.
-#' @param model an object from [MicroWNV::make_microWNV]
+#' @param model an object from [MicroMoB::make_MicroMoB]
 #' @export
 step_birds <- function(model) {
   UseMethod("step_birds", model$bird)
@@ -15,7 +15,7 @@ step_birds <- function(model) {
 #' @title Compute available birds (\eqn{W_{B}})
 #' @description Compute the bird population in each place weighted by home range
 #' and biting weight. This method dispatches on the type of `model$bird`.
-#' @param model an object from [MicroWNV::make_microWNV]
+#' @param model an object from [MicroMoB::make_MicroMoB]
 #' @return a vector of length `p`
 #' @export
 compute_WB <- function(model) {
@@ -24,7 +24,7 @@ compute_WB <- function(model) {
 
 #' @title Compute bird biting weights (\eqn{w_{f_{B}}})
 #' @description This method dispatches on the type of `model$bird`.
-#' @param model an object from [MicroWNV::make_microWNV]
+#' @param model an object from [MicroMoB::make_MicroMoB]
 #' @return a vector of length `p`
 #' @export
 compute_wfB <- function(model) {
@@ -35,7 +35,7 @@ compute_wfB <- function(model) {
 #' @description This is normally computed as the prevalence of disease in each place
 #' multiplied by the transmission efficiency from birds to mosquitoes.
 #' This method dispatches on the type of `model$bird`
-#' @param model an object from [MicroWNV::make_microWNV]
+#' @param model an object from [MicroMoB::make_MicroMoB]
 #' @return a vector of length `p`
 #' @export
 compute_xB <- function(model) {
@@ -45,7 +45,7 @@ compute_xB <- function(model) {
 #' @title Compute total bird population (\eqn{B_{pop}})
 #' @description Compute the total bird population in each place
 #' This method dispatches on the type of `model$bird`
-#' @param model an object from [MicroWNV::make_microWNV]
+#' @param model an object from [MicroMoB::make_MicroMoB]
 #' @return a vector of length `p`
 #' @export
 compute_B_pop <- function(model) {
@@ -55,9 +55,18 @@ compute_B_pop <- function(model) {
 #' @title Compute time at risk matrix (\eqn{\Psi})
 #' @description Compute the home range (time at risk) matrix for bird populations.
 #' This method dispatches on the type of `model$bird`.
-#' @param model an object from [MicroWNV::make_microWNV]
+#' @param model an object from [MicroMoB::make_MicroMoB]
 #' @return a matrix with `n` rows and `p` columns
 #' @export
 compute_PsiB <- function(model) {
   UseMethod("compute_PsiB", model$bird)
+}
+
+#' @title Compute number of eggs laid from birds for each patch
+#' @description This method dispatches on the type of `model$bird`
+#' @param model an object from [MicroMoB::make_MicroMoB]
+#' @return a vector of length `p` giving the total number of eggs laid by adult birds in each patch
+#' @export
+compute_clutch <- function(model) {
+  UseMethod("compute_clutch", model$bird)
 }

@@ -1,3 +1,5 @@
+library(MicroMoB)
+
 test_that("test bloodmeal with simple RM setup (SIR humans and SIRS birds)", {
 
   patches <- 1
@@ -32,7 +34,7 @@ test_that("test bloodmeal with simple RM setup (SIR humans and SIRS birds)", {
   Z <- 80
   psi <- diag(patches)
 
-  mod <- make_microWNV(tmax = tmax, p = patches)
+  mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = patches)
 
   # humans
   setup_humans_SIR(mod, stochastic = FALSE, theta = theta, wf = wf, H = sum(SIR), SIR = SIR, b = b, c = c, gamma = gamma)
@@ -77,7 +79,7 @@ test_that("test bloodmeal with simple RM setup (SIR humans and SIRS birds)", {
   kappa <- (q * (t(beta_H) %*% (x*H))) + ((1 - q) * (t(beta_B) %*% (xB*B_pop)))
 
   # compute in MicroWNV
-  compute_bloodmeal(mod)
+  MicroWNV::compute_bloodmeal(mod)
 
   expect_equal(mod$human$EIR, as.vector(EIR_H))
   expect_equal(mod$bird$EIR, as.vector(EIR_B))

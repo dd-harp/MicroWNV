@@ -7,7 +7,7 @@
 step_birds(model)
 }
 \arguments{
-\item{model}{an object from \link{make_microWNV}}
+\item{model}{an object from \link[MicroMoB:make_MicroMoB]{MicroMoB::make_MicroMoB}}
 }
 \description{
 This method dispatches on the type of \code{model$bird}.

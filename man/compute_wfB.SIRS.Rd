@@ -7,7 +7,7 @@
 \method{compute_wfB}{SIRS}(model)
 }
 \arguments{
-\item{model}{an object from \link{make_microWNV}}
+\item{model}{an object from \link[MicroMoB:make_MicroMoB]{MicroMoB::make_MicroMoB}}
 }
 \description{
 Compute bird biting weights of SIRS birds (\eqn{w_{f_{B}}})

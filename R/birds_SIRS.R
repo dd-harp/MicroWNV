@@ -1,7 +1,7 @@
 #' @title Setup birds with SIRS infection model
 #' @description This model interfaces with bloodmeals via the vector `model$bird$h`,
 #' giving the per-capita force of infection for birds in each patch.
-#' @param model an object from [MicroWNV::make_microWNV]
+#' @param model an object from [MicroMoB::make_MicroMoB]
 #' @param stochastic should the model update deterministically or stochastically?
 #' @param fledge_disperse a dispersal matrix for fledglings; this parameter is part
 #' of the adult model rather than fledgling model because the handoff of responsibility
@@ -16,9 +16,11 @@
 #' @param c transmission efficiency (birds to mosquitoes)
 #' @param gamma inverse of infectious duration (recovery rate)
 #' @param r inverse of immune duration (rate of loss of immunity)
+#' @param beta number of eggs produced, per adult, per day
+#' @importFrom MicroMoB approx_equal time_varying_parameter
 #' @export
-setup_birds_SIRS <- function(model, stochastic, fledge_disperse, theta, SIR, mu, wf = NULL, b = 0.55, c = 0.15, gamma = 1/5, r = 1/120) {
-  stopifnot(inherits(model, "microWNV"))
+setup_birds_SIRS <- function(model, stochastic, fledge_disperse, theta, SIR, mu, wf = NULL, b = 0.55, c = 0.15, gamma = 1/5, r = 1/120, beta = 0.5) {
+  stopifnot(inherits(model, "MicroMoB"))
   stopifnot(inherits(fledge_disperse, "matrix"))
   stopifnot(inherits(theta, "matrix"))
   stopifnot(is.logical(stochastic))
@@ -35,19 +37,8 @@ setup_birds_SIRS <- function(model, stochastic, fledge_disperse, theta, SIR, mu,
   stopifnot(approx_equal(rowSums(fledge_disperse), 1))
 
   stopifnot(length(mu) > 0)
-  if (length(mu) == 365L) {
-    ix <- (1:tmax) %% 365L
-    ix[which(ix == 0L)] <- 365L
-    mu_vec <- mu[ix]
-  } else if (length(mu) == tmax) {
-    mu_vec <- mu
-  } else {
-    stopifnot(length(mu) == 1L)
-    mu_vec <- rep(mu, tmax)
-  }
-
-  stopifnot(is.finite(mu_vec))
-  stopifnot(mu_vec >= 0)
+  stopifnot(mu > 0)
+  stopifnot(is.finite(mu))
 
   if (is.null(colnames(SIR))) {
     colnames(SIR) <- c("S", "I", "R")
@@ -76,7 +67,7 @@ setup_birds_SIRS <- function(model, stochastic, fledge_disperse, theta, SIR, mu,
 
   model$bird$EIR <- rep(0, p)
   model$bird$h <- rep(0, p)
-  model$bird$mu <- mu_vec
+  model$bird$mu <- time_varying_parameter(param = mu, tmax = tmax)
 
   model$bird$b <- b
   model$bird$c <- c
@@ -109,10 +100,6 @@ step_birds.SIRS_deterministic <- function(model) {
   fledglings <- compute_fledge(model)
   fledglings <- fledglings %*% model$bird$fledge_disperse
 
-  # compute eggs laid
-  N <- rowSums(model$bird$SIR)
-  eggs <- compute_clutch(model, N)
-
   # compute differences: S
   S_haz <- model$bird$h + model$bird$mu[model$global$tnow]
   S_leave <- model$bird$SIR[, "S"] * pexp(q =  S_haz)
@@ -129,7 +116,6 @@ step_birds.SIRS_deterministic <- function(model) {
   R_toS <- R_leave * (model$bird$r / R_haz)
 
   # update
-  add_clutch(model, eggs)
   model$bird$SIR[, "S"] <- model$bird$SIR[, "S"] - S_leave + fledglings + R_toS
   model$bird$SIR[, "I"] <- model$bird$SIR[, "I"] - I_leave + S_toI
   model$bird$SIR[, "R"] <- model$bird$SIR[, "R"] - R_leave + I_toR
@@ -141,6 +127,7 @@ step_birds.SIRS_deterministic <- function(model) {
 #' @title Update SIRS bird population (stochastic)
 #' @inheritParams step_birds
 #' @importFrom stats pexp rbinom
+#' @importFrom MicroMoB sample_stochastic_vector
 #' @export
 step_birds.SIRS_stochastic <- function(model) {
 
@@ -151,10 +138,6 @@ step_birds.SIRS_stochastic <- function(model) {
   # get new fledglings and their dispersion
   fledglings <- compute_fledge(model)
   fledglings <- sample_stochastic_vector(x = fledglings, prob = model$bird$fledge_disperse)
-
-  # compute eggs laid
-  N <- rowSums(model$bird$SIR)
-  eggs <- compute_clutch(model, N)
 
   # compute differences: S
   S_haz <- model$bird$h + model$bird$mu[model$global$tnow]
@@ -172,7 +155,6 @@ step_birds.SIRS_stochastic <- function(model) {
   R_toS <- rbinom(n = p, size = R_leave, prob = model$bird$r / R_haz)
 
   # update
-  add_clutch(model, eggs)
   model$bird$SIR[, "S"] <- model$bird$SIR[, "S"] - S_leave + fledglings + R_toS
   model$bird$SIR[, "I"] <- model$bird$SIR[, "I"] - I_leave + S_toI
   model$bird$SIR[, "R"] <- model$bird$SIR[, "R"] - R_leave + I_toR
@@ -227,3 +209,13 @@ compute_B_pop.SIRS <- function(model) {
 compute_PsiB.SIRS <- function(model) {
   model$bird$theta
 }
+
+# eggs laid by birds
+
+#' @title Compute SIRS egg clutches
+#' @inheritParams compute_clutch
+#' @export
+compute_clutch.SIRS <- function(model) {
+  rowSums(model$bird$SIR) * model$bird$beta
+}
+

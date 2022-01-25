@@ -7,7 +7,7 @@
 compute_bloodmeal(model)
 }
 \arguments{
-\item{model}{an object from \link{make_microWNV}}
+\item{model}{an object from \link[MicroMoB:make_MicroMoB]{MicroMoB::make_MicroMoB}}
 }
 \description{
 This should be run prior to any \code{step} functions to update

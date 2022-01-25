@@ -7,7 +7,7 @@
 compute_PsiB(model)
 }
 \arguments{
-\item{model}{an object from \link{make_microWNV}}
+\item{model}{an object from \link[MicroMoB:make_MicroMoB]{MicroMoB::make_MicroMoB}}
 }
 \value{
 a matrix with \code{n} rows and \code{p} columns

@@ -5,58 +5,29 @@
 [![codecov](https://codecov.io/gh/dd-harp/MicroWNV/branch/main/graph/badge.svg?token=3IPFQEBJ5P)](https://codecov.io/gh/dd-harp/MicroWNV)
 <!-- badges: end -->
 
-## Software design
+## Introduction
 
-This is intended to quickly get a prototype running. Therefore we will eschew some
-elegance for speed. The model object will be an environment with a class attribute.
-All interior structure will be named lists. Each function will be passed the entire
-model object.
+**Micro-WNV** is an extension of [**Micro-MoB**](https://github.com/dd-harp/MicroMoB) for West Nile virus (WNV)
+models. It depends on the `MicroMoB` package which should be installed first.
+It follows the same design philosophy as that software package, and is a true extension
+in the sense that it cannot be used independently, as it depends on "core" algorithms
+common across most mosquito-borne pathogen transmission simulations implemented in `MicroMoB`.
 
-## Components
+The `MicroWNV` package adds two additional components, _fledge_ for fledgling (immature)
+bird populations, and `bird` for adult bird populations. In certain cases some S3 methods
+have been overridden to take into account the pecularities of WNV models, and can be
+found in the source code (and references) clearly marked.
 
-The model is broken into components, for humans, mosquitoes, and birds (and some others).
-Each component has an _interface_, which are methods which must be defined for that
-component. A component's interface is stored in file, for example, R/humans_interface.R
-shows the user what methods must be defined for any human model. Other components (e.g. the bloodmeal)
-will call generic methods not knowing what specific code is implementing them, and so
-they must return values consistent with their definition.
+## Installation
 
-We call a specific implementation of a component a _model_.
-Specific implementations are found in files that replace _\_interface_ with the
-model name, for example R/humans_SIR.R. Their accompanying test files are located in
-tests/testthat. If you are creating a new model, please remember to test it
-adequately.
+```
+remotes::install_github('dd-harp/MicroWNV')
+library(MicroWNV)
+```
 
-We list the components which require interfaces below and specific models
-to implement them.
+## Contributing
 
-### Mosquitoes
-
-The mosquito component is responsible for all dynamics which update adult mosquito
-populations. The interface is defined in R/mosquito_interface.R.
-
-### Aquatic
-
-The aquatic component is responsible for all dynamics which update immature (aquatic
-stage) mosquito populations. The interface is defined in R/aquatic_interface.R.
-
-### Birds
-
-The bird component is responsible for all dynamics which update adult bird populations.
-The interface is defined in R/birds_interface.R.
-
-### Fledge
-
-The fledge component is responsible for all dynamics which update immature (fledgling)
-bird populations. The interface is defined in R/fledge_interface.R.
-
-### Humans
-
-The human component updates human populations. The interface is defined in R/humans_interface.R.
-
-## Update
-
-To update the model, a function is called which gathers information from the various
-components to calculate rates which couple components (i.e. infection) together, which
-are then passed back to each individual component, and updated using the generic
-interface for each component.
+Thank you for your interest in **Micro-MoB**! If you have a bug to report, please
+open an [issue on GitHub](https://github.com/dd-harp/MicroMoB/issues). If you would like
+to open a pull request or have further questions, please see our guide to
+contributing to the project at `vignette("Contributing")`.

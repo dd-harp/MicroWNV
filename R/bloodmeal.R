@@ -5,10 +5,12 @@
 #' provided by each component. It updates `h`, vectors giving per-capita force
 #' of infection for the bird and human components, and `kappa`, the net infectiousness
 #' of hosts for the mosquito component.
-#' @param model an object from [MicroWNV::make_microWNV]
+#' @param model an object from [MicroMoB::make_MicroMoB]
+#' @importFrom MicroMoB compute_W compute_H compute_x compute_wf compute_Psi
+#' @importFrom MicroMoB compute_f compute_Z
 #' @export
 compute_bloodmeal <- function(model) {
-  stopifnot(inherits(model, "microWNV"))
+  stopifnot(inherits(model, "MicroMoB"))
 
   n <- model$global$n
   p <- model$global$p

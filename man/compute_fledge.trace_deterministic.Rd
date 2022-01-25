@@ -7,7 +7,7 @@
 \method{compute_fledge}{trace_deterministic}(model)
 }
 \arguments{
-\item{model}{an object from \link{make_microWNV}}
+\item{model}{an object from \link[MicroMoB:make_MicroMoB]{MicroMoB::make_MicroMoB}}
 }
 \description{
 Return the column of the trace matrix for this day.
