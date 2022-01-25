@@ -61,3 +61,12 @@ compute_B_pop <- function(model) {
 compute_PsiB <- function(model) {
   UseMethod("compute_PsiB", model$bird)
 }
+
+#' @title Compute number of eggs laid from birds for each patch
+#' @description This method dispatches on the type of `model$bird`
+#' @param model an object from [MicroMoB::make_MicroMoB]
+#' @return a vector of length `p` giving the total number of eggs laid by adult birds in each patch
+#' @export
+compute_clutch <- function(model) {
+  UseMethod("compute_clutch", model$bird)
+}

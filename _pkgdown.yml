@@ -10,60 +10,18 @@ reference:
   desc: >
     The bloodmeal function computes bites taken by mosquitoes on hosts relevant
     for pathogen transmission between species over a time step. After it is computed, the various
-    components can be updated independently.
+    components can be updated independently. This function overrides `compute_bloodmeal`
+    from **Micro-MoB**
   contents:
   - compute_bloodmeal
 
 - title: Adult mosquito component
 
   desc: >
-    The adult mosquito component is responsible for updating mosquito populations
-    of the adult (flying) life stage, and handling pathogen dynamics in adult
-    populations. Any model of adult mosquitoes in MicroWNV is required to
-    implement the following interface methods.
+    Certain S3 methods are overridden to account for specific behavior for West Nile virus.
   contents:
-  - step_mosquitoes
-  - compute_Z
-  - compute_f
   - compute_q
-
-- subtitle: Ross-Macdonald (RM) mosquito model
-  desc: This model implements the generalized RM mosquito model.
-  contents:
-  - setup_mosquito_RM
-  - step_mosquitoes.RM
-  - step_mosquitoes.RM_deterministic
-  - step_mosquitoes.RM_stochastic
-  - compute_Z.RM
-  - compute_f.RM
   - compute_q.RM
-
-- title: Aquatic (immature) mosquito component
-
-  desc: >
-    The aquatic mosquito component is responsible for updating aquatic mosquito
-    populations which live in aquatic habitats. It must calculate how many eggs
-    are oviposited by adults per day, add them to aquatic habitats, update the aquatic life stages, and calculate
-    the number of emerging adults. Any model of immature mosquitoes in MicroWNV is required to
-    implement the following interface methods.
-  contents:
-    - step_aqua
-    - compute_emergents
-    - add_oviposit
-    - compute_oviposit
-
-- subtitle: Trace (forced) aquatic model
-  desc: >
-    This is a model of aquatic mosquitoes where emergence is passed as a trace (forcing)
-    term and it is not affected by endogenous dynamics.
-  contents:
-  - setup_aqua_trace
-  - step_aqua.trace
-  - compute_emergents.trace
-  - compute_emergents.trace_deterministic
-  - compute_emergents.trace_stochastic
-  - add_oviposit.trace
-  - compute_oviposit.trace
 
 - title: Adult bird component
 
@@ -78,6 +36,7 @@ reference:
   - compute_xB
   - compute_B_pop
   - compute_PsiB
+  - compute_clutch
 
 - subtitle: SIRS adult bird model
   desc: >
@@ -93,6 +52,7 @@ reference:
   - compute_xB.SIRS
   - compute_B_pop.SIRS
   - compute_PsiB.SIRS
+  - compute_clutch.SIRS
 
 - title: Fledgling (immature) bird component
 
@@ -105,8 +65,6 @@ reference:
   contents:
     - step_fledge
     - compute_fledge
-    - add_clutch
-    - compute_clutch
 
 - subtitle: Trace (forced) fledgling model
   desc: >
@@ -118,40 +76,3 @@ reference:
   - compute_fledge.trace
   - compute_fledge.trace_deterministic
   - compute_fledge.trace_stochastic
-  - add_clutch.trace
-  - compute_clutch.trace
-
-- title: Human component
-
-  desc: >
-    The human component is responsible for updating human populations
-    and their pathogen dynamics. Any model of humans in MicroWNV is required to
-    implement the following interface methods.
-  contents:
-  - step_humans
-  - compute_W
-  - compute_wf
-  - compute_x
-  - compute_H
-  - compute_Psi
-
-- subtitle: SIR human model
-  desc: >
-    This model implements a simple SIR model of humans with risk distributed
-    according to time at risk matrices.
-  contents:
-  - setup_humans_SIR
-  - step_humans.SIR
-  - step_humans.SIR_deterministic
-  - step_humans.SIR_stochastic
-  - compute_W.SIR
-  - compute_wf.SIR
-  - compute_x.SIR
-  - compute_H.SIR
-  - compute_Psi.SIR
-
-- title: Utility and global methods
-  contents:
-  - make_microWNV
-  - sample_stochastic_vector
-  - sample_stochastic_matrix

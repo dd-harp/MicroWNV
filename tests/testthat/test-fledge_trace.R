@@ -27,27 +27,11 @@ test_that("test trace fledgling model with vector trace", {
   setup_fledge_trace(model = mod, trace = trace, stochastic = FALSE)
   expect_equal(compute_fledge(model = mod), trace)
 
-  aq_before <- mod$fledge
-  compute_clutch(model = mod)
-  expect_equal(aq_before, mod$fledge)
-
-  aq_before <- mod$fledge
-  add_clutch(model = mod, eggs = c(10, 20))
-  expect_equal(aq_before, mod$fledge)
-
   # stochastic
   mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
   setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
   trace <- compute_fledge(model = mod)
   expect_true(trace[1] < trace[2])
-
-  aq_before <- mod$fledge
-  compute_clutch(model = mod)
-  expect_equal(aq_before, mod$fledge)
-
-  aq_before <- mod$fledge
-  add_clutch(model = mod, eggs = c(10, 20))
-  expect_equal(aq_before, mod$fledge)
 
 })
 
@@ -65,14 +49,6 @@ test_that("test trace fledgling model with 365 matrix trace, tmax < 365", {
   expect_equal(mod$fledge$trace, trace[, 1:tmax])
   expect_equal(compute_fledge(model = mod), trace[, 1])
 
-  aq_before <- mod$fledge
-  compute_clutch(model = mod)
-  expect_equal(aq_before, mod$fledge)
-
-  aq_before <- mod$fledge
-  add_clutch(model = mod, eggs = c(10, 20))
-  expect_equal(aq_before, mod$fledge)
-
   # stochastic
   mod <- MicroMoB::make_MicroMoB(tmax = tmax, p = p)
   setup_fledge_trace(model = mod, trace = trace, stochastic = TRUE)
@@ -80,14 +56,6 @@ test_that("test trace fledgling model with 365 matrix trace, tmax < 365", {
   expect_equal(mod$fledge$trace, trace[, 1:tmax])
   trace <- compute_fledge(model = mod)
   expect_true(trace[1] < trace[2])
-
-  aq_before <- mod$fledge
-  compute_clutch(model = mod)
-  expect_equal(aq_before, mod$fledge)
-
-  aq_before <- mod$fledge
-  add_clutch(model = mod, eggs = c(10, 20))
-  expect_equal(aq_before, mod$fledge)
 
 })
 
