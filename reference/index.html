@@ -10,14 +10,14 @@
     
     <a class="navbar-brand me-2" href="../index.html">MicroWNV</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
@@ -26,7 +26,6 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Bloodmeal.html">Biting distribution and transmission</a>
     <a class="dropdown-item" href="../articles/Contributing.html">Contributing</a>
-    <a class="dropdown-item" href="../articles/RM_mosquito.html">Ross-Macdonald mosquito model</a>
     <a class="dropdown-item" href="../articles/SIRS_birds.html">SIRS bird model</a>
     <a class="dropdown-item" href="../articles/Simple_example.html">Example WNV simulation</a>
   </div>
@@ -53,7 +52,7 @@
     <div class="section level2">
       <h2 id="bloodmeal">Bloodmeal<a class="anchor" aria-label="anchor" href="#bloodmeal"></a></h2>
       
-      <p class="section-desc"></p><p>The bloodmeal function computes bites taken by mosquitoes on hosts relevant for pathogen transmission between species over a time step. After it is computed, the various components can be updated independently.</p>
+      <p class="section-desc"></p><p>The bloodmeal function computes bites taken by mosquitoes on hosts relevant for pathogen transmission between species over a time step. After it is computed, the various components can be updated independently. This function overrides <code>compute_bloodmeal</code> from <strong>Micro-MoB</strong></p>
 
       
     </div><div id="" class="section level2">
@@ -69,7 +68,7 @@
       </dl></div><div class="section level2">
       <h2 id="adult-mosquito-component">Adult mosquito component<a class="anchor" aria-label="anchor" href="#adult-mosquito-component"></a></h2>
       
-      <p class="section-desc"></p><p>The adult mosquito component is responsible for updating mosquito populations of the adult (flying) life stage, and handling pathogen dynamics in adult populations. Any model of adult mosquitoes in MicroWNV is required to implement the following interface methods.</p>
+      <p class="section-desc"></p><p>Certain S3 methods are overridden to account for specific behavior for West Nile virus.</p>
 
       
     </div><div id="" class="section level2">
@@ -78,148 +77,15 @@
       
 
       <dl><dt>
-          
-          <code><a href="step_mosquitoes.html">step_mosquitoes()</a></code> 
-        </dt>
-        <dd>Update mosquito population</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_Z.html">compute_Z()</a></code> 
-        </dt>
-        <dd>Compute density of infective mosquitoes (\(Z\))</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_f.html">compute_f()</a></code> 
-        </dt>
-        <dd>Compute mosquito feeding rate (\(f\))</dd>
-      </dl><dl><dt>
           
           <code><a href="compute_q.html">compute_q()</a></code> 
         </dt>
         <dd>Compute human blood feeding fraction (\(q\))</dd>
-      </dl></div><div class="section level2">
-      
-      <h3 id="ross-macdonald-rm-mosquito-model">Ross-Macdonald (RM) mosquito model<a class="anchor" aria-label="anchor" href="#ross-macdonald-rm-mosquito-model"></a></h3>
-      <p class="section-desc"></p><p>This model implements the generalized RM mosquito model.</p>
-
-      
-    </div><div id="" class="section level2">
-      
-      
-      
-
-      <dl><dt>
-          
-          <code><a href="setup_mosquito_RM.html">setup_mosquito_RM()</a></code> 
-        </dt>
-        <dd>Setup generalized Ross-Macdonald mosquito model</dd>
-      </dl><dl><dt>
-          
-          <code><a href="step_mosquitoes.RM.html">step_mosquitoes(<i>&lt;RM&gt;</i>)</a></code> 
-        </dt>
-        <dd>Update Ross-Macdonald mosquitoes</dd>
-      </dl><dl><dt>
-          
-          <code><a href="step_mosquitoes.RM_deterministic.html">step_mosquitoes(<i>&lt;RM_deterministic&gt;</i>)</a></code> 
-        </dt>
-        <dd>Update Ross-Macdonald mosquitoes (deterministic)</dd>
-      </dl><dl><dt>
-          
-          <code><a href="step_mosquitoes.RM_stochastic.html">step_mosquitoes(<i>&lt;RM_stochastic&gt;</i>)</a></code> 
-        </dt>
-        <dd>Update Ross-Macdonald mosquitoes (stochastic)</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_Z.RM.html">compute_Z(<i>&lt;RM&gt;</i>)</a></code> 
-        </dt>
-        <dd>Compute density of infective mosquitoes for RM model (\(Z\))</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_f.RM.html">compute_f(<i>&lt;RM&gt;</i>)</a></code> 
-        </dt>
-        <dd>Compute mosquito feeding rate for RM model (\(f\))</dd>
       </dl><dl><dt>
           
           <code><a href="compute_q.RM.html">compute_q(<i>&lt;RM&gt;</i>)</a></code> 
         </dt>
         <dd>Compute human blood feeding fraction for RM model (\(q\))</dd>
-      </dl></div><div class="section level2">
-      <h2 id="aquatic-immature-mosquito-component">Aquatic (immature) mosquito component<a class="anchor" aria-label="anchor" href="#aquatic-immature-mosquito-component"></a></h2>
-      
-      <p class="section-desc"></p><p>The aquatic mosquito component is responsible for updating aquatic mosquito populations which live in aquatic habitats. It must calculate how many eggs are oviposited by adults per day, add them to aquatic habitats, update the aquatic life stages, and calculate the number of emerging adults. Any model of immature mosquitoes in MicroWNV is required to implement the following interface methods.</p>
-
-      
-    </div><div id="" class="section level2">
-      
-      
-      
-
-      <dl><dt>
-          
-          <code><a href="step_aqua.html">step_aqua()</a></code> 
-        </dt>
-        <dd>Update aquatic (immature) mosquito populations</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_emergents.html">compute_emergents()</a></code> 
-        </dt>
-        <dd>Compute number of newly emerging adults</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_oviposit.html">add_oviposit()</a></code> 
-        </dt>
-        <dd>Add eggs from oviposition to aquatic model</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_oviposit.html">compute_oviposit()</a></code> 
-        </dt>
-        <dd>Compute number of eggs laid from oviposition for each patch</dd>
-      </dl></div><div class="section level2">
-      
-      <h3 id="trace-forced-aquatic-model">Trace (forced) aquatic model<a class="anchor" aria-label="anchor" href="#trace-forced-aquatic-model"></a></h3>
-      <p class="section-desc"></p><p>This is a model of aquatic mosquitoes where emergence is passed as a trace (forcing) term and it is not affected by endogenous dynamics.</p>
-
-      
-    </div><div id="" class="section level2">
-      
-      
-      
-
-      <dl><dt>
-          
-          <code><a href="setup_aqua_trace.html">setup_aqua_trace()</a></code> 
-        </dt>
-        <dd>Setup aquatic (immature) mosquito model with trace (forced) emergence</dd>
-      </dl><dl><dt>
-          
-          <code><a href="step_aqua.trace.html">step_aqua(<i>&lt;trace&gt;</i>)</a></code> 
-        </dt>
-        <dd>Update aquatic (immature) mosquito populations for forced emergence</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_emergents.trace.html">compute_emergents(<i>&lt;trace&gt;</i>)</a></code> 
-        </dt>
-        <dd>Compute number of newly emerging adults from forcing term</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_emergents.trace_deterministic.html">compute_emergents(<i>&lt;trace_deterministic&gt;</i>)</a></code> 
-        </dt>
-        <dd>Compute number of newly emerging adults from forcing term (deterministic)</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_emergents.trace_stochastic.html">compute_emergents(<i>&lt;trace_stochastic&gt;</i>)</a></code> 
-        </dt>
-        <dd>Compute number of newly emerging adults from forcing term (stochastic)</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_oviposit.trace.html">add_oviposit(<i>&lt;trace&gt;</i>)</a></code> 
-        </dt>
-        <dd>Add eggs from oviposition to forced aquatic model</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_oviposit.trace.html">compute_oviposit(<i>&lt;trace&gt;</i>)</a></code> 
-        </dt>
-        <dd>Compute number of eggs laid from oviposition for each patch</dd>
       </dl></div><div class="section level2">
       <h2 id="adult-bird-component">Adult bird component<a class="anchor" aria-label="anchor" href="#adult-bird-component"></a></h2>
       
@@ -261,6 +127,11 @@
           <code><a href="compute_PsiB.html">compute_PsiB()</a></code> 
         </dt>
         <dd>Compute time at risk matrix (\(\Psi\))</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_clutch.html">compute_clutch()</a></code> 
+        </dt>
+        <dd>Compute number of eggs laid from birds for each patch</dd>
       </dl></div><div class="section level2">
       
       <h3 id="sirs-adult-bird-model">SIRS adult bird model<a class="anchor" aria-label="anchor" href="#sirs-adult-bird-model"></a></h3>
@@ -317,6 +188,11 @@
           <code><a href="compute_PsiB.SIRS.html">compute_PsiB(<i>&lt;SIRS&gt;</i>)</a></code> 
         </dt>
         <dd>Compute SIRS bird time at risk matrix (\(\Psi\))</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compute_clutch.SIRS.html">compute_clutch(<i>&lt;SIRS&gt;</i>)</a></code> 
+        </dt>
+        <dd>Compute SIRS egg clutches</dd>
       </dl></div><div class="section level2">
       <h2 id="fledgling-immature-bird-component">Fledgling (immature) bird component<a class="anchor" aria-label="anchor" href="#fledgling-immature-bird-component"></a></h2>
       
@@ -338,16 +214,6 @@
           <code><a href="compute_fledge.html">compute_fledge()</a></code> 
         </dt>
         <dd>Compute number of new fledglings</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_clutch.html">add_clutch()</a></code> 
-        </dt>
-        <dd>Add clutch (eggs) to fledgling model</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_clutch.html">compute_clutch()</a></code> 
-        </dt>
-        <dd>Compute egg clutches from birds</dd>
       </dl></div><div class="section level2">
       
       <h3 id="trace-forced-fledgling-model">Trace (forced) fledgling model<a class="anchor" aria-label="anchor" href="#trace-forced-fledgling-model"></a></h3>
@@ -384,139 +250,6 @@
           <code><a href="compute_fledge.trace_stochastic.html">compute_fledge(<i>&lt;trace_stochastic&gt;</i>)</a></code> 
         </dt>
         <dd>Compute number of new fledglings from trace (stochastic)</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_clutch.trace.html">add_clutch(<i>&lt;trace&gt;</i>)</a></code> 
-        </dt>
-        <dd>Add eggs to trace fledgling model</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_clutch.trace.html">compute_clutch(<i>&lt;trace&gt;</i>)</a></code> 
-        </dt>
-        <dd>Compute null egg clutches from birds</dd>
-      </dl></div><div class="section level2">
-      <h2 id="human-component">Human component<a class="anchor" aria-label="anchor" href="#human-component"></a></h2>
-      
-      <p class="section-desc"></p><p>The human component is responsible for updating human populations and their pathogen dynamics. Any model of humans in MicroWNV is required to implement the following interface methods.</p>
-
-      
-    </div><div id="" class="section level2">
-      
-      
-      
-
-      <dl><dt>
-          
-          <code><a href="step_humans.html">step_humans()</a></code> 
-        </dt>
-        <dd>Update human population</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_W.html">compute_W()</a></code> 
-        </dt>
-        <dd>Compute available humans (\(W\))</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_wf.html">compute_wf()</a></code> 
-        </dt>
-        <dd>Compute human biting weights (\(w_{f}\))</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_x.html">compute_x()</a></code> 
-        </dt>
-        <dd>Compute net infectiousness of humans (\(x\))</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_H.html">compute_H()</a></code> 
-        </dt>
-        <dd>Compute human population strata sizes (\(H\))</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_Psi.html">compute_Psi()</a></code> 
-        </dt>
-        <dd>Compute time at risk matrix (\(\Psi\))</dd>
-      </dl></div><div class="section level2">
-      
-      <h3 id="sir-human-model">SIR human model<a class="anchor" aria-label="anchor" href="#sir-human-model"></a></h3>
-      <p class="section-desc"></p><p>This model implements a simple SIR model of humans with risk distributed according to time at risk matrices.</p>
-
-      
-    </div><div id="" class="section level2">
-      
-      
-      
-
-      <dl><dt>
-          
-          <code><a href="setup_humans_SIR.html">setup_humans_SIR()</a></code> 
-        </dt>
-        <dd>Setup humans with SIR infection model</dd>
-      </dl><dl><dt>
-          
-          <code><a href="step_humans.SIR.html">step_humans(<i>&lt;SIR&gt;</i>)</a></code> 
-        </dt>
-        <dd>Update SIR human model</dd>
-      </dl><dl><dt>
-          
-          <code><a href="step_humans.SIR_deterministic.html">step_humans(<i>&lt;SIR_deterministic&gt;</i>)</a></code> 
-        </dt>
-        <dd>Update SIR human model (deterministic)</dd>
-      </dl><dl><dt>
-          
-          <code><a href="step_humans.SIR_stochastic.html">step_humans(<i>&lt;SIR_stochastic&gt;</i>)</a></code> 
-        </dt>
-        <dd>Update SIR human model (stochastic)</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_W.SIR.html">compute_W(<i>&lt;SIR&gt;</i>)</a></code> 
-        </dt>
-        <dd>Compute available humans for SIR model (\(W\))</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_wf.SIR.html">compute_wf(<i>&lt;SIR&gt;</i>)</a></code> 
-        </dt>
-        <dd>Compute human biting weights for SIR model (\(w_{f}\))</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_x.SIR.html">compute_x(<i>&lt;SIR&gt;</i>)</a></code> 
-        </dt>
-        <dd>Compute net infectiousness for SIR model (\(x\))</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_H.SIR.html">compute_H(<i>&lt;SIR&gt;</i>)</a></code> 
-        </dt>
-        <dd>Compute human population strata sizes for SIR model (\(H\))</dd>
-      </dl><dl><dt>
-          
-          <code><a href="compute_Psi.SIR.html">compute_Psi(<i>&lt;SIR&gt;</i>)</a></code> 
-        </dt>
-        <dd>Compute time at risk matrix for SIR model (\(\Psi\))</dd>
-      </dl></div><div class="section level2">
-      <h2 id="utility-and-global-methods">Utility and global methods<a class="anchor" aria-label="anchor" href="#utility-and-global-methods"></a></h2>
-      
-      
-
-      
-    </div><div id="" class="section level2">
-      
-      
-      
-
-      <dl><dt>
-          
-          <code><a href="make_microWNV.html">make_microWNV()</a></code> 
-        </dt>
-        <dd>Make a model object</dd>
-      </dl><dl><dt>
-          
-          <code><a href="sample_stochastic_vector.html">sample_stochastic_vector()</a></code> 
-        </dt>
-        <dd>Sample a stochastic vector</dd>
-      </dl><dl><dt>
-          
-          <code><a href="sample_stochastic_matrix.html">sample_stochastic_matrix()</a></code> 
-        </dt>
-        <dd>Sample a stochastic matrix</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
@@ -527,7 +260,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
     </footer></div>

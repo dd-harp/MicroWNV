@@ -16,9 +16,6 @@
     <loc>/articles/Contributing.html</loc>
   </url>
   <url>
-    <loc>/articles/RM_mosquito.html</loc>
-  </url>
-  <url>
     <loc>/articles/SIRS_birds.html</loc>
   </url>
   <url>
@@ -34,34 +31,10 @@
     <loc>/index.html</loc>
   </url>
   <url>
-    <loc>/reference/add_clutch.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_clutch.trace.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_oviposit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_oviposit.trace.html</loc>
-  </url>
-  <url>
     <loc>/reference/compute_B_pop.SIRS.html</loc>
   </url>
   <url>
     <loc>/reference/compute_B_pop.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_H.SIR.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_H.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_Psi.SIR.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_Psi.html</loc>
   </url>
   <url>
     <loc>/reference/compute_PsiB.SIRS.html</loc>
@@ -70,49 +43,19 @@
     <loc>/reference/compute_PsiB.html</loc>
   </url>
   <url>
-    <loc>/reference/compute_W.SIR.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_W.html</loc>
-  </url>
-  <url>
     <loc>/reference/compute_WB.SIRS.html</loc>
   </url>
   <url>
     <loc>/reference/compute_WB.html</loc>
   </url>
   <url>
-    <loc>/reference/compute_Z.RM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_Z.html</loc>
-  </url>
-  <url>
     <loc>/reference/compute_bloodmeal.html</loc>
   </url>
   <url>
+    <loc>/reference/compute_clutch.SIRS.html</loc>
+  </url>
+  <url>
     <loc>/reference/compute_clutch.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_clutch.trace.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_emergents.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_emergents.trace.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_emergents.trace_deterministic.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_emergents.trace_stochastic.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_f.RM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_f.html</loc>
   </url>
   <url>
     <loc>/reference/compute_fledge.html</loc>
@@ -127,34 +70,16 @@
     <loc>/reference/compute_fledge.trace_stochastic.html</loc>
   </url>
   <url>
-    <loc>/reference/compute_oviposit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_oviposit.trace.html</loc>
-  </url>
-  <url>
     <loc>/reference/compute_q.RM.html</loc>
   </url>
   <url>
     <loc>/reference/compute_q.html</loc>
   </url>
   <url>
-    <loc>/reference/compute_wf.SIR.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_wf.html</loc>
-  </url>
-  <url>
     <loc>/reference/compute_wfB.SIRS.html</loc>
   </url>
   <url>
     <loc>/reference/compute_wfB.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_x.SIR.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compute_x.html</loc>
   </url>
   <url>
     <loc>/reference/compute_xB.SIRS.html</loc>
@@ -166,34 +91,10 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/make_microWNV.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sample_stochastic_matrix.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sample_stochastic_vector.html</loc>
-  </url>
-  <url>
-    <loc>/reference/setup_aqua_trace.html</loc>
-  </url>
-  <url>
     <loc>/reference/setup_birds_SIRS.html</loc>
   </url>
   <url>
     <loc>/reference/setup_fledge_trace.html</loc>
-  </url>
-  <url>
-    <loc>/reference/setup_humans_SIR.html</loc>
-  </url>
-  <url>
-    <loc>/reference/setup_mosquito_RM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/step_aqua.html</loc>
-  </url>
-  <url>
-    <loc>/reference/step_aqua.trace.html</loc>
   </url>
   <url>
     <loc>/reference/step_birds.SIRS.html</loc>
@@ -212,29 +113,5 @@
   </url>
   <url>
     <loc>/reference/step_fledge.trace.html</loc>
-  </url>
-  <url>
-    <loc>/reference/step_humans.SIR.html</loc>
-  </url>
-  <url>
-    <loc>/reference/step_humans.SIR_deterministic.html</loc>
-  </url>
-  <url>
-    <loc>/reference/step_humans.SIR_stochastic.html</loc>
-  </url>
-  <url>
-    <loc>/reference/step_humans.html</loc>
-  </url>
-  <url>
-    <loc>/reference/step_mosquitoes.RM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/step_mosquitoes.RM_deterministic.html</loc>
-  </url>
-  <url>
-    <loc>/reference/step_mosquitoes.RM_stochastic.html</loc>
-  </url>
-  <url>
-    <loc>/reference/step_mosquitoes.html</loc>
   </url>
 </urlset>
