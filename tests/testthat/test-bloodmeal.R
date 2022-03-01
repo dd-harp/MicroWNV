@@ -48,9 +48,9 @@ test_that("test bloodmeal with simple RM setup (SIR humans and SIRS birds)", {
   setup_mosquito_RM(mod, stochastic = FALSE, f = f, q = q, eip = eip, p = p, psi = psi, M = M, Y = Y, Z = Z)
 
   # compute human terms
-  W <- compute_W(mod)
   H <- compute_H(mod)
   x <- compute_x(mod)
+  W <- as.vector(t(compute_Psi(mod)) %*% (wf * H))
 
   expect_equal(sum(SIR) * wf, W)
   expect_equal(sum(SIR), H)

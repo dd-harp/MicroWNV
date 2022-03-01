@@ -83,7 +83,6 @@ setup_birds_SIRS <- function(model, stochastic, fledge_disperse, theta, SIR, mu,
 #' for stochastic or deterministic behavior.
 #' @inheritParams step_birds
 #' @details see [MicroWNV::step_birds.SIRS_deterministic] and [MicroWNV::step_birds.SIRS_stochastic]
-#' @importFrom stats pexp
 #' @export
 step_birds.SIRS <- function(model) {
   NextMethod()
@@ -91,6 +90,7 @@ step_birds.SIRS <- function(model) {
 
 #' @title Update SIRS bird population (deterministic)
 #' @inheritParams step_birds
+#' @importFrom stats pexp
 #' @export
 step_birds.SIRS_deterministic <- function(model) {
 
