@@ -6,7 +6,7 @@
 #' of infection for the bird and human components, and `kappa`, the net infectiousness
 #' of hosts for the mosquito component.
 #' @param model an object from [MicroMoB::make_MicroMoB]
-#' @importFrom MicroMoB compute_W compute_H compute_x compute_wf compute_Psi
+#' @importFrom MicroMoB compute_H compute_x compute_wf compute_Psi
 #' @importFrom MicroMoB compute_f compute_Z
 #' @export
 compute_bloodmeal <- function(model) {
@@ -16,11 +16,11 @@ compute_bloodmeal <- function(model) {
   p <- model$global$p
 
   # human quantities
-  W <- compute_W(model)
   H <- compute_H(model)
   x <- compute_x(model)
   wf <- compute_wf(model)
   Psi <- compute_Psi(model)
+  W <- as.vector(t(Psi) %*% (wf * H))
 
   # bird quantities
   WB <- compute_WB(model)

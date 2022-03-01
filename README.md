@@ -14,8 +14,8 @@ in the sense that it cannot be used independently, as it depends on "core" algor
 common across most mosquito-borne pathogen transmission simulations implemented in `MicroMoB`.
 
 The `MicroWNV` package adds two additional components, _fledge_ for fledgling (immature)
-bird populations, and `bird` for adult bird populations. In certain cases some S3 methods
-have been overridden to take into account the pecularities of WNV models, and can be
+bird populations, and _bird_ for adult bird populations. In certain cases some S3 methods
+have been overridden to take into account the peculiarities of WNV models, and can be
 found in the source code (and references) clearly marked.
 
 ## Installation
